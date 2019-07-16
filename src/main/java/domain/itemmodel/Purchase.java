@@ -5,6 +5,7 @@ import java.util.Date;
 
 public class Purchase {
 
+    private int orderId;
     private Bucket bucket;
     private User user;
     private Date date;
@@ -31,6 +32,14 @@ public class Purchase {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public int getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
     }
 
 }

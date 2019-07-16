@@ -1,12 +1,13 @@
 package domain.itemmodel;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Bucket {
-    private Vector<OrderedItem> items = new Vector();
+    private List<OrderedItem> items;
     private int itemsPrice;
 
-    public Vector<OrderedItem> getItems() {
+    public List<OrderedItem> getItems() {
         return items;
     }
 

@@ -1,7 +1,14 @@
 package domain.usermodel;
 
-import domain.itemmodel.Bucket;
+import domain.itemmodel.Storage;
 
+/**
+ * Az User az oldalt használó felhasználót reprezentálja
+ * számos személyes tulajdonsággal rendelkeznek
+ * elvan tárolva a hozzá tartozó joggosultsági szint
+ * továbbá minden felhasználóhoz tartozik egy kosár a kiválsztott termékeivel
+ *
+ */
 public class User {
     private String userName;
     private String firstName;
@@ -10,10 +17,10 @@ public class User {
     private String address;
     private String password;
     private UserType userType;
-    private Bucket bucket;
+    private Storage storage;
 
 
-    public User(String userName, String firstName, String lastName, String email, String address, String password, UserType userType, Bucket bucket) {
+    public User(String userName, String firstName, String lastName, String email, String address, String password, UserType userType, Storage storage) {
         this.userName = userName;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -21,7 +28,7 @@ public class User {
         this.address = address;
         this.password = password;
         this.userType = userType;
-        this.bucket = bucket;
+        this.storage = storage;
     }
 
     public String getUserName() {
@@ -72,12 +79,12 @@ public class User {
         this.userType = userType;
     }
 
-    public Bucket getBucket() {
-        return bucket;
+    public Storage getStorage() {
+        return storage;
     }
 
-    public void setBucket(Bucket bucket) {
-        this.bucket = bucket;
+    public void setStorage(Storage storage) {
+        this.storage = storage;
     }
 
     public String getPassword() {

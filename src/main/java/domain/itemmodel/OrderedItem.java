@@ -1,5 +1,10 @@
 package domain.itemmodel;
 
+/**
+ * Az OrderedItem az Item osztály egy kiterjesztése
+ * annyiban egészíti ki azt hogy a rendelésnél kiválasztott mennyiségét is eltárolja a termékkel együtt
+ *
+ */
 public class OrderedItem {
     private Item item;
     private int quantity;

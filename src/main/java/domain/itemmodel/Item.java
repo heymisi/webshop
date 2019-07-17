@@ -1,5 +1,10 @@
 package domain.itemmodel;
 
+/**
+ * Az Item osztály a terméket reprezentálja
+ * rendelkezik egyedi azonosítóval a megkülönböztehetőség végett
+ * tároljuk a hozzátartozó tulajdonságokat, valamint azt hogy rendelkezésre áll e jelenleg
+ */
 public class Item {
 
     private int itemId;
@@ -18,12 +23,9 @@ public class Item {
         this.brand = brand;
         this.availableQuantity = availableQuantity;
         this.isInStock = isInStock;
-        if(price > 0) {
-            this.price = price;
-        }
-        if(rate >= 1 && rate <= 5){
-            this.rate = rate;
-        }
+        this.price = price;
+        this.rate = rate;
+
     }
 
     public void setBrand(String brand) {
@@ -72,9 +74,8 @@ public class Item {
     }
 
     public void setPrice(int price) {
-        if(price > 0) {
             this.price = price;
-        }
+
     }
 
     public void setQuantity(int quantity) {
@@ -90,8 +91,7 @@ public class Item {
     }
 
     public void setRate(int rate) {
-        if(rate >= 1 && rate <=5) {
             this.rate = rate;
-        }
+
     }
 }

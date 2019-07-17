@@ -3,20 +3,17 @@ package domain.itemmodel;
 import domain.usermodel.User;
 import java.util.Date;
 
+/**
+ * A Purchase osztály egy vásárlásról tárol információkat
+ * ezeknek eltárol egy azonosítót, egy dátumot, valamint a usert aki végrehajtja
+ * az useren keresztül eltárolodnak a megvásárolt termékek is
+ */
 public class Purchase {
 
     private int orderId;
-    private Bucket bucket;
     private User user;
     private Date date;
 
-    public Bucket getBucket() {
-        return bucket;
-    }
-
-    public void setBucket(Bucket bucket) {
-        this.bucket = bucket;
-    }
 
     public User getUser() {
         return user;

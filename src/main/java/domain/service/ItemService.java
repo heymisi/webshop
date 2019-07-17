@@ -1,9 +1,17 @@
 package domain.service;
         import domain.itemmodel.Item;
 
+        import java.util.Collection;
+        import java.util.List;
+
 
 public interface ItemService {
 
+    /**
+     * metódus amely kilistázza az összes meglévő terméket
+     * @return visszatér a termékek listájával
+     */
+    Collection<Item> listItems();
 
     /**
      * metódus amely új terméket add hozzá a meglévő termékekhez
@@ -43,6 +51,6 @@ public interface ItemService {
      * @param brand a megadott márka alapján keres
      * @return visszadja a megtalált terméket
      */
-    Item searchItemByBrand(String brand);
+    List<Item> searchItemByBrand(String brand);
 
 }

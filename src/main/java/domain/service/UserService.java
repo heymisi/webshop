@@ -2,7 +2,14 @@ package domain.service;
 
 import domain.usermodel.User;
 
+import java.util.Collection;
+
 public interface UserService {
+    /**
+     * kilistázza a regisztrált felasználókat
+     * @return visszadja a regisztrált felhasználók egy listáját
+     */
+    Collection<User> listUsers();
 
     /**
      * felhasználó törlése a rendszerből

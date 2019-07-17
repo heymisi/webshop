@@ -14,15 +14,13 @@ public class Item {
     private int price;
     private int rate;
     private int availableQuantity;
-    private boolean isInStock;
 
-    public Item(int itemId, String name, String description, String brand, int price,int rate, int availableQuantity, boolean isInStock) {
+    public Item(int itemId, String name, String description, String brand, int price,int rate, int availableQuantity) {
         this.itemId = itemId;
         this.name = name;
         this.description = description;
         this.brand = brand;
         this.availableQuantity = availableQuantity;
-        this.isInStock = isInStock;
         this.price = price;
         this.rate = rate;
 
@@ -57,9 +55,6 @@ public class Item {
         return availableQuantity;
     }
 
-    public boolean isInStock() {
-        return isInStock;
-    }
 
     public void setItemId(int itemId) {
         this.itemId = itemId;
@@ -80,10 +75,6 @@ public class Item {
 
     public void setQuantity(int quantity) {
         this.availableQuantity = quantity;
-    }
-
-    public void setInStock(boolean inStock) {
-        isInStock = inStock;
     }
 
     public int getRate() {

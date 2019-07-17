@@ -5,7 +5,16 @@ import domain.itemmodel.OrderedItem;
 import domain.itemmodel.Purchase;
 import domain.usermodel.User;
 
+import java.util.Collection;
+
 public interface PurchaseService {
+
+    /**
+     * kilistázza az összes vásárlást
+     * @return visszadja a vásárlások listáját
+     */
+    Collection<Purchase> listPurchases();
+
     /**
      * metódus amely hozzáadja a kiválasztott terméket a kosárhoz
      * @param item a termék amelyet hozzáadunk a kosárhoz

@@ -26,7 +26,7 @@ public class Storage {
 
     @Override
     public String toString() {
-        return "Storage{" +
+        return "StorageDAO{" +
                 "items=" + items +
                 ", itemsPrice=" + itemsPrice +
                 '}';

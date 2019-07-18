@@ -7,7 +7,7 @@ package domain.usermodel;
  * Admin akinek előre megadott speciális jogai vannak
  */
 public enum UserType {
-    Guest,
-    Registered,
-    Admin;
+    GUEST,
+    REGISTERED,
+    ADMIN;
 }

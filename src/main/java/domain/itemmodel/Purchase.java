@@ -31,11 +31,11 @@ public class Purchase {
         this.date = date;
     }
 
-    public int getOrderId() {
+    public int getId() {
         return id;
     }
 
-    public void setOrderId(int id) {
+    public void setId(int id) {
         this.id = id;
     }
 

@@ -26,7 +26,7 @@ public class Item {
         return brand;
     }
 
-    public int getItemId() {
+    public int getId() {
         return id;
     }
 
@@ -46,7 +46,7 @@ public class Item {
         return availableQuantity;
     }
 
-    public void setItemId(int id) {
+    public void setId(int id) {
         this.id = id;
     }
 

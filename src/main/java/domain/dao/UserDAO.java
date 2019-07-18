@@ -37,5 +37,4 @@ public interface UserDAO {
      */
     Collection<User> readUsersByType(UserType type);
 
-
 }

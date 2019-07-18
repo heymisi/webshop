@@ -20,7 +20,7 @@ a termékre kattintva megjelenik annak részletes leírása, további képek ró
 továbbá felhasználó információi is itt érhetőek el, itt lehet módosítani azokat,
 valamint megnézni a legutóbbi vásárlásokat
 
-![Alt text](C:\Users\gyakornok\Documents\clothwebshop\view\page1.PNG)
+![](view\page1.png)
 ![Alt text](C:\Users\gyakornok\Documents\clothwebshop\view\page2.PNG)
 ![Alt text](C:\Users\gyakornok\Documents\clothwebshop\view\page3.PNG)
 ![Alt text](C:\Users\gyakornok\Documents\clothwebshop\view\page4.PNG)

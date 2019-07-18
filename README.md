@@ -20,4 +20,4 @@ a termékre kattintva megjelenik annak részletes leírása, további képek róla, ese
 továbbá felhasználó információi is itt érhetõek el, itt lehet módosítani azokat, 
 valamint megnézni a legutóbbi vásárlásokat
 
-
+![Alt text](https://bitbucket.org/HeyMisi/clothwebshop/src/ahahah/views/page1.PNG)

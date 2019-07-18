@@ -1,23 +1,27 @@
-WEBSHOP
--Jogosultságok
-Regisztráció nélkül:- minden funkció rendelkezésre van ami regisztráció eset kívéve a vásárlás, valamint értékelés
+ï»¿WEBSHOP
+-JogosultsÃ¡gok
+RegisztrÃ¡ciÃ³ nÃ©lkÃ¼l:- minden funkciÃ³ rendelkezÃ©sre van ami regisztrÃ¡ciÃ³ eset kÃ­vÃ©ve a vÃ¡sÃ¡rlÃ¡s, valamint Ã©rtÃ©kelÃ©s
 
-Regisztrációval:-Regisztárcó során a megfelelõ adatok kitöltésével létrejön egy account amelyet az adatbázis tárol,
-lehetõség van keresésre a termémek között ár, típus márka szerint,egy termékre kattintva elöjön annak tulajdondságai,ára, értékelései
-értékelheti a felhasználó a terméket vásárlás után,küldhet email-t a forgalmazonak a megjegyzéseivel kapcsolatban.
+RegisztrÃ¡ciÃ³val:-RegisztÃ¡rcÃ³ sorÃ¡n a megfelelÅ‘ adatok kitÃ¶ltÃ©sÃ©vel lÃ©trejÃ¶n egy account amelyet az adatbÃ¡zis tÃ¡rol,
+lehetÅ‘sÃ©g van keresÃ©sre a termÃ©mek kÃ¶zÃ¶tt Ã¡r, tÃ­pus mÃ¡rka szerint,egy termÃ©kre kattintva elÃ¶jÃ¶n annak tulajdondsÃ¡gai,Ã¡ra, Ã©rtÃ©kelÃ©sei
+Ã©rtÃ©kelheti a felhasznÃ¡lÃ³ a termÃ©ket vÃ¡sÃ¡rlÃ¡s utÃ¡n,kÃ¼ldhet email-t a forgalmazonak a megjegyzÃ©seivel kapcsolatban.
 
-Admin:képes új terméket felvinni, árakat módosítani, elrejteni vagy törölni bizonyos termékeket, megnézni, hogy mibõl hány db érhetõ el.
+Admin:kÃ©pes Ãºj termÃ©ket felvinni, Ã¡rakat mÃ³dosÃ­tani, elrejteni vagy tÃ¶rÃ¶lni bizonyos termÃ©keket, megnÃ©zni, hogy mibÅ‘l hÃ¡ny db Ã©rhetÅ‘ el.
 
--Regisztrált felhasználó rendelkezik egy baggel amelyben tárolhat egy bizonyos ideig a kiválasztott termékeket, valamint egy konkrét vásárlási
-listával amelyeket megszeretne vásárolni.
+-RegisztrÃ¡lt felhasznÃ¡lÃ³ rendelkezik egy baggel amelyben tÃ¡rolhat egy bizonyos ideig a kivÃ¡lasztott termÃ©keket, valamint egy konkrÃ©t vÃ¡sÃ¡rlÃ¡si
+listÃ¡val amelyeket megszeretne vÃ¡sÃ¡rolni.
 
--a termékeket adatbázisban tároljuk amelyek tartalmazzák a termék nevét, árát, leírását képét, értékelését.
-a termékre kattintva megjelenik annak részletes leírása, további képek róla, esetlegesen más színek
+-a termÃ©keket adatbÃ¡zisban tÃ¡roljuk amelyek tartalmazzÃ¡k a termÃ©k nevÃ©t, Ã¡rÃ¡t, leÃ­rÃ¡sÃ¡t kÃ©pÃ©t, Ã©rtÃ©kelÃ©sÃ©t.
+a termÃ©kre kattintva megjelenik annak rÃ©szletes leÃ­rÃ¡sa, tovÃ¡bbi kÃ©pek rÃ³la, esetlegesen mÃ¡s szÃ­nek
 
--a sign up menüpont belépésre szolgál, itt lehet regisztrálni is az új felhasználoknak, továbbá rendelkezik jelszó elfelejtés opcióval.
+-a sign up menÃ¼pont belÃ©pÃ©sre szolgÃ¡l, itt lehet regisztrÃ¡lni is az Ãºj felhasznÃ¡loknak, tovÃ¡bbÃ¡ rendelkezik jelszÃ³ elfelejtÃ©s opciÃ³val.
 
--a táskán belül lehet megnézni azon termékeket amelyeket kiválasztottunk, itt lehet véglegesíteni a vásárlásunk
-továbbá felhasználó információi is itt érhetõek el, itt lehet módosítani azokat, 
-valamint megnézni a legutóbbi vásárlásokat
+-a tÃ¡skÃ¡n belÃ¼l lehet megnÃ©zni azon termÃ©keket amelyeket kivÃ¡lasztottunk, itt lehet vÃ©glegesÃ­teni a vÃ¡sÃ¡rlÃ¡sunk
+tovÃ¡bbÃ¡ felhasznÃ¡lÃ³ informÃ¡ciÃ³i is itt Ã©rhetÅ‘ek el, itt lehet mÃ³dosÃ­tani azokat,
+valamint megnÃ©zni a legutÃ³bbi vÃ¡sÃ¡rlÃ¡sokat
 
-
+![Alt text](C:\Users\gyakornok\Documents\clothwebshop\view\page1.PNG)
+![Alt text](C:\Users\gyakornok\Documents\clothwebshop\view\page2.PNG)
+![Alt text](C:\Users\gyakornok\Documents\clothwebshop\view\page3.PNG)
+![Alt text](C:\Users\gyakornok\Documents\clothwebshop\view\page4.PNG)
+![Alt text](C:\Users\gyakornok\Documents\clothwebshop\view\page2-itemselected.PNG)

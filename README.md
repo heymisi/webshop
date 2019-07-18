@@ -1,4 +1,4 @@
-﻿﻿##﻿﻿WEBSHOP
+﻿﻿﻿##﻿﻿WEBSHOP
 *Jogosultságok*:
 
 **Regisztráció nélkül**:- minden funkció rendelkezésre van ami regisztráció eset kívéve a vásárlás, valamint értékelés
@@ -21,12 +21,21 @@ a termékre kattintva megjelenik annak részletes leírása, további képek ró
 továbbá felhasználó információi is itt érhetőek el, itt lehet módosítani azokat,
 valamint megnézni a legutóbbi vásárlásokat
 **Főoldal
+
 ![Alt text](mockup/page1.PNG)
+
 **termékeket megjelenítő oldal
+
 ![Alt text](mockup/page2.PNG)
+
 **egy termékre kattintva
+
 ![Alt text](mockup/page2-itemselected.PNG)
+
 **Login oldal
+
 ![Alt text](mockup/page3.PNG)
+
 **Kosárban lévő termékek/adatlap oldal
+
 ![Alt text](mockup/page4.PNG)

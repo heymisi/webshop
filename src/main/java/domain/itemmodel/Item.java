@@ -1,5 +1,7 @@
 package domain.itemmodel;
 
+import java.util.Objects;
+
 /**
  * Az Item osztály a terméket reprezentálja
  * rendelkezik egyedi azonosítóval a megkülönböztehetőség végett
@@ -7,7 +9,7 @@ package domain.itemmodel;
  */
 public class Item {
 
-    private int itemId;
+    private int id;
     private String name;
     private String description;
     private String brand;
@@ -15,16 +17,6 @@ public class Item {
     private int rate;
     private int availableQuantity;
 
-    public Item(int itemId, String name, String description, String brand, int price,int rate, int availableQuantity) {
-        this.itemId = itemId;
-        this.name = name;
-        this.description = description;
-        this.brand = brand;
-        this.availableQuantity = availableQuantity;
-        this.price = price;
-        this.rate = rate;
-
-    }
 
     public void setBrand(String brand) {
         this.brand = brand;
@@ -34,9 +26,8 @@ public class Item {
         return brand;
     }
 
-
     public int getItemId() {
-        return itemId;
+        return id;
     }
 
     public String getName() {
@@ -55,9 +46,8 @@ public class Item {
         return availableQuantity;
     }
 
-
-    public void setItemId(int itemId) {
-        this.itemId = itemId;
+    public void setItemId(int id) {
+        this.id = id;
     }
 
     public void setName(String name) {
@@ -68,10 +58,7 @@ public class Item {
         this.description = description;
     }
 
-    public void setPrice(int price) {
-            this.price = price;
-
-    }
+    public void setPrice(int price) { this.price = price; }
 
     public void setQuantity(int quantity) {
         this.availableQuantity = quantity;
@@ -81,8 +68,38 @@ public class Item {
         return rate;
     }
 
-    public void setRate(int rate) {
-            this.rate = rate;
+    public void setRate(int rate) { this.rate = rate; }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Item item = (Item) o;
+        return id == item.id &&
+                price == item.price &&
+                rate == item.rate &&
+                availableQuantity == item.availableQuantity &&
+                Objects.equals(name, item.name) &&
+                Objects.equals(description, item.description) &&
+                Objects.equals(brand, item.brand);
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description, brand, price, rate, availableQuantity);
+    }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", brand='" + brand + '\'' +
+                ", price=" + price +
+                ", rate=" + rate +
+                ", availableQuantity=" + availableQuantity +
+                '}';
+    }
+
 }

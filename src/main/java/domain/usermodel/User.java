@@ -2,6 +2,8 @@ package domain.usermodel;
 
 import domain.itemmodel.Storage;
 
+import java.util.Objects;
+
 /**
  * Az User az oldalt használó felhasználót reprezentálja
  * számos személyes tulajdonsággal rendelkeznek
@@ -18,18 +20,8 @@ public class User {
     private String password;
     private UserType userType;
     private Storage storage;
+    private SizeType size;
 
-
-    public User(String userName, String firstName, String lastName, String email, String address, String password, UserType userType, Storage storage) {
-        this.userName = userName;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.address = address;
-        this.password = password;
-        this.userType = userType;
-        this.storage = storage;
-    }
 
     public String getUserName() {
         return userName;
@@ -93,5 +85,45 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public SizeType getSize() { return size; }
+
+    public void setSize(SizeType size) { this.size = size; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(userName, user.userName) &&
+                Objects.equals(firstName, user.firstName) &&
+                Objects.equals(lastName, user.lastName) &&
+                Objects.equals(email, user.email) &&
+                Objects.equals(address, user.address) &&
+                Objects.equals(password, user.password) &&
+                userType == user.userType &&
+                Objects.equals(storage, user.storage) &&
+                size == user.size;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userName, firstName, lastName, email, address, password, userType, storage, size);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userName='" + userName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", address='" + address + '\'' +
+                ", password='" + password + '\'' +
+                ", userType=" + userType +
+                ", storage=" + storage +
+                ", size=" + size +
+                '}';
     }
 }

@@ -2,6 +2,7 @@ package domain.itemmodel;
 
 import domain.usermodel.User;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * A Purchase osztály egy vásárlásról tárol információkat
@@ -10,10 +11,9 @@ import java.util.Date;
  */
 public class Purchase {
 
-    private int orderId;
+    private int id;
     private User user;
     private Date date;
-
 
     public User getUser() {
         return user;
@@ -32,11 +32,35 @@ public class Purchase {
     }
 
     public int getOrderId() {
-        return orderId;
+        return id;
     }
 
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
+    public void setOrderId(int id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Purchase{" +
+                "id=" + id +
+                ", user=" + user +
+                ", date=" + date +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Purchase purchase = (Purchase) o;
+        return id == purchase.id &&
+                Objects.equals(user, purchase.user) &&
+                Objects.equals(date, purchase.date);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, user, date);
     }
 
 }

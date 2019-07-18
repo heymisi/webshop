@@ -1,4 +1,4 @@
-﻿WEBSHOP
+﻿﻿WEBSHOP
 -Jogosultságok
 Regisztráció nélkül:- minden funkció rendelkezésre van ami regisztráció eset kívéve a vásárlás, valamint értékelés
 
@@ -20,8 +20,8 @@ a termékre kattintva megjelenik annak részletes leírása, további képek ró
 továbbá felhasználó információi is itt érhetőek el, itt lehet módosítani azokat,
 valamint megnézni a legutóbbi vásárlásokat
 
-![Alt text](C:\Users\gyakornok\Documents\clothwebshop\view\page1.PNG)
-![Alt text](C:\Users\gyakornok\Documents\clothwebshop\view\page2.PNG)
-![Alt text](C:\Users\gyakornok\Documents\clothwebshop\view\page3.PNG)
-![Alt text](C:\Users\gyakornok\Documents\clothwebshop\view\page4.PNG)
-![Alt text](C:\Users\gyakornok\Documents\clothwebshop\view\page2-itemselected.PNG)
+![Alt text](https://bitbucket.org/HeyMisi/clothwebshop/src/ahahah/views/page1.PNG)
+![Alt text](https://bitbucket.org/HeyMisi/clothwebshop/src/ahahah/views/page2.PNG)
+![Alt text](https://bitbucket.org/HeyMisi/clothwebshop/src/ahahah/views/page3.PNG)
+![Alt text](https://bitbucket.org/HeyMisi/clothwebshop/src/ahahah/views/page4.PNG)
+![Alt text](https://bitbucket.org/HeyMisi/clothwebshop/src/ahahah/views/page2-itemselected.PNG)

@@ -21,8 +21,8 @@ a termékre kattintva megjelenik annak részletes leírása, további képek ró
 továbbá felhasználó információi is itt érhetőek el, itt lehet módosítani azokat,
 valamint megnézni a legutóbbi vásárlásokat
 
-![Alt text](https://bitbucket.org/HeyMisi/clothwebshop/src/ahahah/views/page1.PNG)
-![Alt text](https://bitbucket.org/HeyMisi/clothwebshop/src/ahahah/views/page2.PNG)
-![Alt text](https://bitbucket.org/HeyMisi/clothwebshop/src/ahahah/views/page3.PNG)
-![Alt text](https://bitbucket.org/HeyMisi/clothwebshop/src/ahahah/views/page4.PNG)
-![Alt text](https://bitbucket.org/HeyMisi/clothwebshop/src/ahahah/views/page2-itemselected.PNG)
+![Alt text](mockup/page1.PNG)
+![Alt text](mockup/page2.PNG)
+![Alt text](mockup/page3.PNG)
+![Alt text](mockup/page4.PNG)
+![Alt text](mockup/page2-itemselected.PNG)

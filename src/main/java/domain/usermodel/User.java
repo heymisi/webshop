@@ -9,10 +9,9 @@ import java.util.Objects;
  * számos személyes tulajdonsággal rendelkeznek
  * elvan tárolva a hozzá tartozó joggosultsági szint
  * továbbá minden felhasználóhoz tartozik egy kosár a kiválsztott termékeivel
- *
  */
 public class User {
-    private String userName;
+    private int id;
     private String firstName;
     private String lastName;
     private String email;
@@ -20,16 +19,22 @@ public class User {
     private String password;
     private UserType userType;
     private Storage storage;
-    private SizeType size;
 
+    public User(){};
 
-    public String getUserName() {
-        return userName;
+    public User(String firstName, String lastName, String email, String address, String password, UserType userType) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.address = address;
+        this.password = password;
+        this.userType = userType;
+        storage = new Storage();
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
+    public int getId() { return id; }
+
+    public void setId(int id) { this.id = id; }
 
     public String getFirstName() {
         return firstName;
@@ -87,35 +92,30 @@ public class User {
         this.password = password;
     }
 
-    public SizeType getSize() { return size; }
-
-    public void setSize(SizeType size) { this.size = size; }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(userName, user.userName) &&
+        return
                 Objects.equals(firstName, user.firstName) &&
                 Objects.equals(lastName, user.lastName) &&
                 Objects.equals(email, user.email) &&
                 Objects.equals(address, user.address) &&
                 Objects.equals(password, user.password) &&
                 userType == user.userType &&
-                Objects.equals(storage, user.storage) &&
-                size == user.size;
+                Objects.equals(storage, user.storage);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userName, firstName, lastName, email, address, password, userType, storage, size);
+        return Objects.hash( firstName, lastName, email, address, password, userType, storage);
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "userName='" + userName + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
@@ -123,7 +123,6 @@ public class User {
                 ", password='" + password + '\'' +
                 ", userType=" + userType +
                 ", storage=" + storage +
-                ", size=" + size +
                 '}';
     }
 }

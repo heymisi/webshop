@@ -1,4 +1,4 @@
-package domain.dao;
+package dao;
 
 import domain.itemmodel.Item;
 import domain.itemmodel.Purchase;
@@ -8,28 +8,7 @@ import java.util.Collection;
 import java.util.Date;
 
 public interface PurchaseDAO {
-    /**
-     * új vásárlás létrehozására szolgáló metódus
-     * @param purchase a kapott felhasználót hozza létre
-     */
-    void createPurhcase(Purchase purchase);
-    /**
-     * vásárlás modósítására szolgáló metódus
-     * @param purchase a kapott vásárlás modosítja
-     */
 
-    void updatePurhcase(Purchase purchase);
-    /**
-     * vásárlás törlésére szolgáló metódus
-     * @param purhcase a kapott vásárlást törli
-     */
-    void deletePurhcase(Purchase purhcase);
-
-    /**
-     * a vásárlások beolvasására szolgaláó metótus
-     * @return az összes vásárlást tartalmazó listájával tér vissza
-     */
-    Collection<Purchase> readPurchases();
     /**
      * a vásárlás felhasználó szerint történő listázása
      * @param user a felhasználó amely szerint történik a listázás

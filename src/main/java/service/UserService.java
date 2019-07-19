@@ -1,4 +1,4 @@
-package domain.service;
+package service;
 
 import domain.usermodel.User;
 
@@ -18,11 +18,11 @@ public interface UserService {
     void deleteUser(User user);
 
     /**
-     *metódus amely megváltoztatja egy felhasználó jelszavát
-     * @param user a felhasználó akinek a jelszava változni fog
-     * @param password az új jelszó
+     *metódus amely megváltoztatja egy felhasználó tulajdonságait
+     * @param user a felhasználó akinek az adata változni fog
+     * @param newUser a felhasználó adatai amiké változni fog
      */
-    void updateUserPassword(User user, String password);
+    void updateUser(User user, User newUser);
 
     /**
      * metódus amely bejelentezésre szolgál

@@ -16,6 +16,8 @@ public class Item {
     private int price;
     private int rate;
     private int availableQuantity;
+    private SizeType size;
+
 
 
     public void setBrand(String brand) {
@@ -70,23 +72,20 @@ public class Item {
 
     public void setRate(int rate) { this.rate = rate; }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Item item = (Item) o;
-        return id == item.id &&
-                price == item.price &&
-                rate == item.rate &&
-                availableQuantity == item.availableQuantity &&
-                Objects.equals(name, item.name) &&
-                Objects.equals(description, item.description) &&
-                Objects.equals(brand, item.brand);
+    public int getAvailableQuantity() {
+        return availableQuantity;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, description, brand, price, rate, availableQuantity);
+    public void setAvailableQuantity(int availableQuantity) {
+        this.availableQuantity = availableQuantity;
+    }
+
+    public SizeType getSize() {
+        return size;
+    }
+
+    public void setSize(SizeType size) {
+        this.size = size;
     }
 
     @Override
@@ -99,7 +98,27 @@ public class Item {
                 ", price=" + price +
                 ", rate=" + rate +
                 ", availableQuantity=" + availableQuantity +
+                ", size=" + size +
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Item item = (Item) o;
+        return id == item.id &&
+                price == item.price &&
+                rate == item.rate &&
+                availableQuantity == item.availableQuantity &&
+                Objects.equals(name, item.name) &&
+                Objects.equals(description, item.description) &&
+                Objects.equals(brand, item.brand) &&
+                size == item.size;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description, brand, price, rate, availableQuantity, size);
+    }
 }

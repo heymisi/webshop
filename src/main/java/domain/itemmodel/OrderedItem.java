@@ -11,7 +11,6 @@ public class OrderedItem {
     private Item item;
     private int quantity;
 
-
     public Item getItem() {
         return item;
     }

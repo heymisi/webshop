@@ -1,4 +1,4 @@
-package domain.service;
+package service;
         import domain.itemmodel.Item;
 
         import java.util.Collection;
@@ -20,11 +20,11 @@ public interface ItemService {
     void addItem(Item item);
 
     /**
-     * metódus amely az item árának megváltoztatására szolgál
-     * @param item a termék amelynek árát megváltoztatjuk
-     * @param price ez lesz a termék új ára
+     * metódus amely a termék tulaj
+     * @param item a termék amelynek tulajdonságait megváltoztatjuk
+     * @param newItem ez lesz az új termék
      */
-    void changeItemPrice(Item item, int price);
+    void changeItemPrice(Item item, Item newItem);
 
     /**
      * ezzel a metódussal törölhető a meglévő termékek közül egy termék

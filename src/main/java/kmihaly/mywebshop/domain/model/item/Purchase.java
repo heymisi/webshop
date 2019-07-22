@@ -14,6 +14,7 @@ public class Purchase {
 
     private int id;
     private User user;
+    private Date date;
 
     public Purchase() {
     }
@@ -23,7 +24,6 @@ public class Purchase {
         this.date = date;
     }
 
-    private Date date;
 
     public User getUser() {
         return user;

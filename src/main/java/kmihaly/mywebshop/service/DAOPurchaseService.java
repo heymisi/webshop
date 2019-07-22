@@ -5,13 +5,18 @@ import kmihaly.mywebshop.domain.model.item.OrderedItem;
 import kmihaly.mywebshop.domain.model.item.Purchase;
 import kmihaly.mywebshop.domain.model.user.User;
 
-import java.util.Collection;
+import java.util.List;
 
-public class DAOPurchaseService implements PurchaseService{
+public class DAOPurchaseService implements PurchaseService {
     InMemoryPurchaseDAO dao = new InMemoryPurchaseDAO();
 
     @Override
-    public Collection<Purchase> listPurchases() {
+    public Purchase create(Purchase purchase) {
+        return dao.create(purchase);
+    }
+
+    @Override
+    public List<Purchase> listPurchases() {
         return dao.getAll();
     }
 
@@ -28,7 +33,10 @@ public class DAOPurchaseService implements PurchaseService{
     @Override
     public void purchaseItemsFromStorage(Purchase purchase) {
         dao.create(purchase);
-        purchase.getUser().getStorage().setItems(null);
+        purchase.getUser().getStorage().getItems().clear();
         purchase.getUser().getStorage().setItemsPrice(0);
+        for(OrderedItem item : purchase.getUser().getStorage().getItems()){
+            item.setQuantity(item.getQuantity() - 1);
+        }
     }
 }

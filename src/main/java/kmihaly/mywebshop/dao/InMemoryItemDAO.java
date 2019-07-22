@@ -11,7 +11,7 @@ public class InMemoryItemDAO extends GenericDAO<Item> implements ItemDAO {
 
     @Override
     public Item create(Item item) {
-        int Id = id++;
+        int Id = ++id;
         item.setId(Id);
         tables.put(id, item);
         return item;
@@ -19,8 +19,9 @@ public class InMemoryItemDAO extends GenericDAO<Item> implements ItemDAO {
 
     @Override
     public void update(Item item, Item item2) {
+        item.setName(item2.getName());
         item.setAvailableQuantity(item2.getAvailableQuantity());
-        item.setDescription(item2.getBrand());
+        item.setDescription(item2.getDescription());
         item.setPrice(item2.getPrice());
         item.setRate(item2.getRate());
     }
@@ -31,15 +32,15 @@ public class InMemoryItemDAO extends GenericDAO<Item> implements ItemDAO {
     }
 
     @Override
-    public Collection<Item> getAll() {
+    public List<Item> getAll() {
         return new ArrayList<>(tables.values());
     }
 
     @Override
-    public Collection<Item> ListItemsByPrice(int price) {
+    public List<Item> ListItemsByPrice(int price) {
         List<Item> results = new ArrayList<>();
-        for(Item item : tables.values()){
-            if(item.getPrice() == price){
+        for (Item item : tables.values()) {
+            if (item.getPrice() == price) {
                 results.add(item);
             }
         }
@@ -47,10 +48,10 @@ public class InMemoryItemDAO extends GenericDAO<Item> implements ItemDAO {
     }
 
     @Override
-    public Collection<Item> ListItemsByBrand(String brand) {
+    public List<Item> ListItemsByBrand(String brand) {
         List<Item> results = new ArrayList<>();
-        for(Item item : tables.values()){
-            if(item.getBrand().equals(brand)){
+        for (Item item : tables.values()) {
+            if (item.getBrand().equals(brand)) {
                 results.add(item);
             }
         }
@@ -59,13 +60,12 @@ public class InMemoryItemDAO extends GenericDAO<Item> implements ItemDAO {
 
     @Override
     public Item selectItemById(int id) {
-        Item result = new Item();
         for (Item item : tables.values()) {
             if (item.getId() == id) {
-                result = item;
+                return item;
             }
         }
-        return result;
+        return null;
     }
 
 }

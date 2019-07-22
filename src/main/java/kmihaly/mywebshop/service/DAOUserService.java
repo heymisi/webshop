@@ -4,14 +4,14 @@ import kmihaly.mywebshop.dao.InMemoryUserDAO;
 import kmihaly.mywebshop.domain.model.user.User;
 import kmihaly.mywebshop.domain.model.user.UserType;
 
-import java.util.Collection;
+import java.util.List;
 
 public class DAOUserService implements UserService {
 
     InMemoryUserDAO dao = new InMemoryUserDAO();
 
     @Override
-    public Collection<User> listUsers() {
+    public List<User> listUsers() {
         return dao.getAll();
     }
 
@@ -22,13 +22,13 @@ public class DAOUserService implements UserService {
 
     @Override
     public void updateUser(User user, User newUser) {
-        dao.update(user,newUser);
+        dao.update(user, newUser);
     }
 
     @Override
     public User signIn(String userName, String password) {
         User user = dao.findUserByUserName(userName);
-        if(user.getPassword() == password){
+        if (user.getPassword() == password) {
             return user;
         }
         return null;
@@ -36,6 +36,6 @@ public class DAOUserService implements UserService {
 
     @Override
     public void register(String userName, String firstName, String lastName, String email, String address, String password) {
-        dao.create(new User(userName,firstName,lastName,email,address,password, UserType.REGISTERED));
+        dao.create(new User(userName, firstName, lastName, email, address, password, UserType.REGISTERED));
     }
 }

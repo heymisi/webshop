@@ -21,9 +21,12 @@ public class User {
     private UserType userType;
     private Storage storage;
 
-    public User(){};
+    public User() {
+    }
 
-    public User(String userName, String firstName, String lastName, String email, String address, String password,UserType userType) {
+    ;
+
+    public User(String userName, String firstName, String lastName, String email, String address, String password, UserType userType) {
         this.userName = userName;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -34,9 +37,13 @@ public class User {
         storage = new Storage();
     }
 
-    public int getId() { return id; }
+    public int getId() {
+        return id;
+    }
 
-    public void setId(int id) { this.id = id; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -101,6 +108,7 @@ public class User {
     public void setUserName(String userName) {
         this.userName = userName;
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

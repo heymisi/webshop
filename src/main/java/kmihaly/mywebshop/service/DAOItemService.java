@@ -3,14 +3,14 @@ package kmihaly.mywebshop.service;
 import kmihaly.mywebshop.dao.InMemoryItemDAO;
 import kmihaly.mywebshop.domain.model.item.Item;
 
-import java.util.Collection;
+import java.util.List;
 
 public class DAOItemService implements ItemService {
 
     private InMemoryItemDAO dao = new InMemoryItemDAO();
 
     @Override
-    public Collection<Item> listItems() {
+    public List<Item> listItems() {
         return dao.getAll();
     }
 
@@ -21,7 +21,7 @@ public class DAOItemService implements ItemService {
 
     @Override
     public void changeItem(Item item, Item newItem) {
-         dao.update(item,newItem);
+        dao.update(item, newItem);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class DAOItemService implements ItemService {
     }
 
     @Override
-    public Collection<Item> searchItemByPrice(int price) {
+    public List<Item> searchItemByPrice(int price) {
         return dao.ListItemsByPrice(price);
     }
 
@@ -40,7 +40,7 @@ public class DAOItemService implements ItemService {
     }
 
     @Override
-    public Collection<Item> searchItemByBrand(String brand) {
+    public List<Item> searchItemByBrand(String brand) {
         return dao.ListItemsByBrand(brand);
     }
 }

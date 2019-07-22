@@ -8,7 +8,7 @@ import java.util.*;
 public class InMemoryUserDAO extends GenericDAO<User> implements UserDAO {
 
     private int id = 0;
-    private Map<Integer,User> tables = new HashMap<>();
+    private Map<Integer, User> tables = new HashMap<>();
 
     @Override
     public User create(User user) {
@@ -40,8 +40,8 @@ public class InMemoryUserDAO extends GenericDAO<User> implements UserDAO {
     @Override
     public List<User> listUsersByType(UserType type) {
         List<User> results = new ArrayList<>();
-        for(User user : tables.values()){
-            if(user.getUserType().equals(type)){
+        for (User user : tables.values()) {
+            if (user.getUserType().equals(type)) {
                 results.add(user);
             }
         }
@@ -67,5 +67,6 @@ public class InMemoryUserDAO extends GenericDAO<User> implements UserDAO {
                 result = user;
             }
         }
-        return result;    }
+        return result;
+    }
 }

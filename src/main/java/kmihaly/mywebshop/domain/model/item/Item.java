@@ -18,9 +18,10 @@ public class Item {
     private int availableQuantity;
     private SizeType size;
 
-    public Item(){}
+    public Item() {
+    }
 
-    public Item( String name, String description, String brand, int price, int availableQuantity) {
+    public Item(String name, String description, String brand, int price, int availableQuantity) {
         this.name = name;
         this.description = description;
         this.brand = brand;
@@ -68,13 +69,17 @@ public class Item {
         this.description = description;
     }
 
-    public void setPrice(int price) { this.price = price; }
+    public void setPrice(int price) {
+        this.price = price;
+    }
 
     public int getRate() {
         return rate;
     }
 
-    public void setRate(int rate) { this.rate = rate; }
+    public void setRate(int rate) {
+        this.rate = rate;
+    }
 
     public int getAvailableQuantity() {
         return availableQuantity;

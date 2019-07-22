@@ -9,7 +9,7 @@ import java.util.*;
 public class InMemoryPurchaseDAO extends GenericDAO<Purchase> implements PurchaseDAO {
 
     private int id = 0;
-    private Map<Integer,Purchase> tables = new HashMap<>();
+    private Map<Integer, Purchase> tables = new HashMap<>();
 
     @Override
     public Purchase create(Purchase purchase) {
@@ -20,7 +20,7 @@ public class InMemoryPurchaseDAO extends GenericDAO<Purchase> implements Purchas
     }
 
     @Override
-    public void update(Purchase purchase , Purchase purchase2) {
+    public void update(Purchase purchase, Purchase purchase2) {
         purchase.setDate(purchase2.getDate());
 
     }
@@ -31,15 +31,15 @@ public class InMemoryPurchaseDAO extends GenericDAO<Purchase> implements Purchas
     }
 
     @Override
-    public Collection<Purchase> getAll() {
+    public List<Purchase> getAll() {
         return new ArrayList<>(tables.values());
     }
 
     @Override
-    public Collection<Purchase> readPurhcasesByUser(User user) {
+    public List<Purchase> readPurhcasesByUser(User user) {
         List<Purchase> results = new ArrayList<>();
-        for(Purchase purchase : tables.values()){
-            if(purchase.getUser().equals(user)){
+        for (Purchase purchase : tables.values()) {
+            if (purchase.getUser().equals(user)) {
                 results.add(purchase);
             }
         }
@@ -47,22 +47,24 @@ public class InMemoryPurchaseDAO extends GenericDAO<Purchase> implements Purchas
     }
 
     @Override
-    public Collection<Purchase> readPurhcasesByItem(Item item) {
+    public List<Purchase> readPurhcasesByItem(Item item) {
         List<Purchase> results = new ArrayList<>();
-        for(Purchase purchase : tables.values()){
-            if(purchase.getUser().getStorage().getItems().contains(item)){
+        for (Purchase purchase : tables.values()) {
+            if (purchase.getUser().getStorage().getItems().contains(item)) {
                 results.add(purchase);
             }
         }
-        return results;        }
+        return results;
+    }
 
     @Override
-    public Collection<Purchase> readPurhcasesByDate(Date date) {
+    public List<Purchase> readPurhcasesByDate(Date date) {
         List<Purchase> results = new ArrayList<>();
-        for(Purchase purchase : tables.values()){
-            if(purchase.getDate().equals(date)){
+        for (Purchase purchase : tables.values()) {
+            if (purchase.getDate().equals(date)) {
                 results.add(purchase);
             }
         }
-        return results;    }
+        return results;
+    }
 }

@@ -11,23 +11,20 @@ public class InMemoryUserDAO extends GenericDAO<User> implements UserDAO {
     private Map<Integer,User> tables = new HashMap<>();
 
     @Override
-    User add(User user) {
+    User create(User user) {
         int Id = id++;
         user.setId(Id);
         tables.put(id, user);
         return user;
     }
 
-    @Override
-    void create(User user) {
-        add(user);
-    }
 
     @Override
     void update(User user, User user2) {
-    User oldUser = findUserById(user.getId());
-    oldUser = user;
-
+        user.setAddress(user2.getAddress());
+        user.setEmail(user2.getEmail());
+        user.setPassword(user2.getPassword());
+        user.setUserType(user2.getUserType());
     }
 
     @Override

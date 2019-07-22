@@ -4,14 +4,13 @@ import java.util.Collection;
 
 public abstract class GenericDAO<T> {
 
-    T add(T t){ return  null;};
 
     /**
      * létrehozására szolgáló metódus
      * @param t az ojbektum amelyet  létrehozunk
      */
 
-    void create(T t){};
+    T create(T t){return null;};
 
     /**
      * modósítására szolgáló metódus

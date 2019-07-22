@@ -20,10 +20,10 @@ public interface ItemDAO {
     Collection<Item> ListItemsByBrand(String brand);
 
     /**
-     * a termék név szerint történő listázása
-     * @param name a név amely szerint történik az szelektálás
+     * a termék azonosító szerint történő listázása
+     * @param id az azonosító amely szerint történik az szelektálás
      * @return visszatér a kapott termékkel
      */
-    Item selectItemByName(String name);
+    Item selectItemById(int id);
 
 }

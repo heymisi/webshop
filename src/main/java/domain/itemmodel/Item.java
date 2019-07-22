@@ -18,7 +18,7 @@ public class Item {
     private int availableQuantity;
     private SizeType size;
 
-
+    public Item(){}
 
     public void setBrand(String brand) {
         this.brand = brand;
@@ -61,10 +61,6 @@ public class Item {
     }
 
     public void setPrice(int price) { this.price = price; }
-
-    public void setQuantity(int quantity) {
-        this.availableQuantity = quantity;
-    }
 
     public int getRate() {
         return rate;

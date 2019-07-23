@@ -5,6 +5,7 @@ import kmihaly.mywebshop.domain.model.item.OrderedItem;
 import kmihaly.mywebshop.domain.model.item.Purchase;
 import kmihaly.mywebshop.domain.model.user.User;
 
+import java.util.Date;
 import java.util.List;
 
 public class DAOPurchaseService implements PurchaseService {
@@ -31,12 +32,15 @@ public class DAOPurchaseService implements PurchaseService {
     }
 
     @Override
-    public void purchaseItemsFromStorage(Purchase purchase) {
+    public void purchaseItemsFromStorage(User user) {
+        Purchase purchase = new Purchase(user,new Date(2018,01,01));
         dao.create(purchase);
-        purchase.getUser().getStorage().getItems().clear();
-        purchase.getUser().getStorage().setItemsPrice(0);
-        for(OrderedItem item : purchase.getUser().getStorage().getItems()){
-            item.setQuantity(item.getQuantity() - 1);
+
+        user.getStorage().getItems().clear();
+        user.getStorage().setItemsPrice(0);
+
+        for(OrderedItem item : user.getStorage().getItems()){
+            item.setQuantity(item.getItem().getQuantity() - 1);
         }
     }
 }

@@ -37,9 +37,9 @@ public interface PurchaseService {
     /**
      * a kosárban lévő termékek megvásárlására szolgáló metódus
      *
-     * @param purchase a felhasználó aki megvásárolja a kosarában lévő termékeit
+     * @param user a felhasználó aki megvásárolja a kosarában lévő termékeit
      * @return visszaadja a megtörént vásárlást
      */
-    void purchaseItemsFromStorage(Purchase purchase);
+    void purchaseItemsFromStorage(User user);
 
 }

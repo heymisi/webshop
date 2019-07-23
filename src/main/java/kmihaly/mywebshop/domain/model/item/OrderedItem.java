@@ -10,6 +10,11 @@ public class OrderedItem {
     private Item item;
     private int quantity;
 
+    public OrderedItem(Item item, int quantity) {
+        this.item = item;
+        this.quantity = quantity;
+    }
+
     public Item getItem() {
         return item;
     }

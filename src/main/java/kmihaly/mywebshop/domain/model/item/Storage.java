@@ -1,5 +1,6 @@
 package kmihaly.mywebshop.domain.model.item;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -8,8 +9,14 @@ import java.util.Objects;
  * valamint ezek össz áráról tárol adatokat
  */
 public class Storage {
+
+
     private List<OrderedItem> items;
     private int itemsPrice;
+
+    public Storage() {
+        items = new ArrayList<>();
+    }
 
     public List<OrderedItem> getItems() {
         return items;

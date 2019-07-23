@@ -6,7 +6,6 @@ import kmihaly.mywebshop.domain.model.item.Purchase;
 import kmihaly.mywebshop.domain.model.user.User;
 import kmihaly.mywebshop.domain.model.user.UserType;
 import org.junit.Test;
-import org.mockito.internal.matchers.Or;
 
 
 import java.util.Arrays;
@@ -24,8 +23,6 @@ public class DAOPurchaseServiceTest {
             "Bp1", "1231", UserType.REGISTERED), new Date(2015, 01, 12));
     Purchase pur2 = new Purchase(new User("nickn2", "Nagy2", "Bela2", "a@mail2",
             "Bp2", "1232", UserType.REGISTERED), new Date(2015, 01, 12));
-    Purchase pur3 = new Purchase(new User("nickn2", "Nagy2", "Bela2", "a@mail2",
-            "Bp2", "1232", UserType.REGISTERED), new Date(2015, 01, 15));
 
 
     OrderedItem item1 = new OrderedItem(new Item("name1", "decr1",
@@ -57,8 +54,7 @@ public class DAOPurchaseServiceTest {
         pur1.getUser().getStorage().getItems().add(item1);
         pur1.getUser().getStorage().getItems().add(item2);
         //
-        service.deleteItemFromStorage(new OrderedItem(new Item("name2", "decr2",
-                "brand2", 1, 1),2),pur1.getUser());
+        service.deleteItemFromStorage(item2,pur1.getUser());
 
         List<OrderedItem> expected = Arrays.asList(item1);
         List<OrderedItem> actual = pur1.getUser().getStorage().getItems();
@@ -87,7 +83,8 @@ public class DAOPurchaseServiceTest {
 
         assertTrue(pur1.getUser().getStorage().getItems().isEmpty());
         assertTrue(pur1.getUser().getStorage().getItemsPrice() == 0);
-        for(OrderedItem oitem :pur1.getUser().getStorage().getItems()) {
+
+        for(OrderedItem oitem : pur1.getUser().getStorage().getItems()) {
             assertTrue(oitem.getItem().getAvailableQuantity() == 1);
         }
     }

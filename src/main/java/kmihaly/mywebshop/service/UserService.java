@@ -11,12 +11,17 @@ public interface UserService {
      * @return visszadja a regisztrált felhasználók egy listáját
      */
     List<User> listUsers();
+     /**
+     *
+     */
 
+    User createUser(User user);
     /**
      * felhasználó törlése a rendszerből
      *
      * @param id a felhasználó aki törölve lesz
      */
+
     void deleteUser(int id);
 
     /**

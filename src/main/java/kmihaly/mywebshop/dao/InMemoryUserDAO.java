@@ -4,8 +4,9 @@ import kmihaly.mywebshop.domain.model.user.User;
 import kmihaly.mywebshop.domain.model.user.UserType;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
-public class InMemoryUserDAO extends GenericDAO<User> implements UserDAO {
+public class InMemoryUserDAO  implements UserDAO {
 
     private int id = 0;
     private Map<Integer, User> tables = new HashMap<>();
@@ -37,36 +38,32 @@ public class InMemoryUserDAO extends GenericDAO<User> implements UserDAO {
         return new ArrayList<>(tables.values());
     }
 
-    @Override
-    public List<User> listUsersByType(UserType type) {
-        List<User> results = new ArrayList<>();
-        for (User user : tables.values()) {
-            if (user.getUserType().equals(type)) {
-                results.add(user);
-            }
-        }
-        return results;
+        @Override
+        public List<User> listUsersByType(UserType type) {
+
+        List<User> result = tables.values().stream()
+                .filter(user -> user.getUserType().equals(type))
+                .collect(Collectors.toList());
+        return result;
     }
 
     @Override
     public User findUserById(int id) {
-        User result = new User();
-        for (User user : tables.values()) {
-            if (user.getId() == id) {
-                result = user;
-            }
-        }
+
+        User result = tables.values().stream()
+                .filter(user -> user.getId() == id)
+                .findAny()
+                .orElse(null);
         return result;
     }
 
     @Override
     public User findUserByUserName(String userName) {
-        User result = new User();
-        for (User user : tables.values()) {
-            if (user.getUserName() == userName) {
-                result = user;
-            }
-        }
+
+        User result = tables.values().stream()
+                .filter(user -> user.getUserName().equals(userName))
+                .findAny()
+                .orElse(null);
         return result;
     }
 }

@@ -1,61 +1,74 @@
 package kmihaly.mywebshop.service;
 
-import kmihaly.mywebshop.dao.InMemoryUserDAO;
 import kmihaly.mywebshop.domain.model.user.User;
 import kmihaly.mywebshop.domain.model.user.UserType;
+import org.junit.Assert;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+
 
 import java.util.Arrays;
 import java.util.List;
 
+import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.junit.Assert.assertArrayEquals;
-import static org.mockito.Mockito.*;
 
 public class DAOUserServiceTest {
-    @InjectMocks
 
-    private DAOUserService service ;
-    @Mock
-    private InMemoryUserDAO dao;
+    private DAOUserService service = new DAOUserService();
 
     User user1 = new User("nickn1","Nagy","Bela","a@mail",
             "Bp","123", UserType.REGISTERED);
     User user2 = new User("nickn2","Nagy2","Bela2","a@mail2",
             "Bp2","1232", UserType.REGISTERED);
-    User user3 = new User("nickn3","Nagy3","Bela3","a@mail3",
-            "Bp","123", UserType.ADMIN);
+
 
     @Test
     public void list_all_user_test() {
-        when(dao.getAll()).thenReturn(Arrays.asList(user1,user2));
-        //
-
+        service.createUser(user1);
+        service.createUser(user2);
         //
         List<User> actual = service.listUsers();
+        List<User> expected = Arrays.asList(user1,user2);
         //
-        verify(dao, times(1)).getAll();
-
-
+        Assert.assertArrayEquals(expected.toArray(),actual.toArray());
     }
-/*
+
     @Test
     public void delete_user_test() {
-        dao.create(user1);
-        dao.create(user2);
-        dao.create(user3);
+        service.createUser(user1);
+        service.createUser(user2);
         //
         service.deleteUser(1);
-        service.deleteUser(2);
 
-        List<User> expected = Arrays.asList(user3);
-        Collection<User> actual = service.listUsers();
+        List<User> expected = Arrays.asList(user2);
+        List<User> actual = service.listUsers();
         //
         assertArrayEquals(expected.toArray(),actual.toArray());
 
-
     }
 
- */
+    @Test
+    public void update_user_test(){
+        User userForUp1 = new User("nickn1", "Nagy", "Bela", "a@mail",
+                "Bp", "123", UserType.REGISTERED);
+        User userForUp2= new User("nickn1", "Nagy", "Bela", "a@mail2",
+                "Bp2", "1232", UserType.REGISTERED);
+
+        //
+        service.updateUser(userForUp1, userForUp2);
+        //
+        assertThat(userForUp2).isEqualToComparingFieldByField(userForUp2);
+
+    }
+    @Test public void sign_in_a_user_test(){
+        service.createUser(user1);
+
+        User actual = service.signIn("nickn1","123");
+        assertThat(actual).isEqualTo(user1);
+
+        User passwordTest = service.signIn("nickn1","1234");
+        assertThat(passwordTest).isNull();
+    }
+
+
 }

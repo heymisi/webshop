@@ -7,7 +7,7 @@ import kmihaly.mywebshop.domain.model.user.User;
 import java.util.Date;
 import java.util.List;
 
-public interface PurchaseDAO {
+public interface PurchaseDAO extends GenericDAO<Purchase>{
 
     /**
      * a vásárlás felhasználó szerint történő listázása

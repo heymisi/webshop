@@ -3,8 +3,9 @@ package kmihaly.mywebshop.dao;
 import kmihaly.mywebshop.domain.model.item.Item;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
-public class InMemoryItemDAO extends GenericDAO<Item> implements ItemDAO {
+public class InMemoryItemDAO  implements ItemDAO {
 
     private int id = 0;
     private Map<Integer, Item> tables = new HashMap<>();
@@ -38,34 +39,34 @@ public class InMemoryItemDAO extends GenericDAO<Item> implements ItemDAO {
 
     @Override
     public List<Item> ListItemsByPrice(int price) {
-        List<Item> results = new ArrayList<>();
-        for (Item item : tables.values()) {
-            if (item.getPrice() == price) {
-                results.add(item);
-            }
-        }
-        return results;
+
+        List<Item> list = tables.values().stream()
+                .filter(s -> s.getPrice() == price)
+                .collect(Collectors.toList());
+
+        return list;
     }
 
     @Override
     public List<Item> ListItemsByBrand(String brand) {
-        List<Item> results = new ArrayList<>();
-        for (Item item : tables.values()) {
-            if (item.getBrand().equals(brand)) {
-                results.add(item);
-            }
-        }
-        return results;
+
+        List<Item> result = tables.values().stream()
+                .filter(i -> i.getBrand().equals(brand))
+                .collect(Collectors.toList());
+
+        return result;
     }
+
 
     @Override
     public Item selectItemById(int id) {
-        for (Item item : tables.values()) {
-            if (item.getId() == id) {
-                return item;
-            }
-        }
-        return null;
+
+        Item result = tables.values().stream()
+                .filter(item -> item.getId() == id)
+                .findAny()
+                .orElse(null);
+
+        return result;
     }
 
 }

@@ -16,6 +16,11 @@ public class DAOUserService implements UserService {
     }
 
     @Override
+    public User createUser(User user) {
+        return dao.create(user);
+    }
+
+    @Override
     public void deleteUser(int id) {
         dao.delete(id);
     }

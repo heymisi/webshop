@@ -2,7 +2,7 @@ package kmihaly.mywebshop.dao;
 
 import java.util.List;
 
-public abstract class GenericDAO<T> {
+public interface  GenericDAO<T> {
 
 
     /**
@@ -11,41 +11,27 @@ public abstract class GenericDAO<T> {
      * @param t az ojbektum amelyet  létrehozunk
      */
 
-    T create(T t) {
-        return null;
-    }
-
-    ;
+    T create(T t);
 
     /**
      * modósítására szolgáló metódus
      *
      * @param t az objektum amelyet modosítunk
      */
-    void update(T t, T n) {
-    }
-
-    ;
+    void update(T t, T n) ;
 
     /**
      * törlésére szolgáló metódus
      *
      * @param id az objektum amelyet törlöl
      */
-    void delete(int id) {
-    }
-
-    ;
+    void delete(int id);
 
     /**
      * összes elem kilistázására szolgáló metótud
      *
      * @return visszaadja a kapott elemeket
      */
-    List<T> getAll() {
-        return null;
-    }
-
-    ;
+    List<T> getAll() ;
 
 }

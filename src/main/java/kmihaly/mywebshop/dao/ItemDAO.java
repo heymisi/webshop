@@ -4,7 +4,7 @@ import kmihaly.mywebshop.domain.model.item.Item;
 
 import java.util.List;
 
-public interface ItemDAO {
+public interface ItemDAO extends GenericDAO<Item>{
 
     /**
      * a termék ár szerint történő listázása

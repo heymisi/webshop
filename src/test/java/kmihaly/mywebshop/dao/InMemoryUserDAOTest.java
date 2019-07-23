@@ -97,4 +97,15 @@ public class InMemoryUserDAOTest {
         assertThat(user1).isEqualToComparingFieldByField(user2);
     }
 
+    @Test
+    public void search_user_by_username_test(){
+
+        dao.create(user1);
+        dao.create(user2);
+
+        User userByName = dao.findUserByUserName("nickn2");
+        assertThat(userByName).isEqualTo(user2);
+
+    }
+
 }

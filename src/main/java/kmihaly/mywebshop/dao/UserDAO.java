@@ -5,7 +5,7 @@ import kmihaly.mywebshop.domain.model.user.UserType;
 
 import java.util.List;
 
-public interface UserDAO {
+public interface UserDAO extends GenericDAO<User>{
 
     List<User> listUsersByType(UserType type);
 

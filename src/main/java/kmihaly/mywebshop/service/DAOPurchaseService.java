@@ -39,8 +39,10 @@ public class DAOPurchaseService implements PurchaseService {
         user.getStorage().getItems().clear();
         user.getStorage().setItemsPrice(0);
 
-        for(OrderedItem item : user.getStorage().getItems()){
+        /*for(OrderedItem item : user.getStorage().getItems()){
             item.setQuantity(item.getItem().getQuantity() - 1);
-        }
+        }*/
+        user.getStorage().getItems().stream()
+                .map(s -> s.getQuantity()-1 );
     }
 }

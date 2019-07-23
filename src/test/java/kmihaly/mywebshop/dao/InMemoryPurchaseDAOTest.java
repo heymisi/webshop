@@ -54,7 +54,7 @@ public class InMemoryPurchaseDAOTest {
         //
         List<Purchase> expected = Arrays.asList(pur1);
         Collection<Purchase> actual = dao.readPurhcasesByUser(user);
-        ;
+
         //
         assertArrayEquals(expected.toArray(), actual.toArray());
     }

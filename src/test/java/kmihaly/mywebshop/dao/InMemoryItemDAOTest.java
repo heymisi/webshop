@@ -44,10 +44,10 @@ public class InMemoryItemDAOTest {
         dao.create(item1);
         dao.create(item2);
         //
-        int id = 1;
+        int id = 2;
         Item itemWithTheGivenId = dao.selectItemById(id);
         //
-        assertThat(itemWithTheGivenId).isEqualTo(item1);
+        assertThat(itemWithTheGivenId).isEqualTo(item2);
     }
 
     @Test

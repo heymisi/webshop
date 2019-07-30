@@ -9,12 +9,12 @@ import java.util.stream.Collectors;
 
 public class InMemoryPurchaseDAO implements PurchaseDAO {
 
-    private int id = 0;
-    private Map<Integer, Purchase> tables = new HashMap<>();
+    private long id = 0;
+    private Map<Long, Purchase> tables = new HashMap<>();
 
     @Override
     public Purchase create(Purchase purchase) {
-        int Id = id++;
+        long Id = id++;
         purchase.setId(Id);
         tables.put(id, purchase);
         return purchase;
@@ -26,7 +26,7 @@ public class InMemoryPurchaseDAO implements PurchaseDAO {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(long id) {
         tables.remove(id);
     }
 
@@ -44,7 +44,7 @@ public class InMemoryPurchaseDAO implements PurchaseDAO {
         return result;
     }
 
-    @Override
+   /* @Override
     public List<Purchase> readPurhcasesByItem(Item item) {
 
         List<Purchase> result = tables.values().stream()
@@ -52,7 +52,7 @@ public class InMemoryPurchaseDAO implements PurchaseDAO {
                 .collect(Collectors.toList());
         return result;
     }
-
+*/
     @Override
     public List<Purchase> readPurhcasesByDate(Date date) {
 

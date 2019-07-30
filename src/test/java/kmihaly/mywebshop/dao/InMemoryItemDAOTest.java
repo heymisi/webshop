@@ -2,7 +2,6 @@ package kmihaly.mywebshop.dao;
 
 import kmihaly.mywebshop.domain.model.item.Item;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -44,7 +43,7 @@ public class InMemoryItemDAOTest {
         dao.create(item1);
         dao.create(item2);
         //
-        int id = 2;
+        long id = 2L;
         Item itemWithTheGivenId = dao.selectItemById(id);
         //
         assertThat(itemWithTheGivenId).isEqualTo(item2);
@@ -83,7 +82,7 @@ public class InMemoryItemDAOTest {
         dao.create(item2);
         dao.create(item3);
         //
-        dao.delete(2);
+        dao.delete(2L);
         List<Item> expected = Arrays.asList(item1, item3);
         Collection<Item> actual = dao.getAll();
         //

@@ -1,8 +1,10 @@
 package kmihaly.mywebshop.service;
 
 import kmihaly.mywebshop.domain.model.user.User;
+import kmihaly.mywebshop.domain.model.user.UserType;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
     /**
@@ -11,18 +13,23 @@ public interface UserService {
      * @return visszadja a regisztrált felhasználók egy listáját
      */
     List<User> listUsers();
-     /**
+    /**
      *
+     * @return
      */
+    Optional<User> findUserById(long id);
 
-    User createUser(User user);
+    User findUserByName(String name);
+
+    List<User> findUserByType(UserType type);
+
     /**
      * felhasználó törlése a rendszerből
      *
      * @param id a felhasználó aki törölve lesz
      */
 
-    void deleteUser(int id);
+    void deleteUser(User user);
 
     /**
      * metódus amely megváltoztatja egy felhasználó tulajdonságait
@@ -30,7 +37,7 @@ public interface UserService {
      * @param user    a felhasználó akinek az adata változni fog
      * @param newUser a felhasználó adatai amiké változni fog
      */
-    void updateUser(User user, User newUser);
+    void updateUser(User newUser);
 
     /**
      * metódus amely bejelentezésre szolgál

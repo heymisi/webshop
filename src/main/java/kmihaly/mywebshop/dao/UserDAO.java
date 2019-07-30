@@ -9,7 +9,7 @@ public interface UserDAO extends GenericDAO<User>{
 
     List<User> listUsersByType(UserType type);
 
-    User findUserById(int id);
+    User findUserById(long id);
 
     User findUserByUserName(String userName);
 

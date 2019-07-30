@@ -48,7 +48,7 @@ public class InMemoryUserDAOTest {
         //
         dao.create(user1);
         dao.create(user2);
-        int id = 1;
+        long id = 1L;
         //
         User userWithTheGivenId = dao.findUserById(id);
         //
@@ -75,8 +75,8 @@ public class InMemoryUserDAOTest {
         dao.create(user2);
         dao.create(user3);
         //
-        dao.delete(1);
-        dao.delete(2);
+        dao.delete(1L);
+        dao.delete(2L);
         List<User> expected = Arrays.asList(user3);
         Collection<User> actual = dao.getAll();
         //

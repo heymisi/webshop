@@ -28,6 +28,6 @@ public interface ItemDAO extends GenericDAO<Item>{
      * @param id az azonosító amely szerint történik az szelektálás
      * @return visszatér a kapott termékkel
      */
-    Item selectItemById(int id);
+    Item selectItemById(long id);
 
 }

@@ -1,25 +1,32 @@
 package kmihaly.mywebshop.domain.model.item;
 
-import java.util.Objects;
+import lombok.Data;
+
+import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Az Item osztály a terméket reprezentálja
  * rendelkezik egyedi azonosítóval a megkülönböztehetőség végett
  * tároljuk a hozzátartozó tulajdonságokat, valamint azt hogy rendelkezésre áll e jelenleg
  */
-public class Item {
+@Data
+@Entity
+public class Item implements Serializable {
 
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     private String name;
     private String description;
     private String brand;
     private int price;
     private int rate;
     private int availableQuantity;
+    @Enumerated
     private SizeType size;
 
-    public Item() {
-    }
+    public Item() {}
 
     public Item(String name, String description, String brand, int price, int availableQuantity) {
         this.name = name;
@@ -29,105 +36,4 @@ public class Item {
         this.availableQuantity = availableQuantity;
     }
 
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
-    public String getBrand() {
-        return brand;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public int getQuantity() {
-        return availableQuantity;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public int getRate() {
-        return rate;
-    }
-
-    public void setRate(int rate) {
-        this.rate = rate;
-    }
-
-    public int getAvailableQuantity() {
-        return availableQuantity;
-    }
-
-    public void setAvailableQuantity(int availableQuantity) {
-        this.availableQuantity = availableQuantity;
-    }
-
-    public SizeType getSize() {
-        return size;
-    }
-
-    public void setSize(SizeType size) {
-        this.size = size;
-    }
-
-    @Override
-    public String toString() {
-        return "Item{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", brand='" + brand + '\'' +
-                ", price=" + price +
-                ", rate=" + rate +
-                ", availableQuantity=" + availableQuantity +
-                ", size=" + size +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Item item = (Item) o;
-        return id == item.id &&
-                price == item.price &&
-                rate == item.rate &&
-                availableQuantity == item.availableQuantity &&
-                Objects.equals(name, item.name) &&
-                Objects.equals(description, item.description) &&
-                Objects.equals(brand, item.brand) &&
-                size == item.size;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, description, brand, price, rate, availableQuantity, size);
-    }
 }

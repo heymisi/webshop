@@ -7,12 +7,12 @@ import java.util.stream.Collectors;
 
 public class InMemoryItemDAO  implements ItemDAO {
 
-    private int id = 0;
-    private Map<Integer, Item> tables = new HashMap<>();
+    private long id = 0;
+    private Map<Long, Item> tables = new HashMap<>();
 
     @Override
     public Item create(Item item) {
-        int Id = ++id;
+        long Id = ++id;
         item.setId(Id);
         tables.put(id, item);
         return item;
@@ -28,7 +28,7 @@ public class InMemoryItemDAO  implements ItemDAO {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(long id) {
         tables.remove(id);
     }
 
@@ -59,7 +59,7 @@ public class InMemoryItemDAO  implements ItemDAO {
 
 
     @Override
-    public Item selectItemById(int id) {
+    public Item selectItemById(long id) {
 
         Item result = tables.values().stream()
                 .filter(item -> item.getId() == id)

@@ -3,6 +3,7 @@ package kmihaly.mywebshop.service;
 import kmihaly.mywebshop.domain.model.item.Item;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public interface ItemService {
@@ -27,14 +28,14 @@ public interface ItemService {
      * @param item    a termék amelynek tulajdonságait megváltoztatjuk
      * @param newItem ez lesz az új termék
      */
-    void changeItem(Item item, Item newItem);
+    void changeItem(Item newItem);
 
     /**
      * ezzel a metódussal törölhető a meglévő termékek közül egy termék
      *
      * @param id ez a megadott termék fog törlödni
      */
-    void deleteItem(int id);
+    void deleteItem(Item item);
 
     /**
      * metódus amely egy termék keresésére szolgál ár szerint
@@ -50,7 +51,7 @@ public interface ItemService {
      * @param id a megadott azonosító alapján keres
      * @return visszaadja a megtalált terméket
      */
-    Item searchItemById(int id);
+    Optional<Item> searchItemById(long id);
 
     /**
      * metódus amely egy termék keresésére szolgál márka szerint
@@ -59,5 +60,13 @@ public interface ItemService {
      * @return visszadja a megtalált terméket
      */
     List<Item> searchItemByBrand(String brand);
+
+    /**
+     *
+     * @param amount
+     * @return
+     */
+
+    List<Item> getRandomItems(int amount);
 
 }

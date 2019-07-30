@@ -1,0 +1,16 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+
+my.property: a
+
+logging:
+  level:
+    org:
+      springframework:
+        boot:
+          autoconfigure: debug
+

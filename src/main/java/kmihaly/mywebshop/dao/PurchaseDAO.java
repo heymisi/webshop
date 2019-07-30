@@ -23,7 +23,9 @@ public interface PurchaseDAO extends GenericDAO<Purchase>{
      * @param item a termék amely szerint történik a listázás
      * @return visszatér a kapott vásárlások listájával
      */
+/*
     List<Purchase> readPurhcasesByItem(Item item);
+*/
 
     /**
      * a vásárlás dátum szerint történő listázása

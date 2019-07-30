@@ -25,7 +25,7 @@ public interface  GenericDAO<T> {
      *
      * @param id az objektum amelyet törlöl
      */
-    void delete(int id);
+    void delete(long id);
 
     /**
      * összes elem kilistázására szolgáló metótud

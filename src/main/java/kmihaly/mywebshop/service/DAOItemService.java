@@ -1,46 +1,76 @@
 package kmihaly.mywebshop.service;
 
-import kmihaly.mywebshop.dao.InMemoryItemDAO;
 import kmihaly.mywebshop.domain.model.item.Item;
+import kmihaly.mywebshop.repository.ItemRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import static junit.framework.TestCase.assertNotNull;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class DAOItemService implements ItemService {
 
-    private InMemoryItemDAO dao = new InMemoryItemDAO();
+    @Autowired
+    private final ItemRepository repository;
+
+    public DAOItemService(ItemRepository itemRepository) {
+        repository = itemRepository;
+    }
 
     @Override
     public List<Item> listItems() {
-        return dao.getAll();
+        return repository.findAll();
     }
 
     @Override
     public Item addItem(Item item) {
-        return dao.create(item);
+        if((repository.findById(item.getId()).isPresent())) {throw new IllegalArgumentException();}
+        return repository.save(item);
     }
 
     @Override
-    public void changeItem(Item item, Item newItem) {
-        dao.update(item, newItem);
+    public void changeItem(Item newItem) {
+        assertNotNull(repository.findById(newItem.getId()));
+        repository.save(newItem);
     }
 
     @Override
-    public void deleteItem(int id) {
-        dao.delete(id);
+    public void deleteItem(Item item) {
+        assertNotNull(repository.findById(item.getId()));
+        repository.delete(item);
     }
 
     @Override
     public List<Item> searchItemByPrice(int price) {
-        return dao.ListItemsByPrice(price);
+        return repository.findByPrice(price);
     }
 
     @Override
-    public Item searchItemById(int id) {
-        return dao.selectItemById(id);
+    public Optional<Item> searchItemById(long id) {
+        return repository.findById(id);
     }
 
     @Override
     public List<Item> searchItemByBrand(String brand) {
-        return dao.ListItemsByBrand(brand);
+        return repository.findByBrand(brand);
     }
+
+    @Override
+    public List<Item> getRandomItems(int amount) {
+        List<Item> allItems = repository.findAll();
+        if (allItems.size() < amount) {
+            throw new IllegalArgumentException();
+        } else {
+            List<Item> randomItems = new ArrayList<>();
+            Collections.shuffle(allItems);
+            for (int i = 0; i < amount; i++) {
+                Item item = allItems.get(i);
+                randomItems.add(item);
+            }
+            return randomItems;
+        }
+    }
+
 }

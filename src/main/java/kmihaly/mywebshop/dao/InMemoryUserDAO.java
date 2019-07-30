@@ -8,12 +8,12 @@ import java.util.stream.Collectors;
 
 public class InMemoryUserDAO  implements UserDAO {
 
-    private int id = 0;
-    private Map<Integer, User> tables = new HashMap<>();
+    private long id = 0;
+    private Map<Long, User> tables = new HashMap<>();
 
     @Override
     public User create(User user) {
-        int Id = id++;
+        long Id = id++;
         user.setId(Id);
         tables.put(id, user);
         return user;
@@ -29,7 +29,7 @@ public class InMemoryUserDAO  implements UserDAO {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(long id) {
         tables.remove(id);
     }
 
@@ -48,7 +48,7 @@ public class InMemoryUserDAO  implements UserDAO {
     }
 
     @Override
-    public User findUserById(int id) {
+    public User findUserById(long id) {
 
         User result = tables.values().stream()
                 .filter(user -> user.getId() == id)

@@ -1,46 +1,67 @@
 package kmihaly.mywebshop.service;
 
-import kmihaly.mywebshop.dao.InMemoryUserDAO;
 import kmihaly.mywebshop.domain.model.user.User;
 import kmihaly.mywebshop.domain.model.user.UserType;
+import kmihaly.mywebshop.repository.UserRepository;
+
+import static junit.framework.TestCase.assertNotNull;
 
 import java.util.List;
+import java.util.Optional;
 
 public class DAOUserService implements UserService {
 
-    InMemoryUserDAO dao = new InMemoryUserDAO();
+    private final UserRepository repository;
+
+    public DAOUserService(UserRepository userRepository) {
+        repository = userRepository;
+    }
 
     @Override
     public List<User> listUsers() {
-        return dao.getAll();
+        return repository.findAll();
     }
 
     @Override
-    public User createUser(User user) {
-        return dao.create(user);
+    public Optional<User> findUserById(long id) {
+        return repository.findById(id);
     }
 
     @Override
-    public void deleteUser(int id) {
-        dao.delete(id);
+    public User findUserByName(String name) {
+        return repository.findByUserName(name);
     }
 
     @Override
-    public void updateUser(User user, User newUser) {
-        dao.update(user, newUser);
+    public List<User> findUserByType(UserType type) {
+        return repository.findByUserType(type);
+    }
+
+
+    @Override
+    public void deleteUser(User user) {
+        assertNotNull(repository.findById(user.getId()));
+        repository.delete(user);
+    }
+
+    @Override
+    public void updateUser(User newUser) {
+        assertNotNull(repository.findById(newUser.getId()));
+        repository.save(newUser);
     }
 
     @Override
     public User signIn(String userName, String password) {
-        User user = dao.findUserByUserName(userName);
+        User user = repository.findByUserName(userName);
+        assertNotNull(user);
         if (user.getPassword() == password) {
             return user;
         }
-        return null;
+        throw new IllegalArgumentException();
     }
 
     @Override
     public void register(String userName, String firstName, String lastName, String email, String address, String password) {
-        dao.create(new User(userName, firstName, lastName, email, address, password, UserType.REGISTERED));
+        repository.save(new User(userName, firstName, lastName, email, address, password, UserType.REGISTERED));
     }
 }

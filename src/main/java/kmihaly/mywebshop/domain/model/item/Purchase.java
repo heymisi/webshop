@@ -1,76 +1,43 @@
 package kmihaly.mywebshop.domain.model.item;
 
 import kmihaly.mywebshop.domain.model.user.User;
+import lombok.Data;
 
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Objects;
+import java.util.List;
 
 /**
  * A Purchase osztály egy vásárlásról tárol információkat
  * ezeknek eltárol egy azonosítót, egy dátumot, valamint a usert aki végrehajtja
  * az useren keresztül eltárolodnak a megvásárolt termékek is
  */
-public class Purchase {
+@Data
+@Entity
+public class Purchase implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
-    private int id;
+    @ManyToOne(fetch = FetchType.EAGER)
     private User user;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    private List<SelectedItem> items;
+
+    private int itemsPrice;
+
+    @Temporal(TemporalType.DATE)
     private Date date;
 
-    public Purchase() {
-    }
+    protected Purchase() {}
 
     public Purchase(User user, Date date) {
         this.user = user;
         this.date = date;
-    }
-
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    @Override
-    public String toString() {
-        return "Purchase{" +
-                "id=" + id +
-                ", user=" + user +
-                ", date=" + date +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Purchase purchase = (Purchase) o;
-        return id == purchase.id &&
-                Objects.equals(user, purchase.user) &&
-                Objects.equals(date, purchase.date);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, user, date);
+        items = new ArrayList<>();
     }
 
 }

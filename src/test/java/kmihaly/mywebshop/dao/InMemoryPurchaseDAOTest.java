@@ -66,7 +66,7 @@ public class InMemoryPurchaseDAOTest {
         dao.create(pur1);
         dao.create(pur2);
         //
-        dao.delete(2);
+        dao.delete(2L);
         List<Purchase> expected = Arrays.asList(pur1);
         Collection<Purchase> actual = dao.getAll();
         //

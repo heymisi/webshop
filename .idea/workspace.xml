@@ -2,81 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6df5c66b-8ef0-4396-83bc-eece27a4484f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/common-email.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/Application.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/UserValidator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/configuration/ApplicationConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/configuration/EmailSenderConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/controller/AppController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/controller/SendEmailController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/domain/model/item/SelectedItem.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/repository/ItemRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/repository/PurchaseRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/repository/UserRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/EmailService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/META-INF/clothwebshop.kotlin_module" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/Application.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/configuration/ApplicationConfiguration.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/configuration/EmailSenderConfig.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/controller/AppController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/controller/SendEmailController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/dao/GenericDAO.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/dao/InMemoryItemDAO.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/dao/InMemoryPurchaseDAO.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/dao/InMemoryUserDAO.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/dao/ItemDAO.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/dao/PurchaseDAO.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/dao/UserDAO.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/domain/model/item/Item.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/domain/model/item/Purchase.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/domain/model/item/SelectedItem.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/domain/model/item/SizeType.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/domain/model/user/User.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/domain/model/user/UserType.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/repository/ItemRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/repository/PurchaseRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/repository/UserRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/service/DAOItemService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/service/DAOPurchaseService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/service/DAOUserService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/service/EmailService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/service/ItemService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/service/PurchaseService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/service/UserService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/test-classes/META-INF/clothwebshop.kotlin_module" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/test-classes/kmihaly/mywebshop/dao/InMemoryItemDAOTest.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/test-classes/kmihaly/mywebshop/dao/InMemoryPurchaseDAOTest.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/test-classes/kmihaly/mywebshop/dao/InMemoryUserDAOTest.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/test-classes/kmihaly/mywebshop/service/DAOItemServiceTest.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/dao/GenericDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/dao/GenericDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/dao/InMemoryItemDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/dao/InMemoryItemDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/dao/InMemoryPurchaseDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/dao/InMemoryPurchaseDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/dao/InMemoryUserDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/dao/InMemoryUserDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/dao/ItemDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/dao/ItemDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/dao/PurchaseDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/dao/PurchaseDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/dao/UserDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/dao/UserDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/domain/model/item/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/domain/model/item/Item.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/domain/model/item/OrderedItem.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/domain/model/item/Purchase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/domain/model/item/Purchase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/domain/model/item/Storage.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/domain/model/user/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/domain/model/user/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/DAOItemService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/DAOItemService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/DAOPurchaseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/DAOPurchaseService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/DAOUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/DAOUserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/ItemService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/ItemService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/PurchaseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/PurchaseService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/kmihaly/mywebshop/dao/InMemoryItemDAOTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/kmihaly/mywebshop/dao/InMemoryItemDAOTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/kmihaly/mywebshop/dao/InMemoryPurchaseDAOTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/kmihaly/mywebshop/dao/InMemoryPurchaseDAOTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/kmihaly/mywebshop/dao/InMemoryUserDAOTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/kmihaly/mywebshop/dao/InMemoryUserDAOTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/kmihaly/mywebshop/service/DAOItemServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/kmihaly/mywebshop/service/DAOItemServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/kmihaly/mywebshop/service/DAOPurchaseServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/kmihaly/mywebshop/service/DAOPurchaseServiceTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/kmihaly/mywebshop/service/DAOUserServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/kmihaly/mywebshop/service/DAOUserServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/service/DAOItemService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/service/DAOItemService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/service/DAOPurchaseService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/service/DAOPurchaseService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/service/DAOUserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/service/DAOUserService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/kmihaly/mywebshop/service/DAOItemServiceTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/kmihaly/mywebshop/service/DAOItemServiceTest.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -92,6 +23,30 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/kmihaly/mywebshop/service/DAOItemServiceTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1293">
+              <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/test/java/kmihaly/mywebshop/service/DAOUserServiceTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="426">
+              <caret line="98" column="5" lean-forward="true" selection-start-line="98" selection-start-column="5" selection-end-line="98" selection-end-column="5" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/repository/ItemRepository.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="187">
@@ -104,10 +59,22 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/repository/PurchaseRepository.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/domain/model/item/Item.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" selection-start-line="12" selection-end-line="12" />
+            <state relative-caret-position="238">
+              <caret line="17" column="47" selection-start-line="17" selection-end-line="18" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/domain/model/user/User.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-75">
+              <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -118,35 +85,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/dao/GenericDAO.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
+            <state relative-caret-position="265">
               <caret line="27" column="20" selection-start-line="27" selection-start-column="20" selection-end-line="27" selection-end-column="20" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/dao/InMemoryItemDAO.java">
+        <entry file="file://$PROJECT_DIR$/src/test/java/kmihaly/mywebshop/dao/InMemoryItemDAOTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/dao/InMemoryPurchaseDAO.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/dao/InMemoryUserDAO.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="69">
-              <caret line="24" column="24" selection-start-line="24" selection-start-column="24" selection-end-line="24" selection-end-column="24" />
+            <state relative-caret-position="256">
+              <caret line="84" column="21" selection-start-line="84" selection-start-column="21" selection-end-line="84" selection-end-column="21" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -155,25 +104,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/controller/AppController.java">
+        <entry file="file://$PROJECT_DIR$/src/test/java/kmihaly/mywebshop/service/DAOPurchaseServiceTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/controller/SendEmailController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="-51">
+              <caret line="46" column="7" selection-start-line="46" selection-start-column="7" selection-end-line="46" selection-end-column="7" />
             </state>
           </provider>
         </entry>
@@ -190,11 +124,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/configuration/EmailSenderConfig.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="33" column="32" selection-start-line="33" selection-start-column="32" selection-end-line="33" selection-end-column="32" />
+            <state relative-caret-position="136">
+              <caret line="20" selection-start-line="20" selection-end-line="20" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -317,7 +251,6 @@
         <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/notification/EmailService.java" />
         <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/controller/SendEmailController.java" />
         <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/configuration/ApplicationConfiguration.java" />
-        <option value="$PROJECT_DIR$/src/test/java/kmihaly/mywebshop/service/DAOUserServiceTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/UserValidator.java" />
         <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/controller/AppController.java" />
         <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/configuration/EmailSenderConfig.java" />
@@ -326,6 +259,7 @@
         <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/DAOUserService.java" />
         <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/DAOPurchaseService.java" />
         <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/DAOItemService.java" />
+        <option value="$PROJECT_DIR$/src/test/java/kmihaly/mywebshop/service/DAOUserServiceTest.java" />
       </list>
     </option>
   </component>
@@ -363,17 +297,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="clothwebshop" type="b2602c69:ProjectViewProjectNode" />
-              <item name="clothwebshop" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
+      <pane id="ProjectPane" />
       <pane id="PackagesPane" />
       <pane id="Scope" />
     </panes>
@@ -418,21 +342,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.DAOItemServiceTest">
-    <configuration name="Application" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="kmihaly.mywebshop.Application" />
-      <module name="clothwebshop" />
-      <option name="VM_PARAMETERS" value="-Demail.sender.username=heymisi99@gmail.com -Demail.sender.password=misii2222" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="kmihaly.mywebshop.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="JUnit.DAOUserServiceTest">
     <configuration name="DAOItemServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="clothwebshop" />
       <extension name="coverage">
@@ -480,6 +390,21 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="DAOUserServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="clothwebshop" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="kmihaly.mywebshop.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="kmihaly.mywebshop.service" />
+      <option name="MAIN_CLASS_NAME" value="kmihaly.mywebshop.service.DAOUserServiceTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="DAOUserServiceTest.list_same_username_user_test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="clothwebshop" />
       <extension name="coverage">
@@ -497,19 +422,19 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.Application" />
       <item itemvalue="JUnit.DAOUserServiceTest.list_same_username_user_test" />
       <item itemvalue="JUnit.DAOItemServiceTest" />
       <item itemvalue="JUnit.DAOItemServiceTest.test_delete_an_element" />
       <item itemvalue="JUnit.DAOItemServiceTest.test_update_an_elements" />
+      <item itemvalue="JUnit.DAOUserServiceTest" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.DAOUserServiceTest" />
+        <item itemvalue="JUnit.DAOUserServiceTest.list_same_username_user_test" />
         <item itemvalue="JUnit.DAOItemServiceTest" />
         <item itemvalue="JUnit.DAOItemServiceTest.test_update_an_elements" />
         <item itemvalue="JUnit.DAOItemServiceTest.test_delete_an_element" />
-        <item itemvalue="Application.Application" />
-        <item itemvalue="JUnit.DAOUserServiceTest.list_same_username_user_test" />
       </list>
     </recent_temporary>
   </component>
@@ -643,13 +568,17 @@
       <option name="project" value="LOCAL" />
       <updated>1563888696671</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="v7">
+      <created>1564492966807</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1564492966807</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="DAOUserServiceTest_list_same_username_user_test - 2019.07.30 at 14h 24m 55s.xml">
-      <configuration name="DAOUserServiceTest.list_same_username_user_test" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="DAOUserServiceTest_list_same_username_user_test - 2019.07.30 at 14h 25m 20s.xml">
       <configuration name="DAOUserServiceTest.list_same_username_user_test" configurationId="JUnit" />
     </history-entry>
@@ -676,6 +605,9 @@
     </history-entry>
     <history-entry file="DAOItemServiceTest - 2019.07.30 at 15h 18m 51s.xml">
       <configuration name="DAOItemServiceTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="DAOUserServiceTest - 2019.07.30 at 15h 29m 22s.xml">
+      <configuration name="DAOUserServiceTest" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="ToolWindowManager">
@@ -813,40 +745,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/domain/model/item/Item.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="17" column="47" selection-start-line="17" selection-end-line="18" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/domain/model/item/Purchase.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="425">
           <caret line="32" column="21" selection-start-line="32" selection-start-column="21" selection-end-line="32" selection-end-column="21" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/domain/model/user/User.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/kmihaly/mywebshop/dao/InMemoryItemDAOTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="460">
-          <caret line="84" column="21" selection-start-line="84" selection-start-column="21" selection-end-line="84" selection-end-column="21" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -963,13 +865,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/kmihaly/mywebshop/service/DAOPurchaseServiceTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="46" column="7" selection-start-line="46" selection-start-column="7" selection-end-line="46" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/UserService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="749">
@@ -977,27 +872,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/kmihaly/mywebshop/service/DAOUserServiceTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="100" column="9" selection-start-line="100" selection-start-column="9" selection-end-line="100" selection-end-column="9" />
-          <folding>
-            <element signature="e#0#4346#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/common-email.iml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="7" column="88" selection-start-line="7" selection-start-column="88" selection-end-line="7" selection-end-column="88" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/kmihaly/mywebshop/service/DAOItemServiceTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" selection-start-line="4" selection-end-line="4" />
         </state>
       </provider>
     </entry>
@@ -1086,16 +964,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/repository/ItemRepository.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="4" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="4" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/repository/PurchaseRepository.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
@@ -1103,13 +971,6 @@
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/dao/GenericDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="27" column="20" selection-start-line="27" selection-start-column="20" selection-end-line="27" selection-end-column="20" />
         </state>
       </provider>
     </entry>
@@ -1169,8 +1030,82 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/configuration/EmailSenderConfig.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="33" column="32" selection-start-line="33" selection-start-column="32" selection-end-line="33" selection-end-column="32" />
+        <state relative-caret-position="136">
+          <caret line="20" selection-start-line="20" selection-end-line="20" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/repository/ItemRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="4" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="4" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/domain/model/item/Item.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="17" column="47" selection-start-line="17" selection-end-line="18" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/domain/model/user/User.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-75">
+          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/dao/GenericDAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="265">
+          <caret line="27" column="20" selection-start-line="27" selection-start-column="20" selection-end-line="27" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/kmihaly/mywebshop/dao/InMemoryItemDAOTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="256">
+          <caret line="84" column="21" selection-start-line="84" selection-start-column="21" selection-end-line="84" selection-end-column="21" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/kmihaly/mywebshop/service/DAOItemServiceTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1293">
+          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/kmihaly/mywebshop/service/DAOPurchaseServiceTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-51">
+          <caret line="46" column="7" selection-start-line="46" selection-start-column="7" selection-end-line="46" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/kmihaly/mywebshop/service/DAOUserServiceTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="426">
+          <caret line="98" column="5" lean-forward="true" selection-start-line="98" selection-start-column="5" selection-end-line="98" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

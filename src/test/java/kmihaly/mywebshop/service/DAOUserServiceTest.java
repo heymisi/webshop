@@ -1,4 +1,3 @@
-/*
 package kmihaly.mywebshop.service;
 
 import kmihaly.mywebshop.domain.model.item.Item;
@@ -40,15 +39,7 @@ public class DAOUserServiceTest {
             "Bp","123", UserType.REGISTERED);}
 
 
-    */
-/*@Test
-    public void add_new_user_test() {
-        when(repository.save(Dummy())).thenReturn(Dummy());
-        User user = service.register(Dummy().);
 
-        assertEquals(DummyItem(),item);
-        verify(repository, times(1)).save(DummyItem());
-    }*//*
 
 
     @Test
@@ -98,7 +89,7 @@ public class DAOUserServiceTest {
         assertEquals(Dummy(), searchName);
 
     }
-    @Test
+    /*@Test
     public void add_new_item_test() {
         when(repository.save(Dummy())).thenReturn(Dummy());
         Item item = service.register(());
@@ -159,7 +150,6 @@ public class DAOUserServiceTest {
         assertThat(passwordTest).isNull();
     }
 
-
+*/
 
 }
-*/

@@ -3,13 +3,14 @@ package kmihaly.mywebshop.service;
 import kmihaly.mywebshop.domain.model.item.Item;
 import kmihaly.mywebshop.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import static junit.framework.TestCase.assertNotNull;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static junit.framework.TestCase.assertNotNull;
 public class DAOItemService implements ItemService {
 
     @Autowired

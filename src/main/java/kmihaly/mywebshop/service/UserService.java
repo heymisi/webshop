@@ -6,6 +6,7 @@ import kmihaly.mywebshop.domain.model.user.UserType;
 import java.util.List;
 import java.util.Optional;
 
+
 public interface UserService {
     /**
      * kilistázza a regisztrált felasználókat

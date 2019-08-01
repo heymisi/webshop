@@ -1,14 +1,16 @@
 package kmihaly.mywebshop.service;
 
 import kmihaly.mywebshop.domain.model.item.Item;
-import kmihaly.mywebshop.domain.model.item.SelectedItem;
 import kmihaly.mywebshop.domain.model.item.Purchase;
+import kmihaly.mywebshop.domain.model.item.SelectedItem;
 import kmihaly.mywebshop.domain.model.user.User;
 import kmihaly.mywebshop.repository.PurchaseRepository;
-import static junit.framework.TestCase.assertNotNull;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+
+import static junit.framework.TestCase.assertNotNull;
 
 public class DAOPurchaseService implements PurchaseService {
 

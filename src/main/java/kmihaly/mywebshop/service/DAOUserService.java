@@ -1,14 +1,15 @@
 package kmihaly.mywebshop.service;
 
+import com.vaadin.spring.annotation.SpringComponent;
 import kmihaly.mywebshop.domain.model.user.User;
 import kmihaly.mywebshop.domain.model.user.UserType;
 import kmihaly.mywebshop.repository.UserRepository;
 
-import static junit.framework.TestCase.assertNotNull;
-
 import java.util.List;
 import java.util.Optional;
 
+import static junit.framework.TestCase.assertNotNull;
+@SpringComponent
 public class DAOUserService implements UserService {
 
     private final UserRepository repository;

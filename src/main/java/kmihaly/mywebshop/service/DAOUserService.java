@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static junit.framework.TestCase.assertNotNull;
-@SpringComponent
 public class DAOUserService implements UserService {
 
     private final UserRepository repository;

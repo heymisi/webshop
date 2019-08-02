@@ -4,11 +4,13 @@ import com.vaadin.navigator.View;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
-@SpringView(name = "signup")
+@SpringView(name = SignUp.VIEW_NAME)
     public class SignUp extends VerticalLayout implements View {
+    public static final String VIEW_NAME = "signup";
 
 
-        public SignUp() {
+
+    public SignUp() {
             setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 
             TextField emailField = new TextField("username");

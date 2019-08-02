@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Optional;
 
 import static junit.framework.TestCase.assertNotNull;
+
 public class DAOItemService implements ItemService {
 
-    @Autowired
     private final ItemRepository repository;
 
     public DAOItemService(ItemRepository itemRepository) {

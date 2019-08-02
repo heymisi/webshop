@@ -1,6 +1,7 @@
 package kmihaly.mywebshop.view;
 
 import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.shared.ui.ValueChangeMode;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.spring.annotation.UIScope;
@@ -13,13 +14,16 @@ import javax.annotation.PostConstruct;
 import java.awt.event.ActionListener;
 
 
-@SpringView(name = "register")
+@SpringView(name = Register.VIEW_NAME)
 public class Register extends VerticalLayout implements View {
+
+    public static final String VIEW_NAME = "register";
+
     @Autowired
     private DAOUserService service;
 
-    @PostConstruct
-    public void init() {
+        @PostConstruct
+        void init(){
         setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 
         TextField username = new TextField("username");
@@ -51,13 +55,14 @@ public class Register extends VerticalLayout implements View {
         addComponent(passwordField);
         addComponent(passwordField2);
 
-        Button submit = new Button("submit", new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                service.register(username.getValue(), firstName.getValue(), lastName.getValue(), email.getValue(), address.getValue(), passwordField2.getValue());
-            }
-        });
+        Button submit = new Button("submit", (Button.ClickListener) clickEvent -> service.register(username.getValue(),
+                firstName.getValue(), lastName.getValue(), email.getValue(), address.getValue(), passwordField2.getValue()));
+
         addComponent(submit);
+    }
+
+    @Override
+    public void enter(ViewChangeListener.ViewChangeEvent event){
     }
 
 }

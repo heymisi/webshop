@@ -1,5 +1,6 @@
 package kmihaly.mywebshop.service;
 
+import kmihaly.mywebshop.domain.model.item.GenreType;
 import kmihaly.mywebshop.domain.model.item.Item;
 
 import java.util.List;
@@ -68,5 +69,7 @@ public interface ItemService {
      */
 
     List<Item> getRandomItems(int amount);
+
+    List<Item> searchByGenre(GenreType genreType);
 
 }

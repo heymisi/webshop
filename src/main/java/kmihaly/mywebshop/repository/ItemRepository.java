@@ -1,5 +1,6 @@
 package kmihaly.mywebshop.repository;
 
+import kmihaly.mywebshop.domain.model.item.GenreType;
 import kmihaly.mywebshop.domain.model.item.Item;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -10,5 +11,7 @@ public interface ItemRepository extends JpaRepository<Item,Long> {
     List<Item> findByBrand (String brand);
 
     List<Item> findByPrice(int price);
+
+    List<Item> findByGenre(GenreType genre);
 
 }

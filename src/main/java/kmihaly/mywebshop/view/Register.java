@@ -4,14 +4,14 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.shared.ui.ValueChangeMode;
 import com.vaadin.spring.annotation.SpringView;
-import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.*;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.themes.ValoTheme;
 import kmihaly.mywebshop.service.DAOUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
-import java.awt.event.ActionListener;
 
 
 @SpringView(name = Register.VIEW_NAME)
@@ -22,8 +22,8 @@ public class Register extends VerticalLayout implements View {
     @Autowired
     private DAOUserService service;
 
-        @PostConstruct
-        void init(){
+    @PostConstruct
+    void init() {
         setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 
         TextField username = new TextField("username");
@@ -55,6 +55,7 @@ public class Register extends VerticalLayout implements View {
         addComponent(passwordField);
         addComponent(passwordField2);
 
+
         Button submit = new Button("submit", (Button.ClickListener) clickEvent -> service.register(username.getValue(),
                 firstName.getValue(), lastName.getValue(), email.getValue(), address.getValue(), passwordField2.getValue()));
 
@@ -62,7 +63,7 @@ public class Register extends VerticalLayout implements View {
     }
 
     @Override
-    public void enter(ViewChangeListener.ViewChangeEvent event){
+    public void enter(ViewChangeListener.ViewChangeEvent event) {
     }
 
 }

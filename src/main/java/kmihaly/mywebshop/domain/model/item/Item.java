@@ -25,15 +25,18 @@ public class Item implements Serializable {
     private int availableQuantity;
     @Enumerated
     private SizeType size;
+    @Enumerated
+    private GenreType genre;
 
     public Item() {}
 
-    public Item(String name, String description, String brand, int price, int availableQuantity) {
+    public Item(String name, String description, String brand, int price, int availableQuantity,GenreType genre) {
         this.name = name;
         this.description = description;
         this.brand = brand;
         this.price = price;
         this.availableQuantity = availableQuantity;
+        this.genre = genre;
     }
 
 }

@@ -1,6 +1,6 @@
 package kmihaly.mywebshop.view;
 
-import com.vaadin.navigator.Navigator;
+import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewDisplay;
 import com.vaadin.server.VaadinRequest;
@@ -8,11 +8,6 @@ import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
-import kmihaly.mywebshop.domain.model.item.Item;
-import kmihaly.mywebshop.service.DAOItemService;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import javax.swing.*;
 
 @SpringUI
 @SpringViewDisplay
@@ -29,13 +24,17 @@ public class MyUI extends UI implements ViewDisplay {
         navigationBar.addComponent(createNavigationButton("Shop", Shop.VIEW_NAME));
         navigationBar.addComponent(createNavigationButton("Sign Up", SignUp.VIEW_NAME));
         navigationBar.addComponent(createNavigationButton("Bag", Bag.VIEW_NAME));
-
+        //  navigationBar.setIcon(new ClassResource("webshop-header.jpg"));
+        //  navigationBar.addComponent(new Image(null,new ClassResource("webshop-header.jpg")));
         navigationBar.setMargin(false);
         navigationBar.setSpacing(false);
         springViewDisplay = new Panel();
         springViewDisplay.setSizeFull();
 
-        VerticalLayout mainLayout = new VerticalLayout(navigationBar, springViewDisplay);
+        HorizontalLayout footer = new HorizontalLayout();
+        footer.addComponent(new Label("footer"));
+        footer.setDefaultComponentAlignment(Alignment.BOTTOM_CENTER);
+        VerticalLayout mainLayout = new VerticalLayout(navigationBar, springViewDisplay,footer);
         setContent(mainLayout);
 
     }

@@ -1,5 +1,6 @@
 package kmihaly.mywebshop.service;
 
+import kmihaly.mywebshop.domain.model.item.GenreType;
 import kmihaly.mywebshop.domain.model.item.Item;
 import kmihaly.mywebshop.repository.ItemRepository;
 import org.junit.Test;
@@ -23,11 +24,11 @@ public class DAOItemServiceTest {
     private ItemRepository repository;
 
     private Item DummyItem() {
-        return new Item("name1", "desc1", "brand1", 1, 1);
+        return new Item("name1", "desc1", "brand1", 1, 1, GenreType.MEN);
     }
 
     private Item DummyItem2() {
-        return new Item("name2", "desc2", "brand2", 1, 1);
+        return new Item("name2", "desc2", "brand2", 1, 1,GenreType.MEN);
     }
 
 

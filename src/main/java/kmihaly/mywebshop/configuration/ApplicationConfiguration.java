@@ -1,6 +1,7 @@
 package kmihaly.mywebshop.configuration;
 
 
+import kmihaly.mywebshop.domain.model.item.GenreType;
 import kmihaly.mywebshop.domain.model.item.Item;
 import kmihaly.mywebshop.domain.model.item.Purchase;
 import kmihaly.mywebshop.domain.model.user.User;
@@ -38,14 +39,12 @@ public class ApplicationConfiguration {
 
             userRepository.save(new User("usern", "firsn", "lastn", "mail", "ad", "psw", UserType.REGISTERED));
             userRepository.save(new User("usern2", "firsn2", "lastn2", "mail2", "ad2", "psw2", UserType.REGISTERED));
-            itemRepository.save(new Item("name", "desc", "a", 1, 1));
-            itemRepository.save(new Item("nam2e", "2", "a2", 1, 1));
 
-            Item item = new Item("nam2e", "2", "a2", 1, 1);
-            Item item2 = new Item("nam3e", "3", "a2", 1, 1);
-            Item item3 = new Item("nam4e", "4", "a2", 1, 1);
-            Item item4 = new Item("nam5e", "2", "a2", 1, 1);
-            Item item5 = new Item("nam6e", "1", "a2", 1, 1);
+            Item item = new Item("nam2e", "2", "a2", 1, 1, GenreType.MEN);
+            Item item2 = new Item("nam3e", "3", "a3", 1, 1, GenreType.MEN);
+            Item item3 = new Item("nam4e", "4", "a4", 1, 1, GenreType.WOMEN);
+            Item item4 = new Item("nam5e", "2", "a2", 1, 1, GenreType.WOMEN);
+            Item item5 = new Item("nam6e", "1", "a2", 1, 1, GenreType.WOMEN);
             item.setId(1L);
             itemService(itemRepository).changeItem(item);
             itemService(itemRepository).changeItem(item2);

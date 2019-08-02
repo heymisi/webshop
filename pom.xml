@@ -78,12 +78,17 @@
             <artifactId>vaadin-themes</artifactId>
             <version>8.5.2</version>
         </dependency>
+
         <dependency>
             <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-bom</artifactId>
+            <artifactId>vaadin-core</artifactId>
             <version>13.0.11</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-archetype-application</artifactId>
+            <version>13.0.11</version>
+        </dependency>
 
 
     </dependencies>

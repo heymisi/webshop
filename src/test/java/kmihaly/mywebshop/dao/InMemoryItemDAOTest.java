@@ -1,5 +1,6 @@
 package kmihaly.mywebshop.dao;
 
+import kmihaly.mywebshop.domain.model.item.GenreType;
 import kmihaly.mywebshop.domain.model.item.Item;
 
 import org.junit.Test;
@@ -13,9 +14,9 @@ import static org.junit.Assert.*;
 
 public class InMemoryItemDAOTest {
     private InMemoryItemDAO dao = new InMemoryItemDAO();
-    Item item1 = new Item("name1", "decr1", "brand1", 1, 1);
-    Item item2 = new Item("name2", "decr2", "brand1", 1, 1);
-    Item item3 = new Item("name3", "decr3", "brand2", 2, 1);
+    Item item1 = new Item("name1", "decr1", "brand1", 1, 1, GenreType.MEN);
+    Item item2 = new Item("name2", "decr2", "brand1", 1, 1,GenreType.MEN);
+    Item item3 = new Item("name3", "decr3", "brand2", 2, 1,GenreType.MEN);
 
     @Test
     public void returnAll() {
@@ -92,8 +93,8 @@ public class InMemoryItemDAOTest {
     @Test
     public void test_update_an_elements() {
         //
-        Item itemForUpd1 = new Item("name1", "decr1", "brand1", 1, 1);
-        Item itemForUpd2 = new Item("name2", "decr2", "brand1", 1, 1);
+        Item itemForUpd1 = new Item("name1", "decr1", "brand1", 1, 1,GenreType.MEN);
+        Item itemForUpd2 = new Item("name2", "decr2", "brand1", 1, 1,GenreType.MEN);
         //
         dao.update(itemForUpd1, itemForUpd2);
         //

@@ -1,5 +1,6 @@
 package kmihaly.mywebshop.service;
 
+import kmihaly.mywebshop.domain.model.item.GenreType;
 import kmihaly.mywebshop.domain.model.item.Item;
 import kmihaly.mywebshop.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,6 +73,11 @@ public class DAOItemService implements ItemService {
             }
             return randomItems;
         }
+    }
+
+    @Override
+    public List<Item> searchByGenre(GenreType genreType) {
+        return repository.findByGenre(genreType);
     }
 
 }

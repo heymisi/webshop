@@ -1,5 +1,6 @@
 package kmihaly.mywebshop.view;
 
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.shared.ui.ValueChangeMode;
@@ -12,10 +13,11 @@ import kmihaly.mywebshop.service.DAOUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
+import java.util.concurrent.Future;
 
 
-@SpringView(name = Register.VIEW_NAME)
-public class Register extends VerticalLayout implements View {
+@SpringView(name = RegisterView.VIEW_NAME)
+public class RegisterView extends VerticalLayout implements View {
 
     public static final String VIEW_NAME = "register";
 
@@ -26,6 +28,8 @@ public class Register extends VerticalLayout implements View {
     void init() {
         setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 
+        Label label = new Label("Create Account");
+        label.setStyleName(ValoTheme.LABEL_H1);
         TextField username = new TextField("username");
         username.setValue("legalább 4 karakter");
         username.setMaxLength(20);
@@ -46,18 +50,12 @@ public class Register extends VerticalLayout implements View {
 
         PasswordField passwordField2 = new PasswordField("password (again)");
 
-        addComponent(username);
-        addComponent(counter);
-        addComponent(firstName);
-        addComponent(lastName);
-        addComponent(email);
-        addComponent(address);
-        addComponent(passwordField);
-        addComponent(passwordField2);
+        addComponents(label,username,counter,firstName,lastName,email,address,passwordField,passwordField2);
 
-
-        Button submit = new Button("submit", (Button.ClickListener) clickEvent -> service.register(username.getValue(),
-                firstName.getValue(), lastName.getValue(), email.getValue(), address.getValue(), passwordField2.getValue()));
+        Button submit = new Button("submit", (Button.ClickListener) clickEvent -> {
+            service.register(username.getValue(), firstName.getValue(), lastName.getValue(),
+                    email.getValue(), address.getValue(), passwordField2.getValue());
+        });
 
         addComponent(submit);
     }

@@ -84,7 +84,7 @@ public class DAOItemServiceTest {
     @Test
     public void list_same_price_items_test() {
         //GIVEN
-        when(repository.findByPrice(1)).thenReturn(Arrays.asList(DummyItem(), DummyItem2()));
+        when(repository.findByPriceLessThan(1)).thenReturn(Arrays.asList(DummyItem(), DummyItem2()));
         //WHEN
         List<Item> items = service.searchItemByPrice(1);
         //THEN

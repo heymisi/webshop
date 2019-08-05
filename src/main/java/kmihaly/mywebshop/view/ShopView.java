@@ -2,7 +2,6 @@ package kmihaly.mywebshop.view;
 
 import com.vaadin.data.HasValue;
 import com.vaadin.flow.component.tabs.Tab;
-import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
@@ -13,14 +12,14 @@ import kmihaly.mywebshop.service.DAOItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
-import java.util.Arrays;
-import java.util.Collection;
 
-@SpringView(name = Shop.VIEW_NAME)
-public class Shop extends VerticalLayout implements View {
+@SpringView(name = ShopView.VIEW_NAME)
+public class ShopView extends VerticalLayout implements View {
     public static final String VIEW_NAME = "shop";
+
     @Autowired
     private DAOItemService daoItemService;
+
     private Grid<Item> itemsForMen = new Grid<>();
     private Grid<Item> itemsForWomen = new Grid<>();
 
@@ -42,7 +41,16 @@ public class Shop extends VerticalLayout implements View {
 
         ComboBox<String> brandFilter = new ComboBox<>("Choose Brand");
         brandFilter.setItems("nike","adidas","converse");
+        brandFilter.addValueChangeListener(event -> {
+            if(event.getValue().equals("nike")){
+                itemsForWomen.setItems(daoItemService.searchByGenreAndBrand(GenreType.WOMEN, "nike"));
+            }else if(event.getValue().equals("adidas")){
+                itemsForWomen.setItems(daoItemService.searchByGenreAndBrand(GenreType.WOMEN, "adidas"));
+            }else{
+                itemsForWomen.setItems(daoItemService.searchByGenreAndBrand(GenreType.WOMEN, "converse"));
+            }
 
+        });
 
 //        NumberField price = new NumberField("price");
         Label price = new Label();
@@ -54,6 +62,7 @@ public class Shop extends VerticalLayout implements View {
            Double val = event.getValue();
            price.setValue(val + " price");
         });
+
         sideBar.addComponent(label);
         sideBar.addComponent(brandFilter);
         sideBar.addComponent(slider);
@@ -78,7 +87,16 @@ public class Shop extends VerticalLayout implements View {
 
         Label label2 = new Label("Filter");
         ComboBox<String> brandFilter2 = new ComboBox<>("Choose Brand");
-        brandFilter.setItems("nike","adidas","converse");
+        brandFilter2.setItems("nike","adidas","converse");
+        brandFilter2.addValueChangeListener(event -> {
+           if(event.getValue().equals("nike")){
+               itemsForMen.setItems(daoItemService.searchByGenreAndBrand(GenreType.MEN, "nike"));
+           }else if(event.getValue().equals("adidas")){
+               itemsForMen.setItems(daoItemService.searchByGenreAndBrand(GenreType.MEN, "adidas"));
+           }else {
+               itemsForMen.setItems(daoItemService.searchByGenreAndBrand(GenreType.MEN, "converse"));
+           }
+        });
         Label price2 = new Label();
         Slider slider2 = new Slider("price");
         slider2.setMax(300000.0);
@@ -109,27 +127,21 @@ public class Shop extends VerticalLayout implements View {
 
         tabs.addTab(tab1, "MEN");
         tabs.addTab(tab2, "WOMEN");
-        tabs.addSelectedTabChangeListener(new TabSheet.SelectedTabChangeListener() {
-            @Override
-            public void selectedTabChange(TabSheet.SelectedTabChangeEvent selectedTabChangeEvent) {
-                TabSheet tabSheet = selectedTabChangeEvent.getTabSheet();
-                Layout tab = (Layout) tabSheet.getSelectedTab();
-                String caption = tabSheet.getTab(tab).getCaption();
-                tab.removeAllComponents();
+        tabs.setSelectedTab(tab2);
+        tabs.addSelectedTabChangeListener((TabSheet.SelectedTabChangeListener) selectedTabChangeEvent -> {
+            TabSheet tabSheet = selectedTabChangeEvent.getTabSheet();
+            Layout tab = (Layout) tabSheet.getSelectedTab();
+            String caption = tabSheet.getTab(tab).getCaption();
+            tab.removeAllComponents();
 
-                if (caption.equals("MEN")) {
-                    tab.addComponent(layoutMen);
-                } else if (caption.equals("WOMEN")) {
-                    tab.addComponent(layoutWomen);
-                }
+            if (caption.equals("MEN")) {
+                tab.addComponent(layoutMen);
+            } else if (caption.equals("WOMEN")) {
+                tab.addComponent(layoutWomen);
             }
         });
-
-
         setSizeFull();
         addComponent(tabs);
-
-
     }
 
     @Override

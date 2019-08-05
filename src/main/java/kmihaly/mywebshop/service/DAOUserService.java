@@ -1,14 +1,15 @@
 package kmihaly.mywebshop.service;
 
 import com.vaadin.spring.annotation.SpringComponent;
+import kmihaly.mywebshop.domain.model.item.GenreType;
 import kmihaly.mywebshop.domain.model.user.User;
 import kmihaly.mywebshop.domain.model.user.UserType;
 import kmihaly.mywebshop.repository.UserRepository;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
-import static junit.framework.TestCase.assertNotNull;
 public class DAOUserService implements UserService {
 
     private final UserRepository repository;
@@ -29,6 +30,9 @@ public class DAOUserService implements UserService {
 
     @Override
     public User findUserByName(String name) {
+        if (Objects.isNull(name)) {
+            throw new IllegalArgumentException("hibás bemenet!");
+        }
         return repository.findByUserName(name);
     }
 
@@ -40,28 +44,36 @@ public class DAOUserService implements UserService {
 
     @Override
     public void deleteUser(User user) {
-        assertNotNull(repository.findById(user.getId()));
+        if (Objects.isNull(user) || !(repository.findById(user.getId()).isPresent())) {
+            throw new IllegalArgumentException("hibás bemenet!");
+        }
         repository.delete(user);
     }
 
     @Override
     public void updateUser(User newUser) {
-        assertNotNull(repository.findById(newUser.getId()));
+        if (Objects.isNull(newUser) || !(repository.findById(newUser.getId()).isPresent())) {
+            throw new IllegalArgumentException("hibás bemenet!");
+        }
         repository.save(newUser);
     }
 
     @Override
     public User signIn(String userName, String password) {
         User user = repository.findByUserName(userName);
-        assertNotNull(user);
-        if (user.getPassword() == password) {
-            return user;
+        if (user.equals(null)) {
+            throw new IllegalArgumentException("nincs ilyen felhasználó!");
         }
-        throw new IllegalArgumentException();
+        if (user.getPassword().equals(password)) {
+            return user;
+        }else {
+            throw new IllegalArgumentException("hibás kód!");
+        }
     }
 
     @Override
     public void register(String userName, String firstName, String lastName, String email, String address, String password) {
+
         repository.save(new User(userName, firstName, lastName, email, address, password, UserType.REGISTERED));
     }
 }

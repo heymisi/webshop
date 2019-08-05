@@ -72,4 +72,6 @@ public interface ItemService {
 
     List<Item> searchByGenre(GenreType genreType);
 
-}
+    List<Item> searchByGenreAndBrand(GenreType genreType,String Brand);
+
+    }

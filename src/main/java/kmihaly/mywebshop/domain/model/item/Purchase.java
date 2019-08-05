@@ -18,7 +18,7 @@ import java.util.List;
 @Entity
 public class Purchase implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
 
     @ManyToOne(fetch = FetchType.EAGER)

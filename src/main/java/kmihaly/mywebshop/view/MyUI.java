@@ -1,6 +1,6 @@
 package kmihaly.mywebshop.view;
 
-import com.vaadin.annotations.Theme;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewDisplay;
 import com.vaadin.server.VaadinRequest;
@@ -20,12 +20,11 @@ public class MyUI extends UI implements ViewDisplay {
 
         HorizontalLayout navigationBar = new HorizontalLayout();
 
-        navigationBar.addComponent(createNavigationButton("Main Page", mainPage.VIEW_NAME));
-        navigationBar.addComponent(createNavigationButton("Shop", Shop.VIEW_NAME));
-        navigationBar.addComponent(createNavigationButton("Sign Up", SignUp.VIEW_NAME));
-        navigationBar.addComponent(createNavigationButton("Bag", Bag.VIEW_NAME));
-        //  navigationBar.setIcon(new ClassResource("webshop-header.jpg"));
-        //  navigationBar.addComponent(new Image(null,new ClassResource("webshop-header.jpg")));
+        navigationBar.addComponent(createNavigationButton("Main Page", MainPageView.VIEW_NAME));
+        navigationBar.addComponent(createNavigationButton("Shop", ShopView.VIEW_NAME));
+        navigationBar.addComponent(createNavigationButton("Sign Up", SignUpView.VIEW_NAME));
+        navigationBar.addComponent(createNavigationButton("Bag", BagView.VIEW_NAME));
+
         navigationBar.setMargin(false);
         navigationBar.setSpacing(false);
         springViewDisplay = new Panel();

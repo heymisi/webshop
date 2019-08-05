@@ -1,4 +1,3 @@
-/*
 package kmihaly.mywebshop;
 
 
@@ -10,11 +9,10 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-@Component
 public class UserValidator implements Validator {
 
-    @Autowired
-    DAOUserService daoUserService;
+//    @Autowired
+//    DAOUserService daoUserService;
 
     @Override
     public boolean supports(Class<?> aClass) {
@@ -27,13 +25,12 @@ public class UserValidator implements Validator {
         if (user.getUserName().length() < 4 || user.getUserName().length() > 32) {
             errors.rejectValue("username", "Size.userForm.username");
         }
-        if (daoUserService.findUserByName(user.getUserName()) != null) {
+      /*  if (daoUserService.findUserByName(user.getUserName()) != null) {
             errors.rejectValue("username", "Duplicate.userFrom.username");
-        }
+        }*/
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty");
-        if (user.getPassword().length() < 8 || user.getPassword().length() > 32) {
+        if (user.getPassword().length() < 4 || user.getPassword().length() > 32) {
             errors.rejectValue("password", "Size.userFrom.password");
         }
     }
 }
-*/

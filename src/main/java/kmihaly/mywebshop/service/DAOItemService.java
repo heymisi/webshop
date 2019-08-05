@@ -3,15 +3,8 @@ package kmihaly.mywebshop.service;
 import kmihaly.mywebshop.domain.model.item.GenreType;
 import kmihaly.mywebshop.domain.model.item.Item;
 import kmihaly.mywebshop.repository.ItemRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-
-import static junit.framework.TestCase.assertNotNull;
+import java.util.*;
 
 public class DAOItemService implements ItemService {
 
@@ -28,25 +21,35 @@ public class DAOItemService implements ItemService {
 
     @Override
     public Item addItem(Item item) {
-        if((repository.findById(item.getId()).isPresent())) {throw new IllegalArgumentException();}
+        if (Objects.isNull(item) || (repository.findById(item.getId()).isPresent())) {
+            throw new IllegalArgumentException("hibás bemenet!");
+        }
         return repository.save(item);
     }
 
     @Override
     public void changeItem(Item newItem) {
-        assertNotNull(repository.findById(newItem.getId()));
+        if (Objects.isNull(newItem) || (repository.findById(newItem.getId()).isPresent())) {
+            throw  new IllegalArgumentException("hibás bemenet!");
+        }
         repository.save(newItem);
     }
 
     @Override
     public void deleteItem(Item item) {
-        assertNotNull(repository.findById(item.getId()));
+        if (Objects.isNull(item) || !(repository.findById(item.getId()).isPresent())) {
+            throw new IllegalArgumentException("hibás bemenet!");
+        }
         repository.delete(item);
+
     }
 
     @Override
     public List<Item> searchItemByPrice(int price) {
-        return repository.findByPrice(price);
+        if (price <= 0){
+            throw new IllegalArgumentException("az ár nem lehet 0 vagy annál kisebb!");
+        }
+        return repository.findByPriceLessThan(price);
     }
 
     @Override
@@ -56,18 +59,21 @@ public class DAOItemService implements ItemService {
 
     @Override
     public List<Item> searchItemByBrand(String brand) {
+        if(Objects.isNull(brand)){
+            throw new IllegalArgumentException("hibás bemenet!");
+        }
         return repository.findByBrand(brand);
     }
 
     @Override
-    public List<Item> getRandomItems(int amount) {
+    public List<Item> getRandomItems(int size) {
         List<Item> allItems = repository.findAll();
-        if (allItems.size() < amount) {
-            throw new IllegalArgumentException();
+        if (allItems.size() < size) {
+            throw new IllegalArgumentException("nincs ennyi elem!");
         } else {
             List<Item> randomItems = new ArrayList<>();
             Collections.shuffle(allItems);
-            for (int i = 0; i < amount; i++) {
+            for (int i = 0; i < size; i++) {
                 Item item = allItems.get(i);
                 randomItems.add(item);
             }
@@ -80,4 +86,8 @@ public class DAOItemService implements ItemService {
         return repository.findByGenre(genreType);
     }
 
+    @Override
+    public List<Item> searchByGenreAndBrand(GenreType genreType,String brand) {
+        return repository.findByGenreAndBrand(genreType,brand);
+    }
 }

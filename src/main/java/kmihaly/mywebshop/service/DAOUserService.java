@@ -59,15 +59,15 @@ public class DAOUserService implements UserService {
     }
 
     @Override
-    public User signIn(String userName, String password) {
+    public boolean signIn(String userName, String password) {
         User user = repository.findByUserName(userName);
         if (user.equals(null)) {
-            throw new IllegalArgumentException("nincs ilyen felhasználó!");
+            return false;
         }
         if (user.getPassword().equals(password)) {
-            return user;
+            return true;
         }else {
-            throw new IllegalArgumentException("hibás kód!");
+            return false;
         }
     }
 

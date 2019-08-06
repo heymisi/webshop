@@ -1,6 +1,7 @@
 package kmihaly.mywebshop.view;
 
-import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.annotations.PreserveOnRefresh;
+import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewDisplay;
 import com.vaadin.server.VaadinRequest;
@@ -10,6 +11,8 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 
 @SpringUI
+@Theme("mytheme")
+@PreserveOnRefresh
 @SpringViewDisplay
 public class MyUI extends UI implements ViewDisplay {
 
@@ -24,9 +27,9 @@ public class MyUI extends UI implements ViewDisplay {
         navigationBar.addComponent(createNavigationButton("Shop", ShopView.VIEW_NAME));
         navigationBar.addComponent(createNavigationButton("Sign Up", SignUpView.VIEW_NAME));
         navigationBar.addComponent(createNavigationButton("Bag", BagView.VIEW_NAME));
-
         navigationBar.setMargin(false);
         navigationBar.setSpacing(false);
+
         springViewDisplay = new Panel();
         springViewDisplay.setSizeFull();
 
@@ -40,7 +43,7 @@ public class MyUI extends UI implements ViewDisplay {
 
     private Button createNavigationButton(String caption, final String viewName) {
         Button button = new Button(caption);
-        button.addStyleName(ValoTheme.MENU_ITEM);
+        button.addStyleNames(ValoTheme.BUTTON_BORDERLESS);
         button.setWidth("200");
         button.addClickListener(event -> getUI().getNavigator().navigateTo(viewName));
         return button;

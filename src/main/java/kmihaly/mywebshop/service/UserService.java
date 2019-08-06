@@ -47,7 +47,7 @@ public interface UserService {
      * @param password a jelszó amit meg kell adni a bejelentkezéshez
      * @return visszaadja a bejelentkezett felhasználót
      */
-    User signIn(String userName, String password);
+    boolean signIn(String userName, String password);
 
     /**
      * új felhasználó létrehozását végzi

@@ -27,99 +27,15 @@ public class ShopView extends VerticalLayout implements View {
     @PostConstruct
     void init() {
 
-        itemsForWomen.setItems(daoItemService.searchByGenre(GenreType.WOMEN));
-        itemsForWomen.addColumn(Item::getName).setCaption("név");
-        itemsForWomen.addColumn(Item::getDescription).setCaption("leírás");
-        itemsForWomen.addColumn(Item::getBrand).setCaption("márka");
-        itemsForWomen.addColumn(Item::getPrice).setCaption("ár");
-        itemsForWomen.addColumn(Item::getRate).setCaption("értékelés");
-        itemsForWomen.setSizeFull();
-        VerticalLayout sideBar = new VerticalLayout();
-        VerticalLayout sideBar2 = new VerticalLayout();
+        setUpItems(itemsForMen,GenreType.MEN);
+        setUpItems(itemsForWomen,GenreType.WOMEN);
 
-        Label label = new Label("Filter");
-
-        ComboBox<String> brandFilter = new ComboBox<>("Choose Brand");
-        brandFilter.setItems("nike","adidas","converse");
-        brandFilter.addValueChangeListener(event -> {
-            if(event.getValue().equals("nike")){
-                itemsForWomen.setItems(daoItemService.searchByGenreAndBrand(GenreType.WOMEN, "nike"));
-            }else if(event.getValue().equals("adidas")){
-                itemsForWomen.setItems(daoItemService.searchByGenreAndBrand(GenreType.WOMEN, "adidas"));
-            }else{
-                itemsForWomen.setItems(daoItemService.searchByGenreAndBrand(GenreType.WOMEN, "converse"));
-            }
-
-        });
-
-//        NumberField price = new NumberField("price");
-        Label price = new Label();
-        Slider slider = new Slider("price");
-        slider.setMax(300000.0);
-        slider.setResolution(0);
-        slider.setWidth("150");
-        slider.addValueChangeListener((HasValue.ValueChangeEvent<Double> event) -> {
-           Double val = event.getValue();
-           price.setValue(val + " price");
-        });
-
-        sideBar.addComponent(label);
-        sideBar.addComponent(brandFilter);
-        sideBar.addComponent(slider);
-        sideBar.addComponent(price);
-        sideBar.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-
-
-        HorizontalLayout layoutWomen = new HorizontalLayout();
-        layoutWomen.addComponent(sideBar);
-        layoutWomen.addComponent(itemsForWomen);
-        layoutWomen.setExpandRatio(sideBar, 1);
-        layoutWomen.setExpandRatio(itemsForWomen, 4);
-        layoutWomen.setSizeFull();
-
-        itemsForMen.setItems(daoItemService.searchByGenre(GenreType.MEN));
-        itemsForMen.addColumn(Item::getName).setCaption("név");
-        itemsForMen.addColumn(Item::getDescription).setCaption("leírás");
-        itemsForMen.addColumn(Item::getBrand).setCaption("márka");
-        itemsForMen.addColumn(Item::getPrice).setCaption("ár");
-        itemsForMen.addColumn(Item::getRate).setCaption("értékelés");
-        itemsForMen.setSizeFull();
-
-        Label label2 = new Label("Filter");
-        ComboBox<String> brandFilter2 = new ComboBox<>("Choose Brand");
-        brandFilter2.setItems("nike","adidas","converse");
-        brandFilter2.addValueChangeListener(event -> {
-           if(event.getValue().equals("nike")){
-               itemsForMen.setItems(daoItemService.searchByGenreAndBrand(GenreType.MEN, "nike"));
-           }else if(event.getValue().equals("adidas")){
-               itemsForMen.setItems(daoItemService.searchByGenreAndBrand(GenreType.MEN, "adidas"));
-           }else {
-               itemsForMen.setItems(daoItemService.searchByGenreAndBrand(GenreType.MEN, "converse"));
-           }
-        });
-        Label price2 = new Label();
-        Slider slider2 = new Slider("price");
-        slider2.setMax(300000.0);
-        slider2.setResolution(0);
-        slider2.setWidth("150");
-        slider2.addValueChangeListener((HasValue.ValueChangeEvent<Double> event) -> {
-            Double val = event.getValue();
-            price.setValue(val + " price");
-        });
-        sideBar2.addComponent(label2);
-        sideBar2.addComponent(brandFilter2);
-        sideBar2.addComponent(slider2);
-        sideBar2.addComponent(price2);
-
-        HorizontalLayout layoutMen = new HorizontalLayout();
-        layoutMen.addComponent(sideBar2);
-        layoutMen.addComponent(itemsForMen);
-        layoutMen.setExpandRatio(sideBar2, 1);
-        layoutMen.setExpandRatio(itemsForMen, 4);
-        layoutMen.setSizeFull();
+        HorizontalLayout layoutMen = filter(itemsForMen,GenreType.MEN);
+        HorizontalLayout layoutWomen = filter(itemsForWomen,GenreType.WOMEN);
 
 
         TabSheet tabs = new TabSheet();
+        addComponent(tabs);
         Tab menTab = new Tab("MAN");
         Tab womenTab = new Tab("WOMEN");
         VerticalLayout tab1 = new VerticalLayout();
@@ -127,7 +43,7 @@ public class ShopView extends VerticalLayout implements View {
 
         tabs.addTab(tab1, "MEN");
         tabs.addTab(tab2, "WOMEN");
-        tabs.setSelectedTab(tab2);
+        tab1.addComponents(layoutMen);
         tabs.addSelectedTabChangeListener((TabSheet.SelectedTabChangeListener) selectedTabChangeEvent -> {
             TabSheet tabSheet = selectedTabChangeEvent.getTabSheet();
             Layout tab = (Layout) tabSheet.getSelectedTab();
@@ -141,10 +57,57 @@ public class ShopView extends VerticalLayout implements View {
             }
         });
         setSizeFull();
-        addComponent(tabs);
     }
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
+    }
+
+    private HorizontalLayout filter(Grid<Item> items, GenreType genreType){
+        VerticalLayout sideBar = new VerticalLayout();
+        Label label = new Label("Filter");
+        ComboBox<String> brandFilter = new ComboBox<>("Choose Brand");
+        brandFilter.setItems("nike","adidas","converse");
+
+        brandFilter.addValueChangeListener(event -> {
+            if(event.getValue().equals("nike")){
+                items.setItems(daoItemService.searchByGenreAndBrand(genreType, "nike"));
+            }else if(event.getValue().equals("adidas")){
+                items.setItems(daoItemService.searchByGenreAndBrand(genreType, "adidas"));
+            }else{
+                items.setItems(daoItemService.searchByGenreAndBrand(genreType, "converse"));
+            }
+        });
+        Label price = new Label();
+        Slider slider = new Slider("price");
+        slider.setMax(300000.0);
+        slider.setResolution(0);
+        slider.setWidth("150");
+        slider.addValueChangeListener((HasValue.ValueChangeEvent<Double> event) -> {
+            Double val = event.getValue();
+            price.setValue(Math.round(val) + " price");
+        });
+        sideBar.addComponents(label,brandFilter,slider,price);
+
+        HorizontalLayout mainLayout = new HorizontalLayout();
+        mainLayout.addComponent(sideBar);
+        mainLayout.addComponent(items);
+        mainLayout.setExpandRatio(sideBar, 1);
+        mainLayout.setExpandRatio(items, 4);
+        mainLayout.setSizeFull();
+
+        return mainLayout;
+    }
+
+
+    public void setUpItems(Grid<Item> items,GenreType genreType){
+
+        items.setItems(daoItemService.searchByGenre(genreType));
+        items.addColumn(Item::getName).setCaption("név");
+        items.addColumn(Item::getDescription).setCaption("leírás");
+        items.addColumn(Item::getBrand).setCaption("márka");
+        items.addColumn(Item::getPrice).setCaption("ár");
+        items.addColumn(Item::getRate).setCaption("értékelés");
+        items.setSizeFull();
     }
 }

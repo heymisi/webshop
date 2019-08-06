@@ -1,5 +1,7 @@
 package kmihaly.mywebshop.view;
 
+import com.vaadin.data.Binder;
+import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -9,6 +11,7 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.themes.ValoTheme;
+import kmihaly.mywebshop.domain.model.user.User;
 import kmihaly.mywebshop.service.DAOUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -24,33 +27,34 @@ public class RegisterView extends VerticalLayout implements View {
     @Autowired
     private DAOUserService service;
 
+    private Binder<User> binder = new Binder<>();
     @PostConstruct
     void init() {
         setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 
         Label label = new Label("Create Account");
         label.setStyleName(ValoTheme.LABEL_H1);
+
         TextField username = new TextField("username");
-        username.setValue("legalább 4 karakter");
-        username.setMaxLength(20);
-        Label counter = new Label();
-        counter.setValue("eddig : " + username.getValue().length() + " karakter");
-        username.addValueChangeListener(event -> {
-            int len = event.getValue().length();
-            counter.setValue("eddig : " + len + " karakter");
-        });
-        username.setValueChangeMode(ValueChangeMode.EAGER);
+        binder.forField(username).withNullRepresentation("").withValidator(name -> name.length() >= 4, "must contain at least 4 characters").bind(User::getUserName,User::setUserName);
+        username.setPlaceholder("must be at least 4 characters");
 
         TextField firstName = new TextField("first name");
+        binder.forField(firstName).withValidator(name -> name.length() >= 3, "must contain at least 3 characters").bind(User::getFirstName,User::setFirstName);
+
         TextField lastName = new TextField("last name");
+
         TextField email = new TextField("email");
+        binder.forField(email).withValidator(new EmailValidator("This doesn't look like a valid email address"))
+        .bind(User::getEmail,User::setEmail);
+
         TextField address = new TextField("address");
 
         PasswordField passwordField = new PasswordField("password");
 
         PasswordField passwordField2 = new PasswordField("password (again)");
 
-        addComponents(label,username,counter,firstName,lastName,email,address,passwordField,passwordField2);
+        addComponents(label,username,firstName,lastName,email,address,passwordField,passwordField2);
 
         Button submit = new Button("submit", (Button.ClickListener) clickEvent -> {
             service.register(username.getValue(), firstName.getValue(), lastName.getValue(),

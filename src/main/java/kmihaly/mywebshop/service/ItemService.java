@@ -1,7 +1,8 @@
 package kmihaly.mywebshop.service;
 
-import kmihaly.mywebshop.domain.model.item.GenreType;
+import kmihaly.mywebshop.domain.model.item.Genre;
 import kmihaly.mywebshop.domain.model.item.Item;
+import kmihaly.mywebshop.domain.model.item.Type;
 
 import java.util.List;
 import java.util.Optional;
@@ -63,15 +64,19 @@ public interface ItemService {
     List<Item> searchItemByBrand(String brand);
 
     /**
-     *
      * @param amount
      * @return
      */
 
     List<Item> getRandomItems(int amount);
 
-    List<Item> searchByGenre(GenreType genreType);
+    List<Item> searchByGenre(Genre genreType);
 
-    List<Item> searchByGenreAndBrand(GenreType genreType,String Brand);
+    List<Item> searchByGenreAndBrand(Genre genreType, String Brand);
 
-    }
+    List<Item> searchByType(Type itemType);
+
+    List<Item> multipleSearch(String name, String genre, String brand, String type);
+
+
+}

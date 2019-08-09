@@ -1,3 +1,4 @@
+/*
 package kmihaly.mywebshop.view;
 
 import com.vaadin.flow.component.ComponentEventListener;
@@ -77,3 +78,4 @@ public class ConfirmationDialog extends Dialog {
         add(footer);
     }
 }
+*/

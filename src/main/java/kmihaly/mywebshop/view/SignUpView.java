@@ -8,7 +8,6 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
-import kmihaly.mywebshop.UserValidator;
 import kmihaly.mywebshop.domain.model.user.User;
 import kmihaly.mywebshop.service.DAOUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,15 +16,12 @@ import org.springframework.validation.BindingResult;
 import javax.annotation.PostConstruct;
 import java.util.Objects;
 
-//import kmihaly.mywebshop.UserValidator;
 
 @SpringView(name = SignUpView.VIEW_NAME)
 public class SignUpView extends VerticalLayout implements View {
     public static final String VIEW_NAME = "signup";
 
     private Binder<User> binder = new Binder<>();
-    private UserValidator userValidate;
-    private BindingResult error;
     @Autowired
     private DAOUserService userService;
 
@@ -73,7 +69,7 @@ public class SignUpView extends VerticalLayout implements View {
             }
         });
         submit.setIcon(VaadinIcons.USER_CHECK);
-        Button register = new Button("RegisterView", (Button.ClickListener) clickEvent -> getUI().getNavigator().navigateTo(RegisterView.VIEW_NAME));
+        Button register = new Button("Register", (Button.ClickListener) clickEvent -> getUI().getNavigator().navigateTo(RegisterView.VIEW_NAME));
         register.setIcon(VaadinIcons.SWORD);
         buttons.addComponent(submit);
         buttons.addComponent(register);

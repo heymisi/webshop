@@ -1,5 +1,5 @@
 package kmihaly.mywebshop.domain.model.item;
 
-public enum SizeType {
+public enum Size {
     S, M, L, XL
 }

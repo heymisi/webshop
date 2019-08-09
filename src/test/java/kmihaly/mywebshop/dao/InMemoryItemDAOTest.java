@@ -1,8 +1,10 @@
 package kmihaly.mywebshop.dao;
 
-import kmihaly.mywebshop.domain.model.item.GenreType;
+import kmihaly.mywebshop.domain.model.item.Brand;
+import kmihaly.mywebshop.domain.model.item.Genre;
 import kmihaly.mywebshop.domain.model.item.Item;
 
+import kmihaly.mywebshop.domain.model.item.Type;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -14,9 +16,9 @@ import static org.junit.Assert.*;
 
 public class InMemoryItemDAOTest {
     private InMemoryItemDAO dao = new InMemoryItemDAO();
-    Item item1 = new Item("name1", "decr1", "brand1", 1, 1, GenreType.MEN);
-    Item item2 = new Item("name2", "decr2", "brand1", 1, 1,GenreType.MEN);
-    Item item3 = new Item("name3", "decr3", "brand2", 2, 1,GenreType.MEN);
+    Item item1 = new Item("nam2e", "2", Brand.ADIDAS, 1, 1, Genre.MEN, Type.JEAN,"/img/jean01.jpg","/img/jean01.jpg");
+    Item item2 = new Item("nam2e", "2", Brand.ADIDAS, 1, 1, Genre.MEN, Type.JEAN,"/img/jean01.jpg","/img/jean01.jpg");
+    Item item3 = new Item("nam2e", "2", Brand.ADIDAS, 1, 1, Genre.MEN, Type.JEAN,"/img/jean01.jpg","/img/jean01.jpg");
 
     @Test
     public void returnAll() {
@@ -93,8 +95,8 @@ public class InMemoryItemDAOTest {
     @Test
     public void test_update_an_elements() {
         //
-        Item itemForUpd1 = new Item("name1", "decr1", "brand1", 1, 1,GenreType.MEN);
-        Item itemForUpd2 = new Item("name2", "decr2", "brand1", 1, 1,GenreType.MEN);
+        Item itemForUpd1 = new Item("nam2e", "2", Brand.ADIDAS, 1, 1, Genre.MEN, Type.JEAN,"/img/jean01.jpg","/img/jean01.jpg");
+        Item itemForUpd2 = new Item("nam2e", "2", Brand.ADIDAS, 1, 1, Genre.MEN, Type.JEAN,"/img/jean01.jpg","/img/jean01.jpg");
         //
         dao.update(itemForUpd1, itemForUpd2);
         //

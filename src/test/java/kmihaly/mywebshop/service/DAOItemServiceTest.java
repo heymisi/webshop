@@ -1,7 +1,9 @@
 package kmihaly.mywebshop.service;
 
-import kmihaly.mywebshop.domain.model.item.GenreType;
+import kmihaly.mywebshop.domain.model.item.Brand;
+import kmihaly.mywebshop.domain.model.item.Genre;
 import kmihaly.mywebshop.domain.model.item.Item;
+import kmihaly.mywebshop.domain.model.item.Type;
 import kmihaly.mywebshop.repository.ItemRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,11 +26,11 @@ public class DAOItemServiceTest {
     private ItemRepository repository;
 
     private Item DummyItem() {
-        return new Item("name1", "desc1", "brand1", 1, 1, GenreType.MEN);
+        return new Item("name1", "desc1", Brand.ADIDAS, 1, 1, Genre.MEN, Type.SUIT,"","");
     }
 
     private Item DummyItem2() {
-        return new Item("name2", "desc2", "brand2", 1, 1,GenreType.MEN);
+        return new Item("name2", "desc2", Brand.ADIDAS, 1, 1, Genre.MEN, Type.SOCKS,"","");
     }
 
 

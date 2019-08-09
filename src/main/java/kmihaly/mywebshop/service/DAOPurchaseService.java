@@ -5,7 +5,7 @@ import kmihaly.mywebshop.domain.model.item.Purchase;
 import kmihaly.mywebshop.domain.model.item.SelectedItem;
 import kmihaly.mywebshop.domain.model.user.User;
 import kmihaly.mywebshop.repository.PurchaseRepository;
-import org.springframework.stereotype.Service;
+import kmihaly.mywebshop.repository.UserRepository;
 
 import java.util.Date;
 import java.util.List;
@@ -16,8 +16,11 @@ public class DAOPurchaseService implements PurchaseService {
 
     private final PurchaseRepository purchaseRepository;
 
-    public DAOPurchaseService(PurchaseRepository purchaseRepository) {
+    private final UserRepository userRepository;
+
+    public DAOPurchaseService(PurchaseRepository purchaseRepository, UserRepository userRepository) {
         this.purchaseRepository = purchaseRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -35,11 +38,17 @@ public class DAOPurchaseService implements PurchaseService {
 
     @Override
     public void addItemToStorage(Item item, int orderedQuantity, User user) {
-        if (Objects.isNull(user) || Objects.isNull(item) || !(purchaseRepository.findById(user.getId()).isPresent()) || orderedQuantity <= 0 ) {
-            throw new IllegalArgumentException("hibás bemenet!");
+        if (Objects.isNull(user)) {
+            throw new IllegalArgumentException("üres user!");
+        } else if (Objects.isNull(item)) {
+            throw new IllegalArgumentException("üres item!");
+        } else if (!(userRepository.findById(user.getId()).isPresent())) {
+            throw new IllegalArgumentException("nincs ilyen user!");
+        } else if (orderedQuantity <= 0) {
+            throw new IllegalArgumentException("nem jó a rendelés mennyiség!");
+        } else {
+            user.getStorage().getItems().add(new SelectedItem(item, orderedQuantity));
         }
-
-        user.getStorage().getItems().add(new SelectedItem(item, orderedQuantity));
     }
 
     @Override
@@ -61,8 +70,6 @@ public class DAOPurchaseService implements PurchaseService {
         user.getStorage().getItems().clear();
         user.getStorage().setItemsPrice(0);
 
-        for(SelectedItem item : user.getStorage().getItems()){
-            item.setQuantity(item.getQuantity() - 1);
-        }
+        user.getStorage().getItems().stream().forEach(s -> s.setQuantity(s.getQuantity() - 1));
     }
 }

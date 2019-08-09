@@ -2,6 +2,7 @@ package kmihaly.mywebshop.view;
 
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewDisplay;
 import com.vaadin.server.VaadinRequest;
@@ -22,11 +23,19 @@ public class MyUI extends UI implements ViewDisplay {
     protected void init(VaadinRequest request) {
 
         HorizontalLayout navigationBar = new HorizontalLayout();
-
+        Button bag = createNavigationButton("Bag", BagView.VIEW_NAME);
+        Button signUp = createNavigationButton("Sign Up", SignUpView.VIEW_NAME);
+        Button shop = createNavigationButton("Shop", ShopView.VIEW_NAME);
         navigationBar.addComponent(createNavigationButton("Main Page", MainPageView.VIEW_NAME));
-        navigationBar.addComponent(createNavigationButton("Shop", ShopView.VIEW_NAME));
-        navigationBar.addComponent(createNavigationButton("Sign Up", SignUpView.VIEW_NAME));
-        navigationBar.addComponent(createNavigationButton("Bag", BagView.VIEW_NAME));
+
+        navigationBar.addComponent(shop);
+        navigationBar.addComponent(signUp);
+        navigationBar.addComponent(bag);
+
+        bag.setIcon(VaadinIcons.BRIEFCASE);
+        signUp.setIcon(VaadinIcons.USERS);
+        shop.setIcon(VaadinIcons.CART);
+
         navigationBar.setMargin(false);
         navigationBar.setSpacing(false);
 
@@ -43,12 +52,11 @@ public class MyUI extends UI implements ViewDisplay {
 
     private Button createNavigationButton(String caption, final String viewName) {
         Button button = new Button(caption);
-        button.addStyleNames(ValoTheme.BUTTON_BORDERLESS);
+        button.addStyleNames(ValoTheme.BUTTON_PRIMARY);
         button.setWidth("200");
         button.addClickListener(event -> getUI().getNavigator().navigateTo(viewName));
         return button;
     }
-
 
     @Override
     public void showView(View view) {

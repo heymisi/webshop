@@ -14,8 +14,8 @@ public interface UserService {
      * @return visszadja a regisztrált felhasználók egy listáját
      */
     List<User> listUsers();
+
     /**
-     *
      * @return
      */
     Optional<User> findUserById(long id);

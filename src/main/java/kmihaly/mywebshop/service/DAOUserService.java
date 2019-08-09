@@ -1,7 +1,5 @@
 package kmihaly.mywebshop.service;
 
-import com.vaadin.spring.annotation.SpringComponent;
-import kmihaly.mywebshop.domain.model.item.GenreType;
 import kmihaly.mywebshop.domain.model.user.User;
 import kmihaly.mywebshop.domain.model.user.UserType;
 import kmihaly.mywebshop.repository.UserRepository;
@@ -66,7 +64,7 @@ public class DAOUserService implements UserService {
         }
         if (user.getPassword().equals(password)) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }

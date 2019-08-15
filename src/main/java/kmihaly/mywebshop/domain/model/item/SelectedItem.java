@@ -12,11 +12,13 @@ import java.io.Serializable;
 @Data
 @Entity
 public class SelectedItem implements Serializable {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private long id;
 
     @OneToOne
+    @JoinColumn(name = "item_id")
     private Item item;
 
     private int quantity;

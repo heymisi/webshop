@@ -82,7 +82,7 @@ public class DAOUserServiceTest {
     @Test
     public void list_same_username_user_test() {
         //
-        when(repository.findByUserName("name1")).thenReturn(Dummy());
+       // when(repository.findByUserName("name1")).thenReturn(Dummy());
 
         User searchName = service.findUserByName("name1");
 

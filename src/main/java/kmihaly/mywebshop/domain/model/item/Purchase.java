@@ -24,8 +24,8 @@ public class Purchase implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    private List<SelectedItem> items;
+//    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+//    private List<SelectedItem> items;
 
     private int itemsPrice;
 
@@ -37,7 +37,7 @@ public class Purchase implements Serializable {
     public Purchase(User user, Date date) {
         this.user = user;
         this.date = date;
-        items = new ArrayList<>();
+//        items = new ArrayList<>();
     }
 
 }

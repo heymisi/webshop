@@ -28,10 +28,7 @@ public class DAOUserService implements UserService {
 
     @Override
     public User findUserByName(String name) {
-        if (Objects.isNull(name)) {
-            throw new IllegalArgumentException("hibás bemenet!");
-        }
-        return repository.findByUserName(name);
+        return repository.findByUserName(name).orElseThrow(() -> new IllegalArgumentException("nincs ilyen név"));
     }
 
     @Override
@@ -58,7 +55,7 @@ public class DAOUserService implements UserService {
 
     @Override
     public boolean signIn(String userName, String password) {
-        User user = repository.findByUserName(userName);
+        User user = repository.findByUserName(userName).orElseThrow(() -> new IllegalArgumentException("nincs ilyen felhasználó"));
         if (user.equals(null)) {
             return false;
         }

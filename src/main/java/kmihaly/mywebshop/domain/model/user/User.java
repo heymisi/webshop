@@ -1,9 +1,12 @@
 package kmihaly.mywebshop.domain.model.user;
 
-import kmihaly.mywebshop.domain.model.item.Purchase;
+import kmihaly.mywebshop.domain.model.item.SelectedItem;
 import lombok.Data;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Az User az oldalt használó felhasználót reprezentálja
@@ -26,8 +29,11 @@ public class User implements Serializable {
     private String password;
     private UserType userType;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
-    private Purchase storage;
+    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
+    private List<SelectedItem> selectedItems ;
+
+//    @OneToOne(cascade = CascadeType.PERSIST)
+//    private Purchase storage;
 
     public User() {}
 
@@ -39,7 +45,10 @@ public class User implements Serializable {
         this.address = address;
         this.password = password;
         this.userType = userType;
+        selectedItems = new ArrayList<>();
     }
 
-
+    public void addItem(SelectedItem item){
+        selectedItems.add(item);
+    }
 }

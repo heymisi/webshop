@@ -14,13 +14,12 @@ import kmihaly.mywebshop.domain.model.user.User;
 import kmihaly.mywebshop.domain.model.user.UserType;
 import kmihaly.mywebshop.service.DAOItemService;
 import kmihaly.mywebshop.service.DAOPurchaseService;
+import kmihaly.mywebshop.service.DAOUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -32,6 +31,8 @@ public class ShopView extends VerticalLayout implements View {
     private DAOItemService itemService;
     @Autowired
     private DAOPurchaseService purchaseService;
+    @Autowired
+    private DAOUserService userService;
 
     private Grid<Item> itemsForMen = new Grid<>();
     private Grid<Item> itemsForWomen = new Grid<>();
@@ -40,8 +41,12 @@ public class ShopView extends VerticalLayout implements View {
 
     private String basePath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
 
+    private User loggedUser = ((MyUI) UI.getCurrent()).getUser();
+
+
     @PostConstruct
     void init() {
+
         setUpItems(itemsForMen, Genre.MEN);
         setUpItems(itemsForWomen, Genre.WOMEN);
 
@@ -126,8 +131,13 @@ public class ShopView extends VerticalLayout implements View {
             rowCount.setValue(foundItem + " clothes found");
             items.setItems(filteredItems);
         });
+        Button addNewItem = new Button("ADD NEW ITEM");
+        addNewItem.setVisible(false);
+        if(loggedUser.getUserType().equals(UserType.ADMIN)) {
+            addNewItem.setVisible(true);
+        }
 
-        VerticalLayout itemLayout = new VerticalLayout(rowCount, items);
+        VerticalLayout itemLayout = new VerticalLayout(rowCount, items,addNewItem);
         itemLayout.setComponentAlignment(rowCount, Alignment.TOP_CENTER);
         itemLayout.setSizeFull();
 
@@ -161,6 +171,7 @@ public class ShopView extends VerticalLayout implements View {
 
     private Button itemDetailsButton(Item item) {
         Button button = new Button("Click for detailed info");
+        button.setStyleName(ValoTheme.BUTTON_DANGER);
         button.addClickListener(event -> {
             MyUI.getCurrent().addWindow(itemDetails(item));
         });
@@ -220,8 +231,13 @@ public class ShopView extends VerticalLayout implements View {
                 Notification.show("Please select size");
             } else if (quantityBox.isEmpty() || sizeBox.isEmpty()) {
                 Notification.show("Please select size and quantity");
+            } else if (Objects.isNull(loggedUser)) {
+                Notification.show("You have to be logged in to add an item to your bag!");
             } else {
-                purchaseService.addItemToStorage(item, Integer.parseInt(quantityBox.getValue().toString()), new User("usern2", "firsn2", "lastn2", "mail2", "ad2", "psw2", UserType.REGISTERED));
+//                loggedUser.setStorage(new Purchase(loggedUser, new Date()));
+                purchaseService.addItemToStorage(item, Integer.parseInt(quantityBox.getValue().toString()), loggedUser);
+                Notification.show("This item has been added to your bag");
+                window.close();
             }
         });
 

@@ -11,6 +11,7 @@ import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 import kmihaly.mywebshop.domain.model.user.User;
+import kmihaly.mywebshop.domain.model.user.UserType;
 import kmihaly.mywebshop.service.DAOUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -27,15 +28,15 @@ public class SignUpView extends VerticalLayout implements View {
     @Autowired
     private DAOUserService userService;
 
-    private User loggedinUser = ((MyUI) UI.getCurrent()).getUser();
+    private User loggedUser = ((MyUI) UI.getCurrent()).getUser();
 
     @PostConstruct
     void init() {
-        if (!Objects.isNull(loggedinUser)) {
+        if (!loggedUser.getUserType().equals(UserType.GUEST)) {
             setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
             addComponents(new Label("You are logged in!\n" + "You can logout here:", ContentMode.PREFORMATTED));
             addComponents(new Button("LOG OUT", clickEvent -> {
-                ((MyUI) UI.getCurrent()).setUser(null);
+                ((MyUI) UI.getCurrent()).setUser(new User("quest","quest","quest","quest","quest","quest", UserType.GUEST));
                 Notification.show("you have been logged out!");
                 getUI().getNavigator().navigateTo(MainPageView.VIEW_NAME);
 

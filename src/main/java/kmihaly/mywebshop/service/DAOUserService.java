@@ -68,7 +68,6 @@ public class DAOUserService implements UserService {
 
     @Override
     public void register(String userName, String firstName, String lastName, String email, String address, String password) {
-
-        repository.save(new User(userName, firstName, lastName, email, address, password, UserType.REGISTERED));
+        repository.save(new User(userName, firstName, lastName, email, address, password, UserType.USER));
     }
 }

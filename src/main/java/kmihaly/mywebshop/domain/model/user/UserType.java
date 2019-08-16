@@ -8,6 +8,6 @@ package kmihaly.mywebshop.domain.model.user;
  */
 public enum UserType {
     GUEST,
-    REGISTERED,
+    USER,
     ADMIN
 }

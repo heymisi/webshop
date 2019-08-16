@@ -7,7 +7,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A Purchase osztály egy vásárlásról tárol információkat
@@ -19,13 +20,13 @@ import java.util.List;
 public class Purchase implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private long id;
+    private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne()
     private User user;
 
-//    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-//    private List<SelectedItem> items;
+    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
+    private Set<SelectedItem> items;
 
     private int itemsPrice;
 
@@ -34,10 +35,11 @@ public class Purchase implements Serializable {
 
     protected Purchase() {}
 
-    public Purchase(User user, Date date) {
+    public Purchase(User user, Date date,int itemsPrice) {
         this.user = user;
         this.date = date;
-//        items = new ArrayList<>();
+        this.itemsPrice = itemsPrice;
+        items = new HashSet<>();
     }
 
 }

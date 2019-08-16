@@ -14,6 +14,7 @@ import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 import kmihaly.mywebshop.domain.model.user.User;
+import kmihaly.mywebshop.domain.model.user.UserType;
 import kmihaly.mywebshop.service.DAOUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -23,22 +24,24 @@ import java.util.Objects;
 @SpringUI
 @Theme("mytheme")
 @SpringViewDisplay
+@PreserveOnRefresh
 public class MyUI extends UI implements ViewDisplay {
 
-
-    private User user;
-
+    private User user = new User("quest","quest","quest","quest","quest","quest",UserType.GUEST);
 
     private Panel springViewDisplay;
 
-     @Autowired
-     private DAOUserService userService;
+    @Autowired
+    private DAOUserService userService;
+
+
+
 
     @Override
     protected void init(VaadinRequest request) {
 
 
-        user = userService.findUserByName("usern");
+        user = userService.findUserByName("usern2");
         HorizontalLayout navigationBar = new HorizontalLayout();
         Button bag = createNavigationButton("Bag", BagView.VIEW_NAME);
         Button signUp = createNavigationButton("Sign Up", SignUpView.VIEW_NAME);
@@ -47,6 +50,7 @@ public class MyUI extends UI implements ViewDisplay {
         navigationBar.addComponent(shop);
         navigationBar.addComponent(signUp);
         navigationBar.addComponent(bag);
+
 
         bag.setIcon(VaadinIcons.BRIEFCASE);
         signUp.setIcon(VaadinIcons.USERS);
@@ -61,7 +65,7 @@ public class MyUI extends UI implements ViewDisplay {
         HorizontalLayout footer = new HorizontalLayout();
         footer.addComponent(new Label("footer"));
         footer.setDefaultComponentAlignment(Alignment.BOTTOM_CENTER);
-        VerticalLayout mainLayout = new VerticalLayout(navigationBar, springViewDisplay,footer);
+        VerticalLayout mainLayout = new VerticalLayout(navigationBar, springViewDisplay, footer);
 
 
         setContent(mainLayout);
@@ -89,7 +93,6 @@ public class MyUI extends UI implements ViewDisplay {
     public void setUser(User user) {
         this.user = user;
     }
-
 
 
 }

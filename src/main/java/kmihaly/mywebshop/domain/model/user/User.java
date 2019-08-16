@@ -20,7 +20,7 @@ public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private long id;
+    private Long id;
     private String userName;
     private String firstName;
     private String lastName;
@@ -32,8 +32,6 @@ public class User implements Serializable {
     @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
     private List<SelectedItem> selectedItems ;
 
-//    @OneToOne(cascade = CascadeType.PERSIST)
-//    private Purchase storage;
 
     public User() {}
 

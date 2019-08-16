@@ -24,17 +24,17 @@ public class DAOItemService implements ItemService {
 
     @Override
     public Item addItem(Item item) {
-        if (Objects.isNull(item) || (repository.findById(item.getId()).isPresent())) {
-            throw new IllegalArgumentException("hibás bemenet!");
-        }
+//        if (Objects.isNull(item) || (repository.findById(item.getId()).isPresent())) {
+//            throw new IllegalArgumentException("hibás bemenet!");
+//        }
         return repository.save(item);
     }
 
     @Override
     public void changeItem(Item newItem) {
-        if (Objects.isNull(newItem) || (repository.findById(newItem.getId()).isPresent())) {
-            throw new IllegalArgumentException("hibás bemenet!");
-        }
+//        if (Objects.isNull(newItem) || (repository.findById(newItem.getId()).isPresent())) {
+//            throw new IllegalArgumentException("hibás bemenet!");
+//        }
         repository.save(newItem);
     }
 

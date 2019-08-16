@@ -23,6 +23,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static java.lang.String.valueOf;
+
 @SpringView(name = ShopView.VIEW_NAME)
 public class ShopView extends VerticalLayout implements View {
     public static final String VIEW_NAME = "shop";
@@ -123,6 +125,14 @@ public class ShopView extends VerticalLayout implements View {
         });
 
         Button searchButton = new Button("Search");
+
+        Label title = new Label();
+        title.setStyleName(ValoTheme.LABEL_H2);
+        if (genreType.equals(Genre.MEN)) {
+            title.setValue("MEN CLOTHES");
+        } else {
+            title.setValue("WOMEN CLOTHES");
+        }
         Label rowCount = new Label(itemService.searchByGenre(genreType).size() + " clothes found");
         rowCount.addStyleNames(ValoTheme.LABEL_BOLD);
         searchButton.addClickListener((Button.ClickListener) clickEvent -> {
@@ -131,13 +141,25 @@ public class ShopView extends VerticalLayout implements View {
             rowCount.setValue(foundItem + " clothes found");
             items.setItems(filteredItems);
         });
-        Button addNewItem = new Button("ADD NEW ITEM");
-        addNewItem.setVisible(false);
-        if(loggedUser.getUserType().equals(UserType.ADMIN)) {
-            addNewItem.setVisible(true);
+        Button addItem = createButton("ADD ITEM");
+        addItem.addClickListener(clickEvent -> {
+            MyUI.getCurrent().addWindow(addItemWindow());
+        });
+        Button deleteItem = createButton("DELETE ITEM");
+        deleteItem.addClickListener(clickEvent -> {
+            Optional<Item> item = items.getSelectionModel().getFirstSelectedItem();
+            itemService.deleteItem(item.get());
+        });
+        addItem.setVisible(false);
+        deleteItem.setVisible(false);
+
+        if (Objects.nonNull(loggedUser) && loggedUser.getUserType().equals(UserType.ADMIN)) {
+            addItem.setVisible(true);
+            deleteItem.setVisible(true);
         }
 
-        VerticalLayout itemLayout = new VerticalLayout(rowCount, items,addNewItem);
+        VerticalLayout itemLayout = new VerticalLayout(title, rowCount, items, addItem, deleteItem);
+        itemLayout.setComponentAlignment(title, Alignment.TOP_CENTER);
         itemLayout.setComponentAlignment(rowCount, Alignment.TOP_CENTER);
         itemLayout.setSizeFull();
 
@@ -165,8 +187,16 @@ public class ShopView extends VerticalLayout implements View {
         items.addColumn(Item::getPrice).setCaption("price");
         items.setBodyRowHeight(200);
         items.addComponentColumn(this::itemDetailsButton).setCaption("more info");
-
+        items.setSelectionMode(Grid.SelectionMode.SINGLE);
         items.setSizeFull();
+    }
+
+
+    private Button createButton(String string) {
+        Button button = new Button(string);
+        button.setStyleName(ValoTheme.BUTTON_DANGER);
+        button.setWidth("180");
+        return button;
     }
 
     private Button itemDetailsButton(Item item) {
@@ -177,6 +207,115 @@ public class ShopView extends VerticalLayout implements View {
         });
         return button;
     }
+
+    private Button changeItemButton(Item item) {
+        Button button = new Button("Change item details");
+        button.setStyleName(ValoTheme.BUTTON_DANGER);
+        button.addClickListener(clickEvent -> {
+            MyUI.getCurrent().addWindow(changeItemDetailsWindow(item));
+        });
+        button.setVisible(false);
+        return button;
+    }
+
+    private Window addItemWindow(){
+        Window window = new Window();
+        VerticalLayout content = new VerticalLayout();
+
+        content.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+        TextField nameField = new TextField("name:");
+        TextField descriptionField = new TextField("description:");
+        TextField priceField = new TextField("price:");
+        TextField availableQuantityField = new TextField("quantity:");
+        TextField typeField = new TextField("type:");
+        TextField genreField= new TextField("genre:");
+        TextField brandField= new TextField("brand:");
+        TextField imageSmallField = new TextField("small image path:");
+        TextField imageBigField = new TextField("large image path:");
+
+        Button confirmAdd = createButton("CONFIRM ADD");
+        confirmAdd.addClickListener(clickEvent -> {
+            Item item = new Item(nameField.getValue(), descriptionField.getValue(), Brand.valueOf(brandField.getValue()), Integer.parseInt(priceField.getValue()),
+                    Integer.parseInt(availableQuantityField.getValue()), Genre.valueOf(genreField.getValue()),
+                    Type.valueOf(typeField.getValue()), imageBigField.getValue(), imageBigField.getValue());
+            itemService.addItem(item);
+        });
+
+
+        content.addComponents(nameField,descriptionField,priceField,availableQuantityField,typeField,genreField,brandField,imageBigField,imageSmallField,confirmAdd);
+        content.setSizeFull();
+        window.setContent(content);
+        window.center();
+        window.setSizeFull();
+        return window;
+    }
+
+
+    private Window changeItemDetailsWindow(Item item) {
+        Window window = new Window();
+        VerticalLayout content = new VerticalLayout();
+
+
+        content.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+
+        TextField nameField = new TextField("name:");
+        nameField.setPlaceholder(item.getName());
+
+        TextField descriptionField = new TextField("description:");
+        descriptionField.setPlaceholder(item.getDescription());
+
+        TextField priceField = new TextField("price:");
+        priceField.setPlaceholder(valueOf(item.getPrice()));
+
+        TextField availableQuantityField = new TextField("quantity:");
+        availableQuantityField.setPlaceholder(valueOf(item.getAvailableQuantity()));
+
+        TextField imageSmallField = new TextField("small image path:");
+        imageSmallField.setPlaceholder(item.getSmallImagePath());
+
+        TextField imageBigField = new TextField("large image path:");
+        imageBigField.setPlaceholder(item.getBigImagePath());
+
+        Button saveButton = createButton("SAVE");
+        saveButton.addClickListener(clickEvent -> {
+            if (!nameField.getValue().isEmpty()) {
+                item.setName(nameField.getValue());
+            }
+            if (!descriptionField.getValue().isEmpty()) {
+                item.setDescription(descriptionField.getValue());
+            }
+            if (!priceField.getValue().isEmpty()) {
+                item.setPrice(Integer.parseInt(priceField.getValue()));
+            }
+            if (!availableQuantityField.getValue().isEmpty()) {
+                item.setAvailableQuantity(Integer.parseInt(availableQuantityField.getValue()));
+            }
+            if (!imageSmallField.getValue().isEmpty()) {
+                item.setSmallImagePath(imageSmallField.getValue());
+            }
+            if (!imageBigField.getValue().isEmpty()) {
+                item.setBigImagePath(imageBigField.getValue());
+            }
+
+            if (!nameField.getValue().isEmpty() || !descriptionField.getValue().isEmpty()
+                    || !priceField.getValue().isEmpty() || !availableQuantityField.getValue().isEmpty()
+                    || !imageSmallField.getValue().isEmpty() || !imageBigField.getValue().isEmpty()) {
+
+                itemService.changeItem(item);
+                window.close();
+                Notification.show("Successful change");
+
+            } else {
+                Notification.show("If you want to change your details your have to fill the below areas");
+            }
+        });
+
+        content.addComponents(nameField, descriptionField, priceField, availableQuantityField, imageSmallField, imageBigField, saveButton);
+        window.setContent(content);
+        window.center();
+        return window;
+    }
+
 
     private Window itemDetails(Item item) {
 
@@ -190,7 +329,12 @@ public class ShopView extends VerticalLayout implements View {
         infoContent.addComponent(new Label("BRAND: \n" + item.getBrand().toString(), ContentMode.PREFORMATTED));
         infoContent.addComponent(new Label("RATE: \n" + item.getRate(), ContentMode.PREFORMATTED));
 
-        infoContent.addComponent(new Label("SIZE: ", ContentMode.PREFORMATTED));
+        Label availableQuantityLabel = new Label("AVAILABLE QUANTITY:\n" + item.getAvailableQuantity(),ContentMode.PREFORMATTED);
+        availableQuantityLabel.setVisible(false);
+        infoContent.addComponents(availableQuantityLabel);
+        Label sizeLabel = new Label("SIZE: ", ContentMode.PREFORMATTED);
+        sizeLabel.setVisible(false);
+        infoContent.addComponent(sizeLabel);
 
         ComboBox sizeBox = new ComboBox();
         Collection<String> sizes = new ArrayList<>();
@@ -201,14 +345,18 @@ public class ShopView extends VerticalLayout implements View {
         sizeBox.setEmptySelectionCaption("Please select");
         infoContent.addComponent(sizeBox);
         sizeBox.setEmptySelectionAllowed(false);
+        sizeBox.setVisible(false);
 
         ComboBox quantityBox = new ComboBox();
         List<Integer> collect = IntStream.range(1, 6).boxed().collect(Collectors.toList());
         quantityBox.setItems(collect);
         quantityBox.setEmptySelectionCaption("Please select");
         quantityBox.setEmptySelectionAllowed(false);
+        quantityBox.setVisible(false);
 
-        infoContent.addComponent(new Label("QUANTITY: "));
+        Label quantityLabel = new Label("QUANTITY: ");
+        quantityLabel.setVisible(false);
+        infoContent.addComponent(quantityLabel);
         infoContent.addComponent(quantityBox);
 
         infoContent.addComponent(new Label("PRICE: \n" + item.getPrice() + "$", ContentMode.PREFORMATTED));
@@ -219,8 +367,22 @@ public class ShopView extends VerticalLayout implements View {
 
         infoContent.addComponent(availableLabel);
 
-        Button addToBag = new Button("ADD TO BAG");
-        addToBag.setStyleName(ValoTheme.BUTTON_DANGER);
+        Button addToBag = createButton("ADD TO BAG");
+        Button changeItem = changeItemButton(item);
+        addToBag.setVisible(false);
+
+        if (loggedUser.getUserType().equals(UserType.USER)) {
+            addToBag.setVisible(true);
+            quantityBox.setVisible(true);
+            sizeBox.setVisible(true);
+            sizeLabel.setVisible(true);
+            quantityLabel.setVisible(true);
+        }
+
+        if (loggedUser.getUserType().equals(UserType.ADMIN)) {
+            changeItem.setVisible(true);
+            availableQuantityLabel.setVisible(true);
+        }
         addToBag.addClickListener(event -> {
 
             if (item.getAvailableQuantity() == 0) {
@@ -234,14 +396,13 @@ public class ShopView extends VerticalLayout implements View {
             } else if (Objects.isNull(loggedUser)) {
                 Notification.show("You have to be logged in to add an item to your bag!");
             } else {
-//                loggedUser.setStorage(new Purchase(loggedUser, new Date()));
                 purchaseService.addItemToStorage(item, Integer.parseInt(quantityBox.getValue().toString()), loggedUser);
                 Notification.show("This item has been added to your bag");
                 window.close();
             }
         });
 
-        infoContent.addComponent(addToBag);
+        infoContent.addComponents(addToBag, changeItem);
 
         infoContent.setSizeFull();
 

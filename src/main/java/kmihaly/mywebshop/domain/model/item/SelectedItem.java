@@ -15,10 +15,9 @@ public class SelectedItem implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private long id;
+    private Long id;
 
     @OneToOne
-    @JoinColumn(name = "item_id")
     private Item item;
 
     private int quantity;

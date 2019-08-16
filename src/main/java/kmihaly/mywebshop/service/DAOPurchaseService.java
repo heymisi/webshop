@@ -4,6 +4,7 @@ import kmihaly.mywebshop.domain.model.item.Item;
 import kmihaly.mywebshop.domain.model.item.Purchase;
 import kmihaly.mywebshop.domain.model.item.SelectedItem;
 import kmihaly.mywebshop.domain.model.user.User;
+import kmihaly.mywebshop.repository.ItemRepository;
 import kmihaly.mywebshop.repository.PurchaseRepository;
 import kmihaly.mywebshop.repository.SelectedItemRepository;
 import kmihaly.mywebshop.repository.UserRepository;
@@ -22,12 +23,14 @@ public class DAOPurchaseService implements PurchaseService {
 
     private final SelectedItemRepository selectedItemRepository;
 
+    private final ItemRepository itemRepository;
 
 
-    public DAOPurchaseService(PurchaseRepository purchaseRepository, UserRepository userRepository, SelectedItemRepository selectedItemRepository) {
+    public DAOPurchaseService(PurchaseRepository purchaseRepository, UserRepository userRepository, SelectedItemRepository selectedItemRepository, ItemRepository itemRepository) {
         this.purchaseRepository = purchaseRepository;
         this.userRepository = userRepository;
         this.selectedItemRepository = selectedItemRepository;
+        this.itemRepository = itemRepository;
     }
 
     @Override
@@ -54,11 +57,9 @@ public class DAOPurchaseService implements PurchaseService {
         } else if (orderedQuantity <= 0) {
             throw new IllegalArgumentException("nem jó a rendelés mennyiség!");
         } else {
-
-            SelectedItem selectedItem = new SelectedItem(item, orderedQuantity);
-           // selectedItem = selectedItemRepository.save(selectedItem);
-            user.addItem(selectedItem);
+            user.addItem( new SelectedItem(item, orderedQuantity));
             userRepository.save(user);
+            System.err.println(user.toString());
         }
     }
 
@@ -70,7 +71,7 @@ public class DAOPurchaseService implements PurchaseService {
         user.getSelectedItems().remove(item);
         user.setSelectedItems(user.getSelectedItems());
         userRepository.save(user);
-        selectedItemRepository.delete(item);
+     //   selectedItemRepository.delete(item);
     }
 
     @Override
@@ -78,26 +79,23 @@ public class DAOPurchaseService implements PurchaseService {
         if (Objects.isNull(user) || !(userRepository.findById(user.getId()).isPresent())) {
             throw new IllegalArgumentException("hibás bemenet!");
         }
-        Purchase purchase = new Purchase(user, new Date());
-        purchaseRepository.save(purchase);
-//
-//        for(SelectedItem items : user.getSelectedItems()){
-//            selectedItemRepository.delete(items);
-//            System.err.println(items);
-//        }
-        user.getSelectedItems().clear();
-        userRepository.save(user);
-
-
+        Purchase purchase = new Purchase(user, new Date(),1);
         user.getSelectedItems().stream().forEach(s -> {
+            System.err.println(s);
             s.getItem().setAvailableQuantity(s.getItem().getAvailableQuantity() - 1);
+            itemRepository.save(s.getItem());
+            purchase.getItems().add(s);
         });
+
+        purchaseRepository.save(purchase);
+        user.setSelectedItems(new ArrayList<>());
+        userRepository.save(user);
     }
 
-    public int getSelectedItemsPrice(User user){
+    public int getSelectedItemsPrice(User user) {
         int price = 0;
-        for(SelectedItem items : user.getSelectedItems()){
-           price += items.getItem().getPrice() * items.getQuantity();
+        for (SelectedItem items : user.getSelectedItems()) {
+            price += items.getItem().getPrice() * items.getQuantity();
         }
         return price;
     }

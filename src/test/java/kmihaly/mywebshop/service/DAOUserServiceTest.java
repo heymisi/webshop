@@ -36,7 +36,7 @@ public class DAOUserServiceTest {
             "Bp","123", UserType.GUEST);}
 
     private User Dummy2(){return new User("nickn1","Nagy","Bela","a@mail",
-            "Bp","123", UserType.REGISTERED);}
+            "Bp","123", UserType.USER);}
 
 
 

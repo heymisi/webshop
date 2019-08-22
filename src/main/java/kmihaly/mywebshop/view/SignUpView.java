@@ -2,7 +2,6 @@ package kmihaly.mywebshop.view;
 
 import com.sun.org.apache.bcel.internal.generic.LADD;
 import com.vaadin.data.Binder;
-import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -34,18 +33,23 @@ public class SignUpView extends VerticalLayout implements View {
     void init() {
         if (!loggedUser.getUserType().equals(UserType.GUEST)) {
             setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-            addComponents(new Label("You are logged in!\n" + "You can logout here:", ContentMode.PREFORMATTED));
-            addComponents(new Button("LOG OUT", clickEvent -> {
-                ((MyUI) UI.getCurrent()).setUser(new User("quest","quest","quest","quest","quest","quest", UserType.GUEST));
+            Label label = new Label("You are logged in!\n" + "You can logout here:", ContentMode.PREFORMATTED);
+            label.setStyleName(ValoTheme.LABEL_H2);
+            addComponents(label);
+            Button logoutButton = new Button("LOG OUT", clickEvent -> {
+                ((MyUI) UI.getCurrent()).setUser(new User("guest", "guest", "guest", "guest", "guest", "guest", UserType.GUEST));
                 Notification.show("you have been logged out!");
                 getUI().getNavigator().navigateTo(MainPageView.VIEW_NAME);
 
-            }));
+            });
+            logoutButton.setStyleName(ValoTheme.BUTTON_DANGER);
+            logoutButton.setWidth("240");
+            addComponents(logoutButton);
         } else {
             setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
             Label title = new Label("SIGN IN");
             Label text = new Label( "If you already have an account sign in,\n" + "or if you don't have click the register button!",ContentMode.PREFORMATTED);
-            title.addStyleNames(ValoTheme.LABEL_H1);
+            title.addStyleName(ValoTheme.LABEL_H1);
 
             TextField username = new TextField("username");
             username.setIcon(VaadinIcons.USER);

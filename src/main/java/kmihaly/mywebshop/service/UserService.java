@@ -24,11 +24,14 @@ public interface UserService {
 
     List<User> findUserByType(UserType type);
 
-    /**
-     * felhasználó törlése a rendszerből
-     *
-     * @param id a felhasználó aki törölve lesz
-     */
+     User findUserByEmail(String email);
+
+
+        /**
+         * felhasználó törlése a rendszerből
+         *
+         * @param id a felhasználó aki törölve lesz
+         */
 
     void deleteUser(User user);
 
@@ -38,7 +41,7 @@ public interface UserService {
      * @param user    a felhasználó akinek az adata változni fog
      * @param newUser a felhasználó adatai amiké változni fog
      */
-    void updateUser(User newUser);
+    void createUser(User newUser);
 
     /**
      * metódus amely bejelentezésre szolgál

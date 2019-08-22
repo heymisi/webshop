@@ -1,5 +1,7 @@
 package kmihaly.mywebshop.view;
 
+import com.vaadin.data.Binder;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FileResource;
@@ -9,8 +11,7 @@ import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
 import com.vaadin.ui.components.grid.SingleSelectionModel;
 import com.vaadin.ui.themes.ValoTheme;
-import kmihaly.mywebshop.domain.model.item.Purchase;
-import kmihaly.mywebshop.domain.model.item.SelectedItem;
+import kmihaly.mywebshop.domain.model.item.*;
 import kmihaly.mywebshop.domain.model.user.User;
 import kmihaly.mywebshop.domain.model.user.UserType;
 import kmihaly.mywebshop.service.DAOPurchaseService;
@@ -19,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -43,6 +45,8 @@ public class BagView extends HorizontalLayout implements View {
 
     private String basePath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
 
+    private Binder<User> binder = new Binder<>();
+
 
     @PostConstruct
     void init() {
@@ -55,7 +59,7 @@ public class BagView extends HorizontalLayout implements View {
             addComponents(verticalLayout);
             setComponentAlignment(verticalLayout, Alignment.MIDDLE_CENTER);
 
-        } else if(loggedUser.getUserType().equals(UserType.ADMIN)){
+        } else if (loggedUser.getUserType().equals(UserType.ADMIN)) {
 
             VerticalLayout sideBar = new VerticalLayout();
             VerticalLayout content = new VerticalLayout();
@@ -97,7 +101,7 @@ public class BagView extends HorizontalLayout implements View {
             setSpacing(false);
             setMargin(false);
 
-        }else{
+        } else {
 
             VerticalLayout sideBar = new VerticalLayout();
             VerticalLayout content = new VerticalLayout();
@@ -149,68 +153,92 @@ public class BagView extends HorizontalLayout implements View {
     private Button createButton(String caption) {
         Button button = new Button(caption);
         button.addStyleName(ValoTheme.BUTTON_DANGER);
-        button.setWidth("180");
+        button.setWidth("240");
+        button.setHeight("50");
         return button;
     }
 
 
-    private VerticalLayout listUsersLayout(){
+    private VerticalLayout listUsersLayout() {
         VerticalLayout listUserLayout = new VerticalLayout();
         listUserLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
         Label title = new Label("REGISTERED USERS");
         title.setStyleName(ValoTheme.LABEL_H1);
 
         Button addUser = createButton("ADD USER");
+        addUser.setIcon(VaadinIcons.USER);
+        addUser.addClickListener(clickEvent -> MyUI.getCurrent().addWindow(addUserWindow()));
         Button deleteUser = createButton("DELETE USER");
+        deleteUser.setIcon(VaadinIcons.CLOSE);
         adminUsers.setItems(userService.listUsers());
         adminUsers.setSizeFull();
-        listUserLayout.addComponents(title,adminUsers,addUser,deleteUser);
-        listUserLayout.setComponentAlignment(addUser,Alignment.BOTTOM_LEFT);
-        listUserLayout.setComponentAlignment(deleteUser,Alignment.BOTTOM_LEFT);
+        listUserLayout.addComponents(title, adminUsers, addUser, deleteUser);
+        listUserLayout.setComponentAlignment(addUser, Alignment.BOTTOM_LEFT);
+        listUserLayout.setComponentAlignment(deleteUser, Alignment.BOTTOM_LEFT);
 
         return listUserLayout;
 
     }
-    private VerticalLayout listPurchasesLayout(){
+
+    private VerticalLayout listPurchasesLayout() {
         VerticalLayout listUserLayout = new VerticalLayout();
         listUserLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 
         Label title = new Label("PURCHASES");
         title.setStyleName(ValoTheme.LABEL_H1);
-
-        adminPurchases.setItems(purchaseService.listPurchases());
-        adminPurchases.setSizeFull();
-        listUserLayout.addComponents(title,adminPurchases);
+        listUserLayout.addComponent(title);
+        if (purchaseService.listPurchases().isEmpty()) {
+            Label label = new Label("There was no purchase so far!", ContentMode.PREFORMATTED);
+            label.setStyleName(ValoTheme.LABEL_H2);
+            listUserLayout.addComponent(label);
+        } else {
+            adminPurchases.setItems(purchaseService.listPurchases());
+            adminPurchases.setSizeFull();
+            listUserLayout.addComponents(adminPurchases);
+        }
         return listUserLayout;
     }
 
+
     private VerticalLayout selectedItemLayout() {
         VerticalLayout verticalLayout = new VerticalLayout();
-        Label title = new Label("SELECTEd ITEMS");
+        Label title = new Label("SELECTED ITEMS");
         title.setStyleName(ValoTheme.LABEL_H1);
-
-        selectedItems.setItems(loggedUser.getSelectedItems());
-        selectedItems.setSelectionMode(Grid.SelectionMode.SINGLE);
-        selectedItems.setSizeFull();
-        selectedItems.setBodyRowHeight(200);
-
-        Button purchase = purchaseButton();
-        Button delete = new Button("DELETE SELECTED");
-        delete.addClickListener(clickEvent -> {
-            Optional<SelectedItem> items = selectedItems.getSelectionModel().getFirstSelectedItem();
-            purchaseService.deleteItemFromStorage(items.get(), loggedUser);
-            selectedItems.setItems(loggedUser.getSelectedItems());
-
-        });
-
-        Label purchasePrice = new Label("TOTAL TO PAY:  $" + purchaseService.getSelectedItemsPrice(loggedUser), ContentMode.PREFORMATTED);
-
-        verticalLayout.addComponents(title, selectedItems, delete, purchasePrice, purchase);
+        verticalLayout.addComponent(title);
         verticalLayout.setSizeFull();
         verticalLayout.setComponentAlignment(title, Alignment.MIDDLE_CENTER);
-        verticalLayout.setComponentAlignment(purchase, Alignment.BOTTOM_RIGHT);
-        verticalLayout.setComponentAlignment(purchasePrice, Alignment.BOTTOM_RIGHT);
-        verticalLayout.setComponentAlignment(delete, Alignment.BOTTOM_LEFT);
+
+        if (loggedUser.getSelectedItems().isEmpty()) {
+            Label label = new Label("You have not put any item to your bag yet\n" + "Please check the shop menu before click here", ContentMode.PREFORMATTED);
+            label.setStyleName(ValoTheme.LABEL_H3);
+            verticalLayout.addComponents(label);
+            verticalLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+            verticalLayout.setComponentAlignment(label, Alignment.MIDDLE_CENTER);
+        } else {
+
+
+            selectedItems.setItems(loggedUser.getSelectedItems());
+            selectedItems.setSelectionMode(Grid.SelectionMode.SINGLE);
+            selectedItems.setSizeFull();
+            selectedItems.setWidth("200");
+
+            Button purchase = purchaseButton();
+            Button delete = new Button("DELETE SELECTED");
+            delete.addClickListener(clickEvent -> {
+                Optional<SelectedItem> items = selectedItems.getSelectionModel().getFirstSelectedItem();
+                purchaseService.deleteItemFromStorage(items.get(), loggedUser);
+                selectedItems.setItems(loggedUser.getSelectedItems());
+
+            });
+
+            Label purchasePrice = new Label("TOTAL TO PAY:  $" + purchaseService.getSelectedItemsPrice(loggedUser), ContentMode.PREFORMATTED);
+
+            verticalLayout.addComponents(selectedItems, delete, purchasePrice, purchase);
+
+            verticalLayout.setComponentAlignment(purchase, Alignment.BOTTOM_RIGHT);
+            verticalLayout.setComponentAlignment(purchasePrice, Alignment.BOTTOM_RIGHT);
+            verticalLayout.setComponentAlignment(delete, Alignment.BOTTOM_LEFT);
+        }
         return verticalLayout;
     }
 
@@ -255,7 +283,7 @@ public class BagView extends HorizontalLayout implements View {
                 loggedUser.setAddress(address.getValue());
             }
             if (!firstName.getValue().isEmpty() || !lastName.getValue().isEmpty() || !email.getValue().isEmpty() || !address.getValue().isEmpty()) {
-                userService.updateUser(loggedUser);
+                userService.createUser(loggedUser);
                 Notification.show("Successful change");
             } else {
                 Notification.show("If you want to change your details your have to fill the below areas");
@@ -266,21 +294,29 @@ public class BagView extends HorizontalLayout implements View {
 
     private VerticalLayout myOrdersLayout() {
         VerticalLayout verticalLayout = new VerticalLayout();
-
         Label title = new Label("MY ORDERS");
         title.setStyleName(ValoTheme.LABEL_H1);
         verticalLayout.addComponent(title);
-
-        userPurchases.setItems(purchaseService.listPurchases());
-        userPurchases.setSizeFull();
-
-        verticalLayout.addComponents(title, userPurchases);
         verticalLayout.setSizeFull();
-        verticalLayout.setMargin(false);
-        verticalLayout.setSpacing(false);
         verticalLayout.setComponentAlignment(title, Alignment.MIDDLE_CENTER);
+
+        if (purchaseService.listPurchases().isEmpty()) {
+            Label label = new Label("There was no previous purchase", ContentMode.PREFORMATTED);
+            verticalLayout.addComponent(label);
+            label.setStyleName(ValoTheme.LABEL_H3);
+            verticalLayout.setComponentAlignment(label, Alignment.MIDDLE_CENTER);
+        } else {
+
+            userPurchases.setItems(purchaseService.listPurchases());
+            userPurchases.setSizeFull();
+
+            verticalLayout.addComponents(userPurchases);
+            verticalLayout.setMargin(false);
+            verticalLayout.setSpacing(false);
+        }
         return verticalLayout;
     }
+
 
     private Button purchaseButton() {
         Button button = new Button("CONFIRM PURCHASE");
@@ -291,6 +327,72 @@ public class BagView extends HorizontalLayout implements View {
 
         });
         return button;
+    }
+
+
+    private Window addUserWindow() {
+        Window window = new Window();
+        VerticalLayout content = new VerticalLayout();
+
+        Label title = new Label("CREATE NEW ACCOUNT");
+        title.setStyleName(ValoTheme.LABEL_H2);
+
+        content.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+        TextField userName = addUserWindowTextField("username:");
+        TextField firstName = addUserWindowTextField("first name:");
+        TextField lastName = addUserWindowTextField("last name:");
+        TextField password = addUserWindowTextField("password:");
+        TextField email = addUserWindowTextField("email:");
+        TextField address = addUserWindowTextField("address:");
+        binder.forField(userName).withNullRepresentation("").withValidator(str -> str.length() >= 3, "must contain at least 3 characters").bind(User::getUserName, User::setUserName);
+        binder.forField(firstName).withNullRepresentation("").withValidator(str -> str.length() >= 3, "must contain at least 3 characters").bind(User::getFirstName, User::setFirstName);
+        binder.forField(lastName).withNullRepresentation("").withValidator(str -> str.length() >= 3, "must contain at least 3 characters").bind(User::getLastName, User::setLastName);
+        binder.forField(password).withNullRepresentation("").withValidator(str -> str.length() >= 3, "must contain at least 3 characters").bind(User::getPassword, User::setPassword);
+        binder.forField(email).withNullRepresentation("").withValidator(str -> str.length() >= 3, "must contain at least 3 characters").bind(User::getEmail, User::setEmail);
+        binder.forField(address).withNullRepresentation("").withValidator(str -> str.length() >= 3, "must contain at least 3 characters").bind(User::getAddress, User::setAddress);
+
+
+        ComboBox<UserType> type = new ComboBox<>("authority:");
+        type.setWidth("250");
+        type.setStyleName(ValoTheme.COMBOBOX_LARGE);
+        type.setEmptySelectionAllowed(false);
+        ArrayList<UserType> userTypes = new ArrayList<>();
+        for (UserType types : UserType.values()) {
+            if (!types.toString().equals("Guest")) {
+                userTypes.add(types);
+            }
+        }
+        type.setItems(userTypes);
+
+        Button confirmAdd = createButton("CONFIRM ADD");
+        confirmAdd.setIcon(VaadinIcons.CHECK);
+        confirmAdd.addClickListener(clickEvent -> {
+            if (Objects.nonNull(userService.findUserByEmail(email.getValue()))) {
+                Notification.show("This email has been already used!");
+            } else if (Objects.nonNull(userService.findUserByName(userName.getValue()))) {
+                Notification.show("This username has been already used!");
+            } else if (!userName.isEmpty() && !firstName.isEmpty() && !lastName.isEmpty() && !email.isEmpty() &&
+                    !address.isEmpty() && !password.isEmpty() && !type.isEmpty()) {
+                User user = new User(userName.getValue(), firstName.getValue(), lastName.getValue(), email.getValue(),
+                        address.getValue(), password.getValue(), type.getValue());
+                userService.createUser(user);
+            } else {
+                Notification.show("Please fill all details to create new account!");
+            }
+
+        });
+
+        content.addComponents(title, userName, firstName, lastName, password, email, address, type, confirmAdd);
+        window.setContent(content);
+        window.center();
+        return window;
+    }
+
+    private TextField addUserWindowTextField(String name) {
+        TextField textField = new TextField(name);
+        textField.setWidth("250");
+        textField.setStyleName(ValoTheme.TEXTAREA_LARGE);
+        return textField;
     }
 
 }

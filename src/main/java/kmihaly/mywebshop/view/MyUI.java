@@ -1,14 +1,12 @@
 package kmihaly.mywebshop.view;
 
 import com.vaadin.annotations.PreserveOnRefresh;
-import com.vaadin.annotations.Push;
 import com.vaadin.annotations.Theme;
+import com.vaadin.annotations.Widgetset;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.navigator.PushStateNavigation;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewDisplay;
 import com.vaadin.server.VaadinRequest;
-import com.vaadin.shared.ui.ui.Transport;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.*;
@@ -17,8 +15,6 @@ import kmihaly.mywebshop.domain.model.user.User;
 import kmihaly.mywebshop.domain.model.user.UserType;
 import kmihaly.mywebshop.service.DAOUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.Objects;
 //import org.springframework.security.core.context.SecurityContextHolder;
 
 @SpringUI
@@ -62,6 +58,7 @@ public class MyUI extends UI implements ViewDisplay {
         springViewDisplay = new Panel();
         springViewDisplay.setSizeFull();
 
+
         HorizontalLayout footer = new HorizontalLayout();
         footer.addComponent(new Label("footer"));
         footer.setDefaultComponentAlignment(Alignment.BOTTOM_CENTER);
@@ -74,8 +71,9 @@ public class MyUI extends UI implements ViewDisplay {
 
     private Button createNavigationButton(String caption, final String viewName) {
         Button button = new Button(caption);
-        button.addStyleNames(ValoTheme.BUTTON_PRIMARY);
-        button.setWidth("200");
+        button.addStyleName(ValoTheme.BUTTON_PRIMARY);
+        button.setWidth("250");
+        button.setHeight("50");
         button.addClickListener(event -> getUI().getNavigator().navigateTo(viewName));
 
         return button;

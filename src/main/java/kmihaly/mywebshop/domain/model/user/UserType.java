@@ -7,7 +7,17 @@ package kmihaly.mywebshop.domain.model.user;
  * Admin akinek előre megadott speciális jogai vannak
  */
 public enum UserType {
-    GUEST,
-    USER,
-    ADMIN
+    GUEST("Guest"),
+    USER("User"),
+    ADMIN("Admin");
+
+    private String name;
+    UserType(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString(){
+        return name;
+    }
 }

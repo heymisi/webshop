@@ -23,17 +23,23 @@ public class DAOUserService implements UserService {
 
     @Override
     public Optional<User> findUserById(long id) {
-        return repository.findById(id);
+        return repository.findById(id) ;
     }
 
     @Override
     public User findUserByName(String name) {
-        return repository.findByUserName(name).orElseThrow(() -> new IllegalArgumentException("nincs ilyen név"));
+        return repository.findByUserName(name).orElse(null);
     }
 
     @Override
     public List<User> findUserByType(UserType type) {
         return repository.findByUserType(type);
+    }
+
+    @Override
+    public User findUserByEmail(String email) {
+
+        return repository.findByEmail(email).orElse(null);
     }
 
 
@@ -46,10 +52,8 @@ public class DAOUserService implements UserService {
     }
 
     @Override
-    public void updateUser(User newUser) {
-        if (Objects.isNull(newUser) || !(repository.findById(newUser.getId()).isPresent())) {
-            throw new IllegalArgumentException("hibás bemenet!");
-        }
+    public void createUser(User newUser) {
+
         repository.save(newUser);
     }
 

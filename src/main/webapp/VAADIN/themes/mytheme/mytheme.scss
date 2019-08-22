@@ -25,15 +25,18 @@ $valo-menu-background-color: #e1eae6;
   @include valo;
 
  .v-button-primary.v-button-primary {
+    float: left;
     background: #fcfcfc;
     border-color: $v-focus-color;
     color: $v-focus-color;
+    font-size: 22px;
   }
 
   .v-button-danger.v-button-danger {
     background: #f5f5f5;
     border-color: #000000;
     color: #000000;
+    font-size: 22px;
   }
 
   .v-slider-base:before,

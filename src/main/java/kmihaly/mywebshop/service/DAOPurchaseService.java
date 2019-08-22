@@ -1,5 +1,6 @@
 package kmihaly.mywebshop.service;
 
+import javafx.scene.control.SelectionMode;
 import kmihaly.mywebshop.domain.model.item.Item;
 import kmihaly.mywebshop.domain.model.item.Purchase;
 import kmihaly.mywebshop.domain.model.item.SelectedItem;
@@ -57,9 +58,12 @@ public class DAOPurchaseService implements PurchaseService {
         } else if (orderedQuantity <= 0) {
             throw new IllegalArgumentException("nem jó a rendelés mennyiség!");
         } else {
-            user.addItem( new SelectedItem(item, orderedQuantity));
+            SelectedItem selectedItem = new SelectedItem(item, orderedQuantity);
+            user.addItem(selectedItem);
             userRepository.save(user);
-            System.err.println(user.toString());
+            for(SelectedItem s : user.getSelectedItems()){
+                System.err.println(s);
+            }
         }
     }
 
@@ -71,7 +75,7 @@ public class DAOPurchaseService implements PurchaseService {
         user.getSelectedItems().remove(item);
         user.setSelectedItems(user.getSelectedItems());
         userRepository.save(user);
-     //   selectedItemRepository.delete(item);
+        //   selectedItemRepository.delete(item);
     }
 
     @Override
@@ -79,9 +83,14 @@ public class DAOPurchaseService implements PurchaseService {
         if (Objects.isNull(user) || !(userRepository.findById(user.getId()).isPresent())) {
             throw new IllegalArgumentException("hibás bemenet!");
         }
-        Purchase purchase = new Purchase(user, new Date(),1);
+
+        Purchase purchase = new Purchase(user, new Date(), 1);
+
+        List<SelectedItem> selectedItems = user.getSelectedItems();
+        for (SelectedItem item : selectedItems) {
+            System.err.println(item);
+        }
         user.getSelectedItems().stream().forEach(s -> {
-            System.err.println(s);
             s.getItem().setAvailableQuantity(s.getItem().getAvailableQuantity() - 1);
             itemRepository.save(s.getItem());
             purchase.getItems().add(s);
@@ -90,6 +99,8 @@ public class DAOPurchaseService implements PurchaseService {
         purchaseRepository.save(purchase);
         user.setSelectedItems(new ArrayList<>());
         userRepository.save(user);
+
+
     }
 
     public int getSelectedItemsPrice(User user) {

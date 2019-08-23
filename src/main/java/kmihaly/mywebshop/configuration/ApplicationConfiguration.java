@@ -22,8 +22,8 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class ApplicationConfiguration {
 
     @Bean
-    public ItemService itemService(ItemRepository itemRepository) {
-        return new DAOItemService(itemRepository);
+    public ItemService itemService(ItemRepository itemRepository,SelectedItemRepository selectedItemRepository) {
+        return new DAOItemService(itemRepository, selectedItemRepository);
     }
 
     @Bean
@@ -46,7 +46,7 @@ public class ApplicationConfiguration {
         return args -> {
             if (userRepository.findAll().isEmpty()) {
                 userRepository.save(new User("usern", "firsn", "lastn",
-                        "mail", "ad", "psw", UserType.USER));
+                        "mail", "ad", "psw",UserType.USER));
                 userRepository.save(new User("usern2", "firsn2", "lastn2",
                         "mail2", "ad2", "psw2", UserType.ADMIN));
             }

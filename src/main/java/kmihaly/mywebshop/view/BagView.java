@@ -1,6 +1,7 @@
 package kmihaly.mywebshop.view;
 
 import com.vaadin.data.Binder;
+import com.vaadin.event.ShortcutAction;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -116,7 +117,6 @@ public class BagView extends HorizontalLayout implements View {
             Panel panel = new Panel();
             panel.setSizeUndefined();
             panel.setSizeFull();
-
             selectedItems.addComponentColumn(item -> {
                 Image image = new Image("Image from file", new FileResource(new File(basePath + item.getItem().getSmallImagePath())));
                 return image;
@@ -215,12 +215,10 @@ public class BagView extends HorizontalLayout implements View {
             verticalLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
             verticalLayout.setComponentAlignment(label, Alignment.MIDDLE_CENTER);
         } else {
-
-
+            selectedItems.setSizeFull();
+            selectedItems.setBodyRowHeight(200);
             selectedItems.setItems(loggedUser.getSelectedItems());
             selectedItems.setSelectionMode(Grid.SelectionMode.SINGLE);
-            selectedItems.setSizeFull();
-            selectedItems.setWidth("200");
 
             Button purchase = purchaseButton();
             Button delete = new Button("DELETE SELECTED");
@@ -267,6 +265,7 @@ public class BagView extends HorizontalLayout implements View {
 
     private Button saveChangesButton(TextField firstName, TextField lastName, TextField email, TextField address) {
         Button button = new Button("SAVE CHANGES");
+        button.setClickShortcut(ShortcutAction.KeyCode.ENTER);
         button.setStyleName(ValoTheme.BUTTON_DANGER);
         button.addClickListener(clickEvent -> {
 
@@ -320,6 +319,7 @@ public class BagView extends HorizontalLayout implements View {
 
     private Button purchaseButton() {
         Button button = new Button("CONFIRM PURCHASE");
+        button.setClickShortcut(ShortcutAction.KeyCode.ENTER);
         button.setStyleName(ValoTheme.BUTTON_DANGER);
         button.addClickListener(clickEvent -> {
             purchaseService.purchaseItemsFromStorage(loggedUser);
@@ -367,9 +367,9 @@ public class BagView extends HorizontalLayout implements View {
         Button confirmAdd = createButton("CONFIRM ADD");
         confirmAdd.setIcon(VaadinIcons.CHECK);
         confirmAdd.addClickListener(clickEvent -> {
-            if (Objects.nonNull(userService.findUserByEmail(email.getValue()))) {
-                Notification.show("This email has been already used!");
-            } else if (Objects.nonNull(userService.findUserByName(userName.getValue()))) {
+//            if (Objects.nonNull(userService.findUserByEmail(email.getValue()))) {
+//                Notification.show("This email has been already used!");
+          /*  } else*/ if (Objects.nonNull(userService.findUserByName(userName.getValue()))) {
                 Notification.show("This username has been already used!");
             } else if (!userName.isEmpty() && !firstName.isEmpty() && !lastName.isEmpty() && !email.isEmpty() &&
                     !address.isEmpty() && !password.isEmpty() && !type.isEmpty()) {

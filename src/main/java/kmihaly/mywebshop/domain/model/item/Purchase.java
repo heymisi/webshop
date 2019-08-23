@@ -25,7 +25,7 @@ public class Purchase implements Serializable {
     @ManyToOne()
     private User user;
 
-    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
+    @OneToMany(fetch = FetchType.EAGER)
     private Set<SelectedItem> items;
 
     private int itemsPrice;

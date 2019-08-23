@@ -7,6 +7,7 @@ import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewDisplay;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.*;
@@ -23,30 +24,35 @@ import org.springframework.beans.factory.annotation.Autowired;
 @PreserveOnRefresh
 public class MyUI extends UI implements ViewDisplay {
 
-    private User user = new User("quest","quest","quest","quest","quest","quest",UserType.GUEST);
+    private User user = new User("quest", "quest", "quest", "quest", "quest", "quest", UserType.GUEST);
 
     private Panel springViewDisplay;
 
+
+    private Button loginInform = new Button("Welcome Guest!");
     @Autowired
     private DAOUserService userService;
-
-
-
 
     @Override
     protected void init(VaadinRequest request) {
 
 
-        user = userService.findUserByName("usern2");
+        user = userService.findUserByName("usern");
         HorizontalLayout navigationBar = new HorizontalLayout();
+        navigationBar.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
         Button bag = createNavigationButton("Bag", BagView.VIEW_NAME);
         Button signUp = createNavigationButton("Sign Up", SignUpView.VIEW_NAME);
         Button shop = createNavigationButton("Shop", ShopView.VIEW_NAME);
-        navigationBar.addComponent(createNavigationButton("Main Page", MainPageView.VIEW_NAME));
+        Button mainPage = createNavigationButton("Main Page", MainPageView.VIEW_NAME);
+        loginInform.setStyleName(ValoTheme.BUTTON_BORDERLESS);
+        loginInform.setEnabled(true);
+        loginInform.setIcon(VaadinIcons.SMILEY_O);
+
+        navigationBar.addComponent(mainPage);
         navigationBar.addComponent(shop);
         navigationBar.addComponent(signUp);
         navigationBar.addComponent(bag);
-
+        navigationBar.addComponent(loginInform);
 
         bag.setIcon(VaadinIcons.BRIEFCASE);
         signUp.setIcon(VaadinIcons.USERS);
@@ -92,5 +98,15 @@ public class MyUI extends UI implements ViewDisplay {
         this.user = user;
     }
 
+    @Override
+    protected void refresh(VaadinRequest request) {
+        if (user.getUserType().equals(UserType.GUEST)) {
+            loginInform.setCaption("Welcome Guest!");
+        } else if (user.getUserType().equals(UserType.ADMIN)) {
+            loginInform.setCaption("Welcome "+ user.getUserName()+ "! (ADMIN)" );
+        } else {
+            loginInform.setCaption("Welcome " + user.getUserName() + "!" );
+        }
+    }
 
 }

@@ -24,8 +24,7 @@ public interface UserService {
 
     List<User> findUserByType(UserType type);
 
-     User findUserByEmail(String email);
-
+//     User findUserByEmail(String email);
 
         /**
          * felhasználó törlése a rendszerből
@@ -65,4 +64,8 @@ public interface UserService {
      */
 
     void register(String userName, String firstName, String lastName, String email, String address, String password);
+
+    boolean isUserNameUsed(String username);
+
+    boolean isPasswordsEquals(String psw1, String psw2);
 }

@@ -9,6 +9,7 @@ $v-border: 2px solid v-shade;
 $v-border-radius: 6px;
 $v-bevel: false;
 $v-gradient: false;
+$v-font-color: #37404E;
 $v-shadow: false;
 $v-textfield-bevel: false;
 $v-textfield-shadow: false;
@@ -17,7 +18,7 @@ $v-selection-overlay-padding-horizontal: 0;
 $v-selection-overlay-padding-vertical: 6px;
 $v-selection-item-height: 30px;
 $v-selection-item-border-radius: 0;
-$valo-menu-background-color: #e1eae6;
+
 
 @import "../valo/valo.scss";
 
@@ -38,17 +39,14 @@ $valo-menu-background-color: #e1eae6;
     color: #000000;
     font-size: 22px;
   }
+ .v-button-borderless.v-button-borderless {
+    color: #3f000f;
+    font-size: 22px;
+  }
 
   .v-slider-base:before,
   .v-slider-base:after {
     border: none !important;
   }
-
-  .v-grid{
-    height: 100%;
-    width: 100%;
-  }
-
-
 }
 

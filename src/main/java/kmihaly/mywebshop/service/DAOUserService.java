@@ -23,7 +23,7 @@ public class DAOUserService implements UserService {
 
     @Override
     public Optional<User> findUserById(long id) {
-        return repository.findById(id) ;
+        return repository.findById(id);
     }
 
     @Override
@@ -36,11 +36,11 @@ public class DAOUserService implements UserService {
         return repository.findByUserType(type);
     }
 
-    @Override
-    public User findUserByEmail(String email) {
-
-        return repository.findByEmail(email).orElse(null);
-    }
+//    @Override
+//    public User findUserByEmail(String email) {
+//
+//        return repository.findByEmail(email).orElse(null);
+//    }
 
 
     @Override
@@ -53,7 +53,6 @@ public class DAOUserService implements UserService {
 
     @Override
     public void createUser(User newUser) {
-
         repository.save(newUser);
     }
 
@@ -74,4 +73,22 @@ public class DAOUserService implements UserService {
     public void register(String userName, String firstName, String lastName, String email, String address, String password) {
         repository.save(new User(userName, firstName, lastName, email, address, password, UserType.USER));
     }
+
+    @Override
+    public boolean isUserNameUsed(String username) {
+        if (repository.findByUserName(username).isPresent()) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isPasswordsEquals(String psw1, String psw2) {
+        if (psw1.equals(psw2)) {
+            return true;
+        }
+        return false;
+    }
+
+
 }

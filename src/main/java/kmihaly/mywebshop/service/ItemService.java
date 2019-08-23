@@ -6,6 +6,7 @@ import kmihaly.mywebshop.domain.model.item.Type;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 
 public interface ItemService {
@@ -78,5 +79,6 @@ public interface ItemService {
 
     List<Item> multipleSearch(String name, String genre, String brand, String type);
 
+    Boolean isSelected(Set<Item> item);
 
 }

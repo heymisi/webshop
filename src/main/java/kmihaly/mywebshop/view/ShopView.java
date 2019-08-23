@@ -21,6 +21,7 @@ import kmihaly.mywebshop.service.DAOUserService;
 import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+
 import javax.annotation.PostConstruct;
 import java.io.File;
 import java.util.*;
@@ -154,6 +155,8 @@ public class ShopView extends VerticalLayout implements View {
             Set<Item> item = items.getSelectionModel().getSelectedItems();
             if (item.isEmpty()) {
                 Notification.show("To delete an item you have to select one!");
+            } else if (itemService.isSelected(item)) {
+                Notification.show("idk if its good");
             } else {
                 MyUI.getCurrent().addWindow(verificationWindow("ARE YOU SURE TO DELETE?", clickEvent1 -> {
                     for (Item i : item) {
@@ -482,7 +485,7 @@ public class ShopView extends VerticalLayout implements View {
 
         window.setContent(verticalLayout);
         window.setWidth("350");
-        window.setHeight("250");
+        window.setHeight("220");
         window.center();
         return window;
     }

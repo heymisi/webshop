@@ -2,6 +2,7 @@ package kmihaly.mywebshop.view;
 
 import com.sun.org.apache.bcel.internal.generic.LADD;
 import com.vaadin.data.Binder;
+import com.vaadin.event.ShortcutAction;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -38,10 +39,12 @@ public class SignUpView extends VerticalLayout implements View {
             addComponents(label);
             Button logoutButton = new Button("LOG OUT", clickEvent -> {
                 ((MyUI) UI.getCurrent()).setUser(new User("guest", "guest", "guest", "guest", "guest", "guest", UserType.GUEST));
+                UI.getCurrent().getPage().reload();
                 Notification.show("you have been logged out!");
                 getUI().getNavigator().navigateTo(MainPageView.VIEW_NAME);
 
             });
+            logoutButton.setIcon(VaadinIcons.EXIT);
             logoutButton.setStyleName(ValoTheme.BUTTON_DANGER);
             logoutButton.setWidth("240");
             addComponents(logoutButton);
@@ -97,11 +100,13 @@ public class SignUpView extends VerticalLayout implements View {
                     ((MyUI) UI.getCurrent()).setUser(user);
                     userService.signIn(username.getValue(), password.getValue());
                     Notification.show("successful login! Welcome: " + user.getFirstName() + " " + user.getLastName());
+                    UI.getCurrent().getPage().reload();
                     getUI().getNavigator().navigateTo(MainPageView.VIEW_NAME);
 
                 }
             }
         });
+        submit.setClickShortcut(ShortcutAction.KeyCode.ENTER);
         return submit;
     }
 

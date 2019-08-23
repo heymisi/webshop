@@ -12,6 +12,7 @@ public enum UserType {
     ADMIN("Admin");
 
     private String name;
+
     UserType(String name) {
         this.name = name;
     }

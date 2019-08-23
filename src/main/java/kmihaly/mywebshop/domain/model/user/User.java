@@ -29,7 +29,7 @@ public class User implements Serializable {
     private String password;
     private UserType userType;
 
-    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
     private List<SelectedItem> selectedItems ;
 
 

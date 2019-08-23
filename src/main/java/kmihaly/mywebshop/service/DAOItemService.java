@@ -2,8 +2,10 @@ package kmihaly.mywebshop.service;
 
 import kmihaly.mywebshop.domain.model.item.Genre;
 import kmihaly.mywebshop.domain.model.item.Item;
+import kmihaly.mywebshop.domain.model.item.SelectedItem;
 import kmihaly.mywebshop.domain.model.item.Type;
 import kmihaly.mywebshop.repository.ItemRepository;
+import kmihaly.mywebshop.repository.SelectedItemRepository;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -11,15 +13,18 @@ import java.util.stream.Collectors;
 
 public class DAOItemService implements ItemService {
 
-    private final ItemRepository repository;
+    private final ItemRepository itemRepository;
 
-    public DAOItemService(ItemRepository itemRepository) {
-        repository = itemRepository;
+    private final SelectedItemRepository selectedItemRepository;
+
+    public DAOItemService(ItemRepository itemRepository, SelectedItemRepository selectedItemRepository) {
+        this.itemRepository = itemRepository;
+        this.selectedItemRepository = selectedItemRepository;
     }
 
     @Override
     public List<Item> listItems() {
-        return repository.findAll();
+        return itemRepository.findAll();
     }
 
     @Override
@@ -27,7 +32,7 @@ public class DAOItemService implements ItemService {
 //        if (Objects.isNull(item) || (repository.findById(item.getId()).isPresent())) {
 //            throw new IllegalArgumentException("hibás bemenet!");
 //        }
-        return repository.save(item);
+        return itemRepository.save(item);
     }
 
     @Override
@@ -35,15 +40,15 @@ public class DAOItemService implements ItemService {
 //        if (Objects.isNull(newItem) || (repository.findById(newItem.getId()).isPresent())) {
 //            throw new IllegalArgumentException("hibás bemenet!");
 //        }
-        repository.save(newItem);
+        itemRepository.save(newItem);
     }
 
     @Override
     public void deleteItem(Item item) {
-        if (Objects.isNull(item) || !(repository.findById(item.getId()).isPresent())) {
+        if (Objects.isNull(item) || !(itemRepository.findById(item.getId()).isPresent())) {
             throw new IllegalArgumentException("hibás bemenet!");
         }
-        repository.delete(item);
+        itemRepository.delete(item);
 
     }
 
@@ -52,12 +57,12 @@ public class DAOItemService implements ItemService {
         if (price <= 0) {
             throw new IllegalArgumentException("az ár nem lehet 0 vagy annál kisebb!");
         }
-        return repository.findByPriceLessThan(price);
+        return itemRepository.findByPriceLessThan(price);
     }
 
     @Override
     public Optional<Item> searchItemById(long id) {
-        return repository.findById(id);
+        return itemRepository.findById(id);
     }
 
     @Override
@@ -65,12 +70,12 @@ public class DAOItemService implements ItemService {
         if (Objects.isNull(brand)) {
             throw new IllegalArgumentException("hibás bemenet!");
         }
-        return repository.findByBrand(brand);
+        return itemRepository.findByBrand(brand);
     }
 
     @Override
     public List<Item> getRandomItems(int size) {
-        List<Item> allItems = repository.findAll();
+        List<Item> allItems = itemRepository.findAll();
         if (allItems.size() < size) {
             throw new IllegalArgumentException("nincs ennyi elem!");
         } else {
@@ -86,17 +91,17 @@ public class DAOItemService implements ItemService {
 
     @Override
     public List<Item> searchByGenre(Genre genreType) {
-        return repository.findByGenre(genreType);
+        return itemRepository.findByGenre(genreType);
     }
 
     @Override
     public List<Item> searchByGenreAndBrand(Genre genreType, String brand) {
-        return repository.findByGenreAndBrand(genreType, brand);
+        return itemRepository.findByGenreAndBrand(genreType, brand);
     }
 
     @Override
     public List<Item> searchByType(Type type) {
-        return repository.findByType(type);
+        return itemRepository.findByType(type);
     }
 
     @Override
@@ -108,9 +113,22 @@ public class DAOItemService implements ItemService {
         predicates.add(item -> item.getBrand().toString().equals(brand) || brand == null);
         predicates.add(item -> item.getType().toString().equals(type) || type == null);
 
-        List<Item> filtered = repository.findAll().stream()
+        List<Item> filtered = itemRepository.findAll().stream()
                 .filter(predicates.stream().reduce(is -> true, Predicate::and))
                 .collect(Collectors.toList());
         return filtered;
     }
+
+    @Override
+    public Boolean isSelected(Set<Item> item) {
+        for (SelectedItem si : selectedItemRepository.findAll()) {
+            for (Item i : item) {
+                if (i.equals(si.getItem())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 }

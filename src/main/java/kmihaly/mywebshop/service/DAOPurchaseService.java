@@ -61,9 +61,7 @@ public class DAOPurchaseService implements PurchaseService {
             SelectedItem selectedItem = new SelectedItem(item, orderedQuantity);
             user.addItem(selectedItem);
             userRepository.save(user);
-            for(SelectedItem s : user.getSelectedItems()){
-                System.err.println(s);
-            }
+
         }
     }
 
@@ -84,22 +82,17 @@ public class DAOPurchaseService implements PurchaseService {
             throw new IllegalArgumentException("hibás bemenet!");
         }
 
-        Purchase purchase = new Purchase(user, new Date(), 1);
+        Purchase purchase = new Purchase(user, new Date(), getSelectedItemsPrice(user));
 
-        List<SelectedItem> selectedItems = user.getSelectedItems();
-        for (SelectedItem item : selectedItems) {
-            System.err.println(item);
-        }
         user.getSelectedItems().stream().forEach(s -> {
+            System.err.println(s);
             s.getItem().setAvailableQuantity(s.getItem().getAvailableQuantity() - 1);
             itemRepository.save(s.getItem());
             purchase.getItems().add(s);
         });
-
-        purchaseRepository.save(purchase);
+        // purchaseRepository.save(purchase);
         user.setSelectedItems(new ArrayList<>());
         userRepository.save(user);
-
 
     }
 

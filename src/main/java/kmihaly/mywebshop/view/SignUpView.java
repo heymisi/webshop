@@ -53,21 +53,24 @@ public class SignUpView extends VerticalLayout implements View {
             Label title = new Label("SIGN IN");
             Label text = new Label( "If you already have an account sign in,\n" + "or if you don't have click the register button!",ContentMode.PREFORMATTED);
             title.addStyleName(ValoTheme.LABEL_H1);
-
+            text.setStyleName(ValoTheme.LABEL_H2);
             TextField username = new TextField("username");
             username.setIcon(VaadinIcons.USER);
+            username.setWidth("300");
             binder.forField(username).withNullRepresentation("").withValidator(name -> name.length() >= 3, "must contain at least 3 characters").bind(User::getUserName, User::setUserName);
             PasswordField password = new PasswordField("password");
+            password.setWidth("300");
             password.setIcon(VaadinIcons.PASSWORD);
             binder.forField(password).withNullRepresentation("").withValidator(psw -> psw.length() >= 3, "must contain at least 3 characters").bind(User::getPassword, User::setPassword);
 
             HorizontalLayout buttons = new HorizontalLayout();
 
             Button submit = submitButton(username, password);
-
+            submit.setWidth("200");
             submit.setIcon(VaadinIcons.USER_CHECK);
             Button register = new Button("Register", (Button.ClickListener) clickEvent -> getUI().getNavigator().navigateTo(RegisterView.VIEW_NAME));
             register.setIcon(VaadinIcons.SWORD);
+            register.setWidth("200");
             buttons.addComponent(submit);
             buttons.addComponent(register);
                     Button forgotten = new Button("forgot password?", (Button.ClickListener) clickEvent -> getUI().getNavigator().navigateTo(PasswordResetView.VIEW_NAME));

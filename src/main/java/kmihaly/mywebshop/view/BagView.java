@@ -53,7 +53,9 @@ public class BagView extends HorizontalLayout implements View {
     void init() {
         if (loggedUser.getUserType().equals(UserType.GUEST)) {
             Label label = new Label("You have to be logged in to see this page!");
+            label.setStyleName(ValoTheme.LABEL_H2);
             Button button = new Button("SIGN IN", clickEvent -> getUI().getNavigator().navigateTo(SignUpView.VIEW_NAME));
+            button.setStyleName(ValoTheme.BUTTON_DANGER);
             VerticalLayout verticalLayout = new VerticalLayout(label, button);
             verticalLayout.setComponentAlignment(label, Alignment.MIDDLE_CENTER);
             verticalLayout.setComponentAlignment(button, Alignment.MIDDLE_CENTER);
@@ -117,7 +119,7 @@ public class BagView extends HorizontalLayout implements View {
             Panel panel = new Panel();
             panel.setSizeUndefined();
             panel.setSizeFull();
-            selectedItems.addComponentColumn(item -> {
+            selectedItems .addComponentColumn(item -> {
                 Image image = new Image("Image from file", new FileResource(new File(basePath + item.getItem().getSmallImagePath())));
                 return image;
             }).setCaption("picture").setWidth(220);

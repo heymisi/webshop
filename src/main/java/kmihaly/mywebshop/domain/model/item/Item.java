@@ -31,11 +31,11 @@ public class Item implements Serializable {
     @Enumerated
     private Type type;
     private String smallImagePath;
-    private String BigImagePath;
+    private String LargeImagePath;
 
     public Item() {}
 
-    public Item(String name, String description,Brand brand, int price, int availableQuantity, Genre genre, Type type, String smallImagePath,String BigImagePath) {
+    public Item(String name, String description,Brand brand, int price, int availableQuantity, Genre genre, Type type, String smallImagePath,String LargeImagePath) {
         this.name = name;
         this.description = description;
         this.brand = brand;
@@ -44,7 +44,7 @@ public class Item implements Serializable {
         this.genre = genre;
         this.type = type;
         this.smallImagePath = smallImagePath;
-        this.BigImagePath = BigImagePath;
+        this.LargeImagePath = LargeImagePath;
     }
 
 }

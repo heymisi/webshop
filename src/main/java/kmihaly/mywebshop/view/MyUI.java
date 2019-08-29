@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Theme("mytheme")
 @SpringViewDisplay
 @PreserveOnRefresh
+@Widgetset("AppWidgetset")
 public class MyUI extends UI implements ViewDisplay {
 
     private User user = new User("quest", "quest", "quest", "quest", "quest", "quest", UserType.GUEST);
@@ -39,6 +40,7 @@ public class MyUI extends UI implements ViewDisplay {
     private Button signUp = new Button("default");
 
     private Button bag = new Button("default");
+
     @Override
     protected void init(VaadinRequest request) {
 
@@ -77,22 +79,24 @@ public class MyUI extends UI implements ViewDisplay {
         if (user.getUserType().equals(UserType.GUEST)) {
             loginInform.setCaption("Welcome Guest!");
             signUp.setCaption("Sign up");
+            signUp.setIcon(VaadinIcons.SIGN_IN);
             bag.setVisible(false);
         } else if (user.getUserType().equals(UserType.ADMIN)) {
-            loginInform.setCaption("Welcome "+ user.getUserName()+ "! (ADMIN)" );
+            loginInform.setCaption("Welcome " + user.getUserName() + "! (ADMIN)");
             signUp.setCaption("Log out");
+            signUp.setIcon(VaadinIcons.SIGN_OUT);
             bag.setVisible(true);
         } else {
-            loginInform.setCaption("Welcome " + user.getUserName() + "!" );
+            loginInform.setCaption("Welcome " + user.getUserName() + "!");
             signUp.setCaption("Log out");
             bag.setVisible(true);
         }
     }
 
-    private GridLayout navigationBarLayout(){
+    private GridLayout navigationBarLayout() {
 
         user = userService.findUserByName("usern");
-        GridLayout navigationBar = new GridLayout(6,2);
+        GridLayout navigationBar = new GridLayout(6, 2);
         navigationBar.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
         bag = createNavigationButton("Bag", BagView.VIEW_NAME);
         signUp = createNavigationButton("Sign Up", SignUpView.VIEW_NAME);
@@ -101,27 +105,28 @@ public class MyUI extends UI implements ViewDisplay {
         loginInform.setStyleName(ValoTheme.BUTTON_BORDERLESS);
         loginInform.setEnabled(true);
         loginInform.setIcon(VaadinIcons.SMILEY_O);
-        navigationBar.addComponent(mainPage,0,1);
-        navigationBar.addComponent(shop,1,1);
-        navigationBar.addComponent(signUp,2,1);
-        navigationBar.addComponent(bag,3,1);
-        navigationBar.addComponent(loginInform,4,0,5,0);
-        navigationBar.setComponentAlignment(loginInform,Alignment.TOP_RIGHT);
+        navigationBar.addComponent(mainPage, 0, 1);
+        navigationBar.addComponent(shop, 1, 1);
+        navigationBar.addComponent(signUp, 2, 1);
+        navigationBar.addComponent(bag, 3, 1);
+        navigationBar.addComponent(loginInform, 4, 0, 5, 0);
+        navigationBar.setComponentAlignment(loginInform, Alignment.TOP_RIGHT);
         bag.setIcon(VaadinIcons.BRIEFCASE);
         bag.setVisible(false);
-        signUp.setIcon(VaadinIcons.USERS);
+        signUp.setIcon(VaadinIcons.SIGN_IN);
         shop.setIcon(VaadinIcons.CART);
 
         navigationBar.setMargin(false);
         navigationBar.setSpacing(false);
+        navigationBar.setStyleName(ValoTheme.MENU_APPEAR_ON_HOVER);
         return navigationBar;
     }
 
-    private HorizontalLayout footerLayout(){
+    private HorizontalLayout footerLayout() {
 
         HorizontalLayout footer = new HorizontalLayout();
         VerticalLayout feedbackLayout = new VerticalLayout();
-        Label feedbackLabel = new Label("Please send us your feedback for the\n" + "sake of to improve our application!",ContentMode.PREFORMATTED);
+        Label feedbackLabel = new Label("Please send us your feedback \n" + "about our website!", ContentMode.PREFORMATTED);
         feedbackLabel.setStyleName(ValoTheme.LABEL_H3);
 
 
@@ -133,13 +138,13 @@ public class MyUI extends UI implements ViewDisplay {
         feedbackButton.setWidth("400");
         feedbackButton.setStyleName(ValoTheme.BUTTON_DANGER);
         feedbackButton.addClickListener(clickEvent -> {
-            try{
-                emailService.sendMail("heymisi99@gmail.com","Feedback", feedbackText.toString());
+            try {
+                emailService.sendMail("heymisi99@gmail.com", "Feedback", feedbackText.toString());
             } catch (javax.mail.MessagingException e) {
                 e.printStackTrace();
             }
         });
-        feedbackLayout.addComponents(feedbackLabel,feedbackText,feedbackButton);
+        feedbackLayout.addComponents(feedbackLabel, feedbackText, feedbackButton);
 
         Button aboutUsButton = new Button("About Us");
         aboutUsButton.setStyleName(ValoTheme.BUTTON_BORDERLESS);
@@ -148,11 +153,11 @@ public class MyUI extends UI implements ViewDisplay {
         helpButton.setStyleName(ValoTheme.BUTTON_BORDERLESS);
         helpButton.setWidth("500");
 
-        footer.addComponents(aboutUsButton,helpButton,feedbackLayout);
-        footer.setComponentAlignment(feedbackLayout,Alignment.TOP_RIGHT);
-        footer.setComponentAlignment(aboutUsButton,Alignment.MIDDLE_CENTER);
-        footer.setComponentAlignment(helpButton,Alignment.MIDDLE_CENTER);
-        footer.setExpandRatio(feedbackLayout,1);
+        footer.addComponents(aboutUsButton, helpButton, feedbackLayout);
+        footer.setComponentAlignment(feedbackLayout, Alignment.TOP_RIGHT);
+        footer.setComponentAlignment(aboutUsButton, Alignment.MIDDLE_CENTER);
+        footer.setComponentAlignment(helpButton, Alignment.MIDDLE_CENTER);
+        footer.setExpandRatio(feedbackLayout, 1);
         return footer;
     }
 

@@ -9,6 +9,7 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.VaadinService;
 import com.vaadin.shared.ui.ContentMode;
+import com.vaadin.shared.ui.grid.HeightMode;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
@@ -19,8 +20,10 @@ import kmihaly.mywebshop.service.DAOItemService;
 import kmihaly.mywebshop.service.DAOPurchaseService;
 import kmihaly.mywebshop.service.DAOUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.vaadin.teemu.ratingstars.RatingStars;
 
 import javax.annotation.PostConstruct;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -50,6 +53,7 @@ public class ShopView extends VerticalLayout implements View {
     private User loggedUser = ((MyUI) UI.getCurrent()).getUser();
 
     private Binder<Item> binder = new Binder<>();
+
 
     @PostConstruct
     void init() {
@@ -120,8 +124,8 @@ public class ShopView extends VerticalLayout implements View {
 
         Label price = new Label();
 
-        Slider slider = new Slider("Choose Price");
-        slider.setMax(300);
+        Slider slider = new Slider("Choose Maximum Price",1,100);
+        slider.setStyleName(ValoTheme.SLIDER_NO_INDICATOR);
         slider.setResolution(0);
         slider.setWidth("180");
         slider.addValueChangeListener((HasValue.ValueChangeEvent<Double> event) -> {
@@ -130,6 +134,7 @@ public class ShopView extends VerticalLayout implements View {
         });
 
         Button searchButton = createButton("Search");
+        searchButton.setIcon(VaadinIcons.SEARCH);
 
         Label title = new Label();
         title.setStyleName(ValoTheme.LABEL_H2);
@@ -141,7 +146,7 @@ public class ShopView extends VerticalLayout implements View {
         Label rowCount = new Label(itemService.searchByGenre(genreType).size() + " clothes found");
         rowCount.addStyleName(ValoTheme.LABEL_BOLD);
         searchButton.addClickListener((Button.ClickListener) clickEvent -> {
-            List<Item> filteredItems = itemService.multipleSearch(search.getValue(), genreType.name(), brandFilter.getValue(), typeFilter.getValue());
+            List<Item> filteredItems = itemService.multipleSearch(search.getValue(), genreType.name(), brandFilter.getValue(), typeFilter.getValue(),slider.getValue().intValue());
             foundItem = filteredItems.size();
             rowCount.setValue(foundItem + " clothes found");
             items.setItems(filteredItems);
@@ -193,11 +198,11 @@ public class ShopView extends VerticalLayout implements View {
 
     private void setUpItems(Grid<Item> items, Genre genreType) {
         items.setSizeFull();
+        items.setHeightMode(HeightMode.UNDEFINED);
         items.addComponentColumn(item -> new Image("Image from file", new FileResource(new File(basePath + item.getSmallImagePath())))).setCaption("picture").setWidth(220);
-
         items.setItems(itemService.searchByGenre(genreType));
         items.addColumn(Item::getName).setCaption("name");
-        items.addColumn(Item::getPrice).setCaption("price");
+        items.addColumn(item -> item.getPrice() + "$").setCaption("price");
         items.setBodyRowHeight(200);
         items.addComponentColumn(this::itemDetailsButton).setCaption("more info");
         items.setSelectionMode(Grid.SelectionMode.SINGLE);
@@ -212,36 +217,35 @@ public class ShopView extends VerticalLayout implements View {
     }
 
     private Button itemDetailsButton(Item item) {
-        Button button = new Button("Click for detailed info");
+        Button button = new Button("MORE INFORMATION");
         button.setStyleName(ValoTheme.BUTTON_DANGER);
-        button.addClickListener(event -> getCurrent().addWindow(new ItemDetails(item,loggedUser)));
+        button.addClickListener(event -> {
+            getCurrent().addWindow(new ItemDetails(item,loggedUser,purchaseService,itemService));
+        });
         return button;
     }
 
-    private Button changeItemButton(Item item) {
-        Button button = new Button("Change item details");
-        button.setStyleName(ValoTheme.BUTTON_DANGER);
-        button.addClickListener(clickEvent -> getCurrent().addWindow(changeItemDetailsWindow(item)));
-        button.setVisible(false);
-        return button;
-    }
 
     private Window addItemWindow() {
         Window window = new Window();
         VerticalLayout content = new VerticalLayout();
 
         content.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-        TextField nameField = new TextField("name:");
-        TextField descriptionField = new TextField("description:");
-        TextField priceField = new TextField("price:");
-        TextField availableQuantityField = new TextField("quantity:");
+        TextField nameField = createTextField("name:");
+        TextField descriptionField = createTextField("description:");
+        TextField priceField = createTextField("price:");
+        TextField availableQuantityField = createTextField("quantity:");
         ComboBox<Type> typeComboBox = new ComboBox<>("type:");
+        typeComboBox.setStyleName("mystyle");
         ComboBox<Genre> genreComboBox = new ComboBox<>("genre:");
+        genreComboBox.setStyleName("mystyle");
         ComboBox<Brand> brandComboBox = new ComboBox<>("brand:");
+        brandComboBox.setStyleName("mystyle");
 
 
-        TextField imageSmallField = new TextField("small image path:");
-        TextField imageBigField = new TextField("large image path:");
+
+        TextField imageSmallField = createTextField("small image path:");
+        TextField imageBigField = createTextField("large image path:");
 
 
         binder.forField(nameField).withNullRepresentation("").withValidator(str -> str.length() >= 3, "must contain at least 3 characters").bind(Item::getName, Item::setName);
@@ -267,6 +271,7 @@ public class ShopView extends VerticalLayout implements View {
         brandComboBox.setEmptySelectionAllowed(false);
 
         Button confirmAdd = createButton("CONFIRM ADD");
+        confirmAdd.setIcon(VaadinIcons.CHECK);
         confirmAdd.addClickListener(clickEvent -> {
             if (!nameField.isEmpty() && !descriptionField.isEmpty() && !brandComboBox.isEmpty() && !priceField.isEmpty()
                     && !availableQuantityField.isEmpty() && !genreComboBox.isEmpty() && !typeComboBox.isEmpty() && !imageSmallField.isEmpty() && !imageBigField.isEmpty()) {
@@ -285,74 +290,6 @@ public class ShopView extends VerticalLayout implements View {
         window.center();
         return window;
     }
-
-
-    private Window changeItemDetailsWindow(Item item) {
-        Window window = new Window();
-        VerticalLayout content = new VerticalLayout();
-
-
-        content.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-
-        TextField nameField = new TextField("name:");
-        nameField.setPlaceholder(item.getName());
-
-        TextField descriptionField = new TextField("description:");
-        descriptionField.setPlaceholder(item.getDescription());
-
-        TextField priceField = new TextField("price:");
-        priceField.setPlaceholder(valueOf(item.getPrice()));
-
-        TextField availableQuantityField = new TextField("quantity:");
-        availableQuantityField.setPlaceholder(valueOf(item.getAvailableQuantity()));
-
-        TextField imageSmallField = new TextField("small image path:");
-        imageSmallField.setPlaceholder(item.getSmallImagePath());
-        TextField imageBigField = new TextField("large image path:");
-        imageBigField.setPlaceholder(item.getLargeImagePath());
-
-        Button saveButton = createButton("SAVE");
-        saveButton.addClickListener(clickEvent -> {
-            if (!nameField.getValue().isEmpty()) {
-                item.setName(nameField.getValue());
-            }
-            if (!descriptionField.getValue().isEmpty()) {
-                item.setDescription(descriptionField.getValue());
-            }
-            if (!priceField.getValue().isEmpty()) {
-                item.setPrice(Integer.parseInt(priceField.getValue()));
-            }
-            if (!availableQuantityField.getValue().isEmpty()) {
-                item.setAvailableQuantity(Integer.parseInt(availableQuantityField.getValue()));
-            }
-            if (!imageSmallField.getValue().isEmpty()) {
-                item.setSmallImagePath(imageSmallField.getValue());
-            }
-            if (!imageBigField.getValue().isEmpty()) {
-                item.setLargeImagePath(imageBigField.getValue());
-            }
-
-            if (!nameField.getValue().isEmpty() || !descriptionField.getValue().isEmpty()
-                    || !priceField.getValue().isEmpty() || !availableQuantityField.getValue().isEmpty()
-                    || !imageSmallField.getValue().isEmpty() || !imageBigField.getValue().isEmpty()) {
-
-                itemService.changeItem(item);
-                window.close();
-                Notification.show("Successful change");
-
-            } else {
-                Notification.show("If you want to change your details your have to fill the below areas");
-            }
-        });
-
-        content.addComponents(nameField, descriptionField, priceField, availableQuantityField, imageSmallField, imageBigField, saveButton);
-        window.setContent(content);
-        window.center();
-        return window;
-    }
-
-
-
 
     private Window verificationWindow(String text, Button.ClickListener listener) {
         Window window = new Window();
@@ -382,8 +319,15 @@ public class ShopView extends VerticalLayout implements View {
         window.setWidth("350");
         window.setHeight("220");
         window.center();
+        window.setModal(true);
         return window;
     }
 
+    private TextField createTextField(String caption){
+        TextField textField = new TextField(caption);
+        textField.setWidth("200");
+        textField.addStyleName("mystyle");
+        return textField;
+    }
 
 }

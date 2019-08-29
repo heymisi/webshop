@@ -29,7 +29,7 @@ public interface PurchaseService {
      * @param user a felhasználó akinek a kosarához hozzáadjuk a terméket
      */
 
-    void addItemToStorage(Item item, int orderedQuantity, User user);
+    void addItemToStorage(Item item, int orderedQuantity, User user,boolean isForBag);
 
 
     /**
@@ -51,5 +51,6 @@ public interface PurchaseService {
 
     void purchaseItemsFromStorage(User user);
 
-}
 
+
+}

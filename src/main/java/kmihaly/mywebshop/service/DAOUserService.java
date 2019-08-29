@@ -3,7 +3,9 @@ package kmihaly.mywebshop.service;
 import kmihaly.mywebshop.domain.model.user.User;
 import kmihaly.mywebshop.domain.model.user.UserType;
 import kmihaly.mywebshop.repository.UserRepository;
+import kmihaly.mywebshop.security.RandomString;
 
+import javax.jws.soap.SOAPBinding;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -34,6 +36,11 @@ public class DAOUserService implements UserService {
     @Override
     public List<User> findUserByType(UserType type) {
         return repository.findByUserType(type);
+    }
+
+    @Override
+    public User findUserByEmail(String email) {
+        return repository.findByEmail(email).orElse(null);
     }
 
 //    @Override
@@ -88,6 +95,15 @@ public class DAOUserService implements UserService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public String generateNewPassword(User user) {
+        RandomString session = new RandomString();
+        String newPassword = session.nextString();
+        user.setPassword(newPassword);
+        repository.save(user);
+        return newPassword;
     }
 
 

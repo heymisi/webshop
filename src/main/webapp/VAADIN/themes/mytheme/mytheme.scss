@@ -39,6 +39,12 @@ $v-selection-item-border-radius: 0;
     color: #000000;
     font-size: 22px;
   }
+  .v-button-friendly.v-button-friendly {
+    background: #e1efef;
+    border-color: #000000;
+    color: #000000;
+    font-size: 22px;
+  }
  .v-button-borderless.v-button-borderless {
     color: #3f000f;
     font-size: 22px;
@@ -52,5 +58,12 @@ $v-selection-item-border-radius: 0;
   .my-img-button {
   cursor: pointer;
   }
+
+  .v-caption-mystyle {
+   font-weight: bold;
+   font-size: 22px;
+}
+
+
 }
 

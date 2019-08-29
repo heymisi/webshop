@@ -16,6 +16,7 @@ import java.util.List;
  */
 @Data
 @Entity
+@Table(name = "user")
 public class User implements Serializable {
 
     @Id
@@ -29,8 +30,9 @@ public class User implements Serializable {
     private String password;
     private UserType userType;
 
-    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
-    private List<SelectedItem> selectedItems ;
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private List<SelectedItem> selectedItems;
 
 
     public User() {}

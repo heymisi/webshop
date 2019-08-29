@@ -51,16 +51,18 @@ public class SignUpView extends VerticalLayout implements View {
         } else {
             setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
             Label title = new Label("SIGN IN");
-            Label text = new Label( "If you already have an account sign in,\n" + "or if you don't have click the register button!",ContentMode.PREFORMATTED);
+            Label text = new Label("If you already have an account sign in,\n" + "or if you don't have click the register button!", ContentMode.PREFORMATTED);
             title.addStyleName(ValoTheme.LABEL_H1);
             text.setStyleName(ValoTheme.LABEL_H2);
             TextField username = new TextField("username");
             username.setIcon(VaadinIcons.USER);
             username.setWidth("300");
+            username.setStyleName("mystyle");
             binder.forField(username).withNullRepresentation("").withValidator(name -> name.length() >= 3, "must contain at least 3 characters").bind(User::getUserName, User::setUserName);
             PasswordField password = new PasswordField("password");
             password.setWidth("300");
             password.setIcon(VaadinIcons.PASSWORD);
+            password.setStyleName("mystyle");
             binder.forField(password).withNullRepresentation("").withValidator(psw -> psw.length() >= 3, "must contain at least 3 characters").bind(User::getPassword, User::setPassword);
 
             HorizontalLayout buttons = new HorizontalLayout();
@@ -73,10 +75,10 @@ public class SignUpView extends VerticalLayout implements View {
             register.setWidth("200");
             buttons.addComponent(submit);
             buttons.addComponent(register);
-                    Button forgotten = new Button("forgot password?", (Button.ClickListener) clickEvent -> getUI().getNavigator().navigateTo(PasswordResetView.VIEW_NAME));
+            Button forgotten = new Button("forgot password?", (Button.ClickListener) clickEvent -> getUI().getNavigator().navigateTo(PasswordResetView.VIEW_NAME));
             forgotten.setStyleName(ValoTheme.BUTTON_BORDERLESS);
 
-            addComponents(title,text, username, password, forgotten, buttons);
+            addComponents(title, text, username, password, forgotten, buttons);
         }
     }
 

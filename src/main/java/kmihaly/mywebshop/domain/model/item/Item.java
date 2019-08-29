@@ -20,7 +20,7 @@ public class Item implements Serializable {
     private String name;
     private String description;
     private int price;
-    private int rate;
+    private double rate;
     private int availableQuantity;
     @Enumerated
     private Brand brand;
@@ -45,6 +45,7 @@ public class Item implements Serializable {
         this.type = type;
         this.smallImagePath = smallImagePath;
         this.LargeImagePath = LargeImagePath;
+        rate = 0.0;
     }
 
 }

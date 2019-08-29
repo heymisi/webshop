@@ -11,13 +11,15 @@ public interface ItemRepository extends JpaRepository<Item,Long> {
 
     List<Item> findByBrand(String brand);
 
-    List<Item> findByPriceLessThan(int price);
+    List<Item> findByPriceLessThanEqual(int price);
 
     List<Item> findByGenre(Genre genre);
 
     List<Item> findByGenreAndBrand(Genre genre, String brand);
 
     List<Item> findByType(Type type);
+
+    List<Item> findByOrderByPriceAsc();
 
 
 }

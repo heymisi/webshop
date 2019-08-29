@@ -24,6 +24,8 @@ public interface UserService {
 
     List<User> findUserByType(UserType type);
 
+    User findUserByEmail(String email);
+
 //     User findUserByEmail(String email);
 
         /**
@@ -68,4 +70,6 @@ public interface UserService {
     boolean isUserNameUsed(String username);
 
     boolean isPasswordsEquals(String psw1, String psw2);
+
+    String generateNewPassword(User user);
 }

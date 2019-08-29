@@ -4,8 +4,10 @@ import kmihaly.mywebshop.domain.model.item.Genre;
 import kmihaly.mywebshop.domain.model.item.Item;
 import kmihaly.mywebshop.domain.model.item.SelectedItem;
 import kmihaly.mywebshop.domain.model.item.Type;
+import kmihaly.mywebshop.domain.model.user.User;
 import kmihaly.mywebshop.repository.ItemRepository;
 import kmihaly.mywebshop.repository.SelectedItemRepository;
+import org.springframework.data.domain.Sort;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -57,7 +59,7 @@ public class DAOItemService implements ItemService {
         if (price <= 0) {
             throw new IllegalArgumentException("az ár nem lehet 0 vagy annál kisebb!");
         }
-        return itemRepository.findByPriceLessThan(price);
+        return itemRepository.findByPriceLessThanEqual(price);
     }
 
     @Override
@@ -105,18 +107,18 @@ public class DAOItemService implements ItemService {
     }
 
     @Override
-    public List<Item> multipleSearch(String name, String genre, String brand, String type) {
+    public List<Item> multipleSearch(String name, String genre, String brand, String type, int price) {
 
         List<Predicate<Item>> predicates = new ArrayList<>();
-        predicates.add(item -> item.getName().equals(name) || name == "");
+        predicates.add(item -> item.getName().equals(name) || name.equals(""));
         predicates.add(item -> item.getGenre().toString().equals(genre) || genre == null);
         predicates.add(item -> item.getBrand().toString().equals(brand) || brand == null);
         predicates.add(item -> item.getType().toString().equals(type) || type == null);
+        predicates.add(item -> item.getPrice() >= price || price == 0);
 
-        List<Item> filtered = itemRepository.findAll().stream()
+        return itemRepository.findAll().stream()
                 .filter(predicates.stream().reduce(is -> true, Predicate::and))
                 .collect(Collectors.toList());
-        return filtered;
     }
 
     @Override
@@ -131,4 +133,29 @@ public class DAOItemService implements ItemService {
         return false;
     }
 
+    @Override
+    public List<Item> findItemsOrderByPrice() {
+        return itemRepository.findByOrderByPriceAsc();
+    }
+
+    @Override
+    public List<SelectedItem> findItemsByIsForBag(User user, boolean isForBag) {
+        ArrayList<SelectedItem> selectedItems = new ArrayList<>();
+        if (isForBag) {
+            user.getSelectedItems().stream()
+                    .forEach(e -> {
+                        if (e.isForBag()) {
+                            selectedItems.add(e);
+                        }
+                    });
+        } else {
+            user.getSelectedItems().stream()
+                    .forEach(e -> {
+                        if (!e.isForBag()) {
+                            selectedItems.add(e);
+                        }
+                    });
+        }
+        return selectedItems;
+    }
 }

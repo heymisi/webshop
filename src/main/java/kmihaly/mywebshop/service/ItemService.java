@@ -2,7 +2,9 @@ package kmihaly.mywebshop.service;
 
 import kmihaly.mywebshop.domain.model.item.Genre;
 import kmihaly.mywebshop.domain.model.item.Item;
+import kmihaly.mywebshop.domain.model.item.SelectedItem;
 import kmihaly.mywebshop.domain.model.item.Type;
+import kmihaly.mywebshop.domain.model.user.User;
 
 import java.util.List;
 import java.util.Optional;
@@ -77,8 +79,13 @@ public interface ItemService {
 
     List<Item> searchByType(Type itemType);
 
-    List<Item> multipleSearch(String name, String genre, String brand, String type);
+    List<Item> multipleSearch(String name, String genre, String brand, String type, int price);
 
     Boolean isSelected(Set<Item> item);
+
+    List<Item> findItemsOrderByPrice();
+
+    List<SelectedItem> findItemsByIsForBag(User user, boolean isForBag);
+
 
 }

@@ -1,34 +1,37 @@
 package kmihaly.mywebshop.view;
 
+import com.vaadin.navigator.View;
 import com.vaadin.server.FileResource;
-import com.vaadin.server.VaadinService;
 import com.vaadin.shared.ui.ContentMode;
+import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
+import com.vaadin.ui.themes.ValoTheme;
 import kmihaly.mywebshop.domain.model.item.Item;
 import kmihaly.mywebshop.domain.model.item.Size;
 import kmihaly.mywebshop.domain.model.user.User;
 import kmihaly.mywebshop.domain.model.user.UserType;
+import kmihaly.mywebshop.service.DAOItemService;
 import kmihaly.mywebshop.service.DAOPurchaseService;
+import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.vaadin.teemu.ratingstars.RatingStars;
 
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static com.vaadin.server.VaadinService.getCurrent;
+import static java.lang.String.valueOf;
 
-class ItemDetails extends Window {
+class ItemDetails extends Window implements View {
 
     private String basePath = getCurrent().getBaseDirectory().getAbsolutePath();
 
-    @Autowired
-    private DAOPurchaseService purchaseService;
-
-    public ItemDetails(Item item, User loggedUser) {
+    ItemDetails(Item item, User loggedUser, DAOPurchaseService purchaseService, DAOItemService itemService) {
 
         HorizontalLayout content = new HorizontalLayout();
         Image image = new Image("", new FileResource(new File(basePath + item.getLargeImagePath())));
@@ -37,15 +40,14 @@ class ItemDetails extends Window {
         content.addComponent(image);
 
         VerticalLayout infoContent = new VerticalLayout();
-        infoContent.addComponent(new Label("NAME: \n" + item.getName(), ContentMode.PREFORMATTED));
-        infoContent.addComponent(new Label("DESCRIPTION: \n" + item.getDescription(), ContentMode.PREFORMATTED));
-        infoContent.addComponent(new Label("BRAND: \n" + item.getBrand().toString(), ContentMode.PREFORMATTED));
-        infoContent.addComponent(new Label("RATE: \n" + item.getRate(), ContentMode.PREFORMATTED));
+        infoContent.addComponent(createLabel("NAME: \n\n" + item.getName()));
+        infoContent.addComponent(createLabel("DESCRIPTION: \n\n" + item.getDescription()));
+        infoContent.addComponent(createLabel("BRAND: \n\n" + item.getBrand().toString()));
 
-        Label availableQuantityLabel = new Label("AVAILABLE QUANTITY:\n" + item.getAvailableQuantity(), ContentMode.PREFORMATTED);
+        Label availableQuantityLabel = createLabel("AVAILABLE QUANTITY:\n\n" + item.getAvailableQuantity());
         availableQuantityLabel.setVisible(false);
         infoContent.addComponents(availableQuantityLabel);
-        Label sizeLabel = new Label("SIZE: ", ContentMode.PREFORMATTED);
+        Label sizeLabel = createLabel("SIZE: ");
         sizeLabel.setVisible(false);
         infoContent.addComponent(sizeLabel);
 
@@ -59,6 +61,7 @@ class ItemDetails extends Window {
         infoContent.addComponent(sizeBox);
         sizeBox.setEmptySelectionAllowed(false);
         sizeBox.setVisible(false);
+        sizeBox.setStyleName(ValoTheme.COMBOBOX_LARGE);
 
         ComboBox<Integer> quantityBox = new ComboBox<>();
         List<Integer> collect = IntStream.range(1, 6).boxed().collect(Collectors.toList());
@@ -66,26 +69,47 @@ class ItemDetails extends Window {
         quantityBox.setEmptySelectionCaption("Please select");
         quantityBox.setEmptySelectionAllowed(false);
         quantityBox.setVisible(false);
+        quantityBox.setStyleName(ValoTheme.COMBOBOX_LARGE);
 
-        Label quantityLabel = new Label("QUANTITY: ");
+        Label quantityLabel = createLabel("QUANTITY: ");
         quantityLabel.setVisible(false);
         infoContent.addComponent(quantityLabel);
         infoContent.addComponent(quantityBox);
 
-        infoContent.addComponent(new Label("PRICE: \n" + item.getPrice() + "$", ContentMode.PREFORMATTED));
+        infoContent.addComponent(createLabel("PRICE: \n\n" + item.getPrice() + "$"));
 
-        Label availableLabel = new Label("", ContentMode.PREFORMATTED);
-        if (item.getAvailableQuantity() == 0) availableLabel.setValue("NOT AVAILABLE");
-        else availableLabel.setValue("AVAILABLE");
+        Label availableLabel = createLabel("");
+        if (item.getAvailableQuantity() == 0) availableLabel.setValue("NOT AVAILABLE\n");
+        else availableLabel.setValue("AVAILABLE\n");
 
         infoContent.addComponent(availableLabel);
 
-        Button addToBag = new Button("ADD TO BAG");
-        Button changeItem = new Button("changeItemDetails");
-        addToBag.setVisible(false);
+        infoContent.addComponents(createLabel("RATING:\n"));
+
+        RatingStars ratingStars = new RatingStars();
+        ratingStars.setValue(item.getRate());
+        ratingStars.setEnabled(false);
+        infoContent.addComponent(ratingStars);
+
+
+        HorizontalLayout addToBagLayout = new HorizontalLayout();
+        addToBagLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+        Button addToBagButton = new Button("ADD TO BAG");
+        addToBagButton.setStyleName(ValoTheme.BUTTON_DANGER);
+        Button changeItem = changeItemButton(item,itemService);
+        changeItem.setStyleName(ValoTheme.BUTTON_DANGER);
+        addToBagLayout.setVisible(false);
+        changeItem.setVisible(false);
+
+        Image saveItem = new Image("", new FileResource(new File(basePath + "/img/hear.png")));
+        saveItem.setHeight("40");
+        saveItem.setWidth("40");
+        saveItem.setStyleName("my-img-button");
+
+        addToBagLayout.addComponents(addToBagButton,saveItem);
 
         if (loggedUser.getUserType().equals(UserType.USER)) {
-            addToBag.setVisible(true);
+            addToBagLayout.setVisible(true);
             quantityBox.setVisible(true);
             sizeBox.setVisible(true);
             sizeLabel.setVisible(true);
@@ -96,7 +120,13 @@ class ItemDetails extends Window {
             changeItem.setVisible(true);
             availableQuantityLabel.setVisible(true);
         }
-        addToBag.addClickListener(event -> {
+
+        saveItem.addClickListener(clickEvent -> {
+            purchaseService.addItemToStorage(item, 1, loggedUser,false);
+            Notification.show("This item has been added to your saved items");
+        });
+
+        addToBagButton.addClickListener(event -> {
 
             if (item.getAvailableQuantity() == 0) {
                 Notification.show("Sorry! The item currently not available");
@@ -106,16 +136,16 @@ class ItemDetails extends Window {
                 Notification.show("Please select size");
             } else if (quantityBox.isEmpty() || sizeBox.isEmpty()) {
                 Notification.show("Please select size and quantity");
-            } else if (loggedUser.getUserType().equals(UserType.GUEST)) {
-                Notification.show("You have to be logged in to add an item to your bag!");
             } else {
-                purchaseService.addItemToStorage(item, Integer.parseInt(quantityBox.getValue().toString()), loggedUser);
+
+                purchaseService.addItemToStorage(item, Integer.parseInt(quantityBox.getValue().toString()), loggedUser,true);
                 Notification.show("This item has been added to your bag");
                 close();
             }
         });
 
-        infoContent.addComponents(addToBag, changeItem);
+
+        infoContent.addComponents(addToBagLayout, changeItem);
         infoContent.setSizeFull();
 
         content.addComponent(infoContent);
@@ -123,5 +153,85 @@ class ItemDetails extends Window {
         center();
         setModal(true);
         setResizable(false);
+    }
+
+    private Label createLabel(String caption) {
+        Label label = new Label(caption, ContentMode.PREFORMATTED);
+        label.setStyleName(ValoTheme.LABEL_H3);
+        return label;
+    }
+
+    private Button changeItemButton(Item item,DAOItemService itemService) {
+        Button button = new Button("UPDATE");
+        button.setStyleName(ValoTheme.BUTTON_DANGER);
+        button.addClickListener(clickEvent -> UI.getCurrent().addWindow(changeItemDetailsWindow(item,itemService)));
+        button.setVisible(false);
+        return button;
+    }
+
+    private Window changeItemDetailsWindow(Item item,DAOItemService itemService) {
+        Window window = new Window();
+        VerticalLayout content = new VerticalLayout();
+
+
+        content.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+
+        TextField nameField = new TextField("name:");
+        nameField.setPlaceholder(item.getName());
+
+        TextField descriptionField = new TextField("description:");
+        descriptionField.setPlaceholder(item.getDescription());
+
+        TextField priceField = new TextField("price:");
+        priceField.setPlaceholder(valueOf(item.getPrice()));
+
+        TextField availableQuantityField = new TextField("quantity:");
+        availableQuantityField.setPlaceholder(valueOf(item.getAvailableQuantity()));
+
+        TextField imageSmallField = new TextField("small image path:");
+        imageSmallField.setPlaceholder(item.getSmallImagePath());
+        TextField imageBigField = new TextField("large image path:");
+        imageBigField.setPlaceholder(item.getLargeImagePath());
+
+        Button saveButton = new Button("SAVE");
+        saveButton.setStyleName(ValoTheme.BUTTON_DANGER);
+        saveButton.addClickListener(clickEvent -> {
+            if (!nameField.getValue().isEmpty()) {
+                item.setName(nameField.getValue());
+            }
+            if (!descriptionField.getValue().isEmpty()) {
+                item.setDescription(descriptionField.getValue());
+            }
+            if (!priceField.getValue().isEmpty()) {
+                item.setPrice(Integer.parseInt(priceField.getValue()));
+            }
+            if (!availableQuantityField.getValue().isEmpty()) {
+                item.setAvailableQuantity(Integer.parseInt(availableQuantityField.getValue()));
+            }
+            if (!imageSmallField.getValue().isEmpty()) {
+                item.setSmallImagePath(imageSmallField.getValue());
+            }
+            if (!imageBigField.getValue().isEmpty()) {
+                item.setLargeImagePath(imageBigField.getValue());
+            }
+
+            if (!nameField.getValue().isEmpty() || !descriptionField.getValue().isEmpty()
+                    || !priceField.getValue().isEmpty() || !availableQuantityField.getValue().isEmpty()
+                    || !imageSmallField.getValue().isEmpty() || !imageBigField.getValue().isEmpty()) {
+
+                itemService.changeItem(item);
+                window.close();
+                Notification.show("Successful change");
+
+            } else {
+                Notification.show("If you want to change your details your have to fill the below areas");
+            }
+        });
+
+        content.addComponents(nameField, descriptionField, priceField, availableQuantityField, imageSmallField, imageBigField, saveButton);
+        window.setContent(content);
+        window.center();
+        window.setModal(true);
+        return window;
     }
 }

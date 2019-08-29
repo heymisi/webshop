@@ -48,7 +48,7 @@ public class DAOPurchaseService implements PurchaseService {
     }
 
     @Override
-    public void addItemToStorage(Item item, int orderedQuantity, User user) {
+    public void addItemToStorage(Item item, int orderedQuantity, User user,boolean isForBag) {
         if (Objects.isNull(user)) {
             throw new IllegalArgumentException("üres user!");
         } else if (Objects.isNull(item)) {
@@ -58,10 +58,9 @@ public class DAOPurchaseService implements PurchaseService {
         } else if (orderedQuantity <= 0) {
             throw new IllegalArgumentException("nem jó a rendelés mennyiség!");
         } else {
-            SelectedItem selectedItem = new SelectedItem(item, orderedQuantity);
-            user.addItem(selectedItem);
-            userRepository.save(user);
 
+            user.addItem(selectedItemRepository.save(new SelectedItem(item, orderedQuantity,isForBag)));
+            userRepository.save(user);
         }
     }
 
@@ -72,8 +71,8 @@ public class DAOPurchaseService implements PurchaseService {
         }
         user.getSelectedItems().remove(item);
         user.setSelectedItems(user.getSelectedItems());
+        selectedItemRepository.delete(item);
         userRepository.save(user);
-        //   selectedItemRepository.delete(item);
     }
 
     @Override
@@ -85,15 +84,19 @@ public class DAOPurchaseService implements PurchaseService {
         Purchase purchase = new Purchase(user, new Date(), getSelectedItemsPrice(user));
 
         user.getSelectedItems().stream().forEach(s -> {
-            System.err.println(s);
             s.getItem().setAvailableQuantity(s.getItem().getAvailableQuantity() - 1);
             itemRepository.save(s.getItem());
             purchase.getItems().add(s);
         });
-        // purchaseRepository.save(purchase);
-        user.setSelectedItems(new ArrayList<>());
+        List<SelectedItem> selectedItems = user.getSelectedItems();
+        selectedItemRepository.deleteAll(user.getSelectedItems());
+        user.getSelectedItems().removeAll(selectedItems);
         userRepository.save(user);
-
+        //
+//        List<SelectedItem> selectedItems = user.getSelectedItems();
+//        for(SelectedItem i : selectedItems){
+//            deleteItemFromStorage(i,user);
+//        }
     }
 
     public int getSelectedItemsPrice(User user) {

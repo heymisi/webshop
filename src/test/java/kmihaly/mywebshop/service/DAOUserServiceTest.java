@@ -79,16 +79,16 @@ public class DAOUserServiceTest {
 
     }
 
-    @Test
-    public void list_same_username_user_test() {
-        //
-       // when(repository.findByUserName("name1")).thenReturn(Dummy());
-
-        User searchName = service.findUserByName("name1");
-
-        assertEquals(Dummy(), searchName);
-
-    }
+//    @Test
+//    public void list_same_username_user_test() {
+//        //
+//       // when(repository.findByUserName("name1")).thenReturn(Dummy());
+//
+//        User searchName = service.findUserByName("name1");
+//
+//        assertEquals(Dummy(), searchName);
+//
+//    }
     /*@Test
     public void add_new_item_test() {
         when(repository.save(Dummy())).thenReturn(Dummy());

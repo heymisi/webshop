@@ -52,31 +52,31 @@ public class InMemoryItemDAOTest {
         assertThat(itemWithTheGivenId).isEqualTo(item2);
     }
 
-    @Test
-    public void list_same_brand_items_test() {
-        //
-        dao.create(item1);
-        dao.create(item2);
-        dao.create(item3);
-        //
-        Collection<Item> expected = Arrays.asList(item1, item2);
-        Collection<Item> actual = dao.ListItemsByBrand("brand1");
-        //
-        assertArrayEquals(expected.toArray(), actual.toArray());
-    }
+//    @Test
+//    public void list_same_brand_items_test() {
+//        //
+//        dao.create(item1);
+//        dao.create(item2);
+//        dao.create(item3);
+//        //
+//        Collection<Item> expected = Arrays.asList(item1, item2);
+//        Collection<Item> actual = dao.ListItemsByBrand("brand1");
+//        //
+//        assertArrayEquals(expected.toArray(), actual.toArray());
+//    }
 
-    @Test
-    public void list_same_price_items_test() {
-        //
-        dao.create(item1);
-        dao.create(item2);
-        dao.create(item3);
-        //
-        Collection<Item> expected = Arrays.asList(item1, item2);
-        Collection<Item> actual = dao.ListItemsByPrice(1);
-        //
-        assertArrayEquals(expected.toArray(), actual.toArray());
-    }
+//    @Test
+//    public void list_same_price_items_test() {
+//        //
+//        dao.create(item1);
+//        dao.create(item2);
+//        dao.create(item3);
+//        //
+//        Collection<Item> expected = Arrays.asList(item1, item2);
+//        Collection<Item> actual = dao.ListItemsByPrice(1);
+//        //
+//        assertArrayEquals(expected.toArray(), actual.toArray());
+//    }
 
     @Test
     public void test_delete_an_element() {

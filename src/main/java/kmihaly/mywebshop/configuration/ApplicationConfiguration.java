@@ -53,15 +53,15 @@ public class ApplicationConfiguration {
 
             if (itemRepository.findAll().isEmpty()) {
                 itemRepository.save( new Item("name1", "1", Brand.ADIDAS,
-                        1, 100, Genre.MEN, Type.JEAN, "/img/jeanS01.jpg", "/img/jeanB01.jpg"));
+                        10, 100, Genre.MEN, Type.JEAN, "/img/jeanS01.jpg", "/img/jeanB01.jpg"));
                 itemRepository.save(new Item("name2", "2", Brand.NIKE,
-                        1, 100, Genre.MEN, Type.SUIT, "/img/suitS01.png", "/img/suitB01.png"));
+                        9, 100, Genre.MEN, Type.SUIT, "/img/suitS01.png", "/img/suitB01.png"));
                 itemRepository.save(new Item("name3", "3", Brand.ZARA,
-                        1, 100, Genre.MEN, Type.SOCKS, "/img/socksS01.png", "/img/socksB01.png"));
+                        8, 100, Genre.MEN, Type.SOCKS, "/img/socksS01.png", "/img/socksB01.png"));
                 itemRepository.save(new Item("name4", "4", Brand.CONVERSE,
-                        1, 100, Genre.WOMEN, Type.SHIRT, "/img/tshirtS01.jpg", "/img/tshirtB01.jpg"));
+                        107, 100, Genre.WOMEN, Type.SHIRT, "/img/tshirtS01.jpg", "/img/tshirtB01.jpg"));
                 itemRepository.save(new Item("name6", "6", Brand.NIKE,
-                        1, 100, Genre.WOMEN, Type.SHORTS, "/img/shortsS01.jpg", "/img/shortsB01.jpg"));
+                        106, 100, Genre.WOMEN, Type.SHORTS, "/img/shortsS01.jpg", "/img/shortsB01.jpg"));
             }
 
         };

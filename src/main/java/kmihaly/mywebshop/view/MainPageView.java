@@ -12,6 +12,7 @@ import com.vaadin.ui.themes.ValoTheme;
 import kmihaly.mywebshop.domain.model.item.Item;
 import kmihaly.mywebshop.domain.model.user.User;
 import kmihaly.mywebshop.service.DAOItemService;
+import kmihaly.mywebshop.service.DAOPurchaseService;
 import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -28,6 +29,8 @@ public class MainPageView extends VerticalLayout implements View {
 
     @Autowired
     DAOItemService itemService;
+    @Autowired
+    DAOPurchaseService purchaseService;
 
     private String basePath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
 
@@ -42,22 +45,21 @@ public class MainPageView extends VerticalLayout implements View {
         Label bestRating = new Label("Best Rated clothes");
         bestRating.setStyleName(ValoTheme.LABEL_H1);
 
-        addComponents(newItemsLabel, clothsLayout(), cheapestItemsLabel, clothsLayout(), bestRating, clothsLayout());
+        addComponents(newItemsLabel, clothsLayout(itemService.getRandomItems(4)), cheapestItemsLabel, clothsLayout(itemService.findItemsOrderByPrice()), bestRating, clothsLayout(itemService.getRandomItems(4)));
     }
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
     }
 
-    private Panel clothsLayout() {
+    private Panel clothsLayout(List<Item> items) {
         HorizontalLayout horizontalLayout = new HorizontalLayout();
         horizontalLayout.setWidthUndefined();
         horizontalLayout.setHeightUndefined();
         Panel panel = new Panel();
-        List<Item> randomItems = itemService.getRandomItems(5);
-        for (Item item : randomItems) {
+        for (Item item : items) {
             Image image = new Image("", new FileResource(new File(basePath + item.getLargeImagePath())));
-            ItemDetails components = new ItemDetails(item, loggedUser);
+            ItemDetails components = new ItemDetails(item, loggedUser,purchaseService,itemService);
             image.addClickListener(e -> getCurrent().addWindow(components));
             image.addStyleName("my-img-button");
             horizontalLayout.addComponent(image);

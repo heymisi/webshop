@@ -22,13 +22,15 @@ public class SelectedItem implements Serializable {
 
     private int quantity;
 
+    private boolean isForBag;
 
     protected SelectedItem() {
     }
 
-    public SelectedItem(Item item, int quantity) {
+    public SelectedItem(Item item, int quantity,boolean isForBag) {
         this.item = item;
         this.quantity = quantity;
+        this.isForBag = isForBag;
     }
 
 }

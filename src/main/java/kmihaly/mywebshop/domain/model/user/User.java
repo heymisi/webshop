@@ -26,6 +26,7 @@ public class User implements Serializable {
     private String firstName;
     private String lastName;
     private String email;
+    private String birthDate;
     private String address;
     private String password;
     private UserType userType;
@@ -37,12 +38,13 @@ public class User implements Serializable {
 
     public User() {}
 
-    public User(String userName, String firstName, String lastName, String email, String address, String password, UserType userType) {
+    public User(String userName, String firstName, String lastName, String email, String address,String birthDate, String password, UserType userType) {
         this.userName = userName;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.address = address;
+        this.birthDate = birthDate;
         this.password = password;
         this.userType = userType;
         selectedItems = new ArrayList<>();

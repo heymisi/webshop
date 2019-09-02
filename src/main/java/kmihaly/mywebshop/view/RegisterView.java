@@ -3,6 +3,7 @@ package kmihaly.mywebshop.view;
 import com.vaadin.data.Binder;
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.event.ShortcutAction;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.shared.ui.ValueChangeMode;
@@ -50,24 +51,32 @@ public class RegisterView extends VerticalLayout implements View {
         TextField email = createTextField("email");
         binder.forField(email).withValidator(new EmailValidator("This doesn't look like a valid email address"))
                 .bind(User::getEmail, User::setEmail);
+        email.setPlaceholder("example@gmail.com");
 
         TextField address = createTextField("address");
         binder.forField(address).withValidator(name -> name.length() >= 3, "must contain at least 3 characters").bind(User::getFirstName, User::setFirstName);
+        address.setPlaceholder("City Street Identifier ");
+
+        DateField birthDate = new DateField("birth date:");
+        birthDate.setPlaceholder("YYYY.MM.DD");
+        birthDate.setWidth("280");
+        birthDate.addStyleNames(ValoTheme.TEXTAREA_LARGE, "mystyle");
+        birthDate.setRequiredIndicatorVisible(true);
 
         PasswordField passwordField = new PasswordField("password (at least 6 characters)");
         binder.forField(passwordField).withValidator(name -> name.length() >= 6, "must contain at least 3 characters").bind(User::getPassword, User::setPassword);
-        passwordField.setWidth("220");
+        passwordField.setWidth("280");
         passwordField.addStyleNames(ValoTheme.TEXTAREA_LARGE, "mystyle");
 
         PasswordField passwordField2 = new PasswordField("password (again)");
         passwordField.setRequiredIndicatorVisible(true);
         binder.forField(passwordField2).withValidator(name -> name.length() >= 6, "must contain at least 3 characters").bind(User::getPassword, User::setPassword);
-        passwordField2.setWidth("220");
+        passwordField2.setWidth("280");
         passwordField2.addStyleNames(ValoTheme.TEXTAREA_LARGE, "mystyle");
         passwordField2.setRequiredIndicatorVisible(true);
 
         CheckBox sendUpdate = new CheckBox("E-mail me updates");
-
+        sendUpdate.setStyleName(ValoTheme.CHECKBOX_LARGE);
         HorizontalLayout actions = new HorizontalLayout();
         Button submit = new Button("SUBMIT", (Button.ClickListener) clickEvent -> {
             if (service.isUserNameUsed(username.getValue())) {
@@ -77,11 +86,11 @@ public class RegisterView extends VerticalLayout implements View {
             } else if (!binder.isValid()) {
                 Notification.show("There are problems in red fields");
             } else if (!username.getValue().isEmpty() && !firstName.getValue().isEmpty() && !lastName.getValue().isEmpty() && !email.getValue().isEmpty() &&
-                    !address.getValue().isEmpty() && !passwordField.getValue().isEmpty() && !passwordField2.getValue().isEmpty()) {
+                    !address.getValue().isEmpty() && !birthDate.isEmpty() && !passwordField.getValue().isEmpty() && !passwordField2.getValue().isEmpty()) {
 
                 service.register(username.getValue(), firstName.getValue(), lastName.getValue(),
-                        email.getValue(), address.getValue(), passwordField2.getValue());
-                Notification.show("Successful registration");
+                        email.getValue(), address.getValue(),birthDate.getValue().toString(), passwordField2.getValue());
+                Notification.show("Successful registration!\n" + "Welcome "+firstName.getValue() +" "+ lastName.getValue());
                 ((MyUI) UI.getCurrent()).setUser(service.findUserByName(username.getValue()));
                 UI.getCurrent().getPage().reload();
                 getUI().getNavigator().navigateTo(MainPageView.VIEW_NAME);
@@ -92,14 +101,16 @@ public class RegisterView extends VerticalLayout implements View {
 
         });
         submit.setStyleName(ValoTheme.BUTTON_DANGER);
+        submit.setIcon(VaadinIcons.USER_CHECK);
         Button reset = new Button("RESET");
-        reset.setWidth("110");
+        reset.setWidth("140");
         reset.setStyleName(ValoTheme.BUTTON_DANGER);
+        reset.setIcon(VaadinIcons.REFRESH);
         reset.addClickListener(clickEvent -> binder.readBean(null));
         actions.addComponents(submit, reset);
-        submit.setWidth("110");
+        submit.setWidth("140");
         submit.setClickShortcut(ShortcutAction.KeyCode.ENTER);
-        formLayout.addComponents(label, username, firstName, lastName, email, address, passwordField, passwordField2, sendUpdate, actions);
+        formLayout.addComponents(label, username, firstName, lastName, email, address, birthDate, passwordField, passwordField2, sendUpdate, actions);
         addComponent(formLayout);
     }
 
@@ -109,8 +120,8 @@ public class RegisterView extends VerticalLayout implements View {
 
     private TextField createTextField(String caption) {
         TextField textField = new TextField(caption);
-        textField.setWidth("220");
-        textField.addStyleNames(ValoTheme.TEXTAREA_LARGE, ValoTheme.TEXTFIELD_INLINE_ICON, "mystyle");
+        textField.setWidth("280");
+        textField.addStyleNames(ValoTheme.TEXTAREA_LARGE, "mystyle");
         textField.setRequiredIndicatorVisible(true);
         textField.setValueChangeMode(ValueChangeMode.EAGER);
         return textField;

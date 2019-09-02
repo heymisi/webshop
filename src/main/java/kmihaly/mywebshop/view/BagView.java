@@ -1,6 +1,8 @@
 package kmihaly.mywebshop.view;
 
+import com.vaadin.client.ui.Icon;
 import com.vaadin.data.Binder;
+import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
@@ -17,18 +19,19 @@ import com.vaadin.ui.themes.ValoTheme;
 import kmihaly.mywebshop.domain.model.item.*;
 import kmihaly.mywebshop.domain.model.user.User;
 import kmihaly.mywebshop.domain.model.user.UserType;
+import kmihaly.mywebshop.repository.ItemRepository;
 import kmihaly.mywebshop.service.DAOItemService;
 import kmihaly.mywebshop.service.DAOPurchaseService;
 import kmihaly.mywebshop.service.DAOUserService;
+import kmihaly.mywebshop.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.info.BuildInfoContributor;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @SpringView(name = BagView.VIEW_NAME)
 public class BagView extends HorizontalLayout implements View {
@@ -54,11 +57,14 @@ public class BagView extends HorizontalLayout implements View {
 
     private Binder<User> binder = new Binder<>();
 
-    private Grid.Column<SelectedItem, VerticalLayout> savedItemLayoutColumn;
-    private Grid.Column<SelectedItem, Image> imageColumn;
-    private Grid.Column<SelectedItem, String> nameColumn;
-    private Grid.Column<SelectedItem, Brand> brandColumn;
+
+    private Grid.Column<SelectedItem, VerticalLayout> optionsColumn;
+    private Grid.Column<SelectedItem, Button> deleteColumn;
     private Grid.Column<SelectedItem, Integer> quantityColumn;
+
+    private Button selectedItemsButton;
+
+    private Button accountInformationButton;
 
     @PostConstruct
     void init() {
@@ -109,9 +115,9 @@ public class BagView extends HorizontalLayout implements View {
             VerticalLayout sideBar = new VerticalLayout();
             VerticalLayout content = new VerticalLayout();
 
-            Button selectedItemsButton = createMenuButton("BAG");
+            selectedItemsButton = createMenuButton("BAG");
             Button savedItemsButton = createMenuButton("SAVED ITEMS");
-            Button accountInformationButton = createMenuButton("ACCOUNT INFORMATION");
+            accountInformationButton = createMenuButton("ACCOUNT INFORMATION");
             Button myOrdersButton = createMenuButton("MY ORDERS");
 
             sideBar.setSizeFull();
@@ -121,19 +127,19 @@ public class BagView extends HorizontalLayout implements View {
             panel.setSizeFull();
             selectedItems.setSizeFull();
             selectedItems.setHeightMode(HeightMode.UNDEFINED);
-            savedItemLayoutColumn = selectedItems.addComponentColumn(this::savedItemsLayoutForColumn);
-            imageColumn = selectedItems.addComponentColumn(item -> {
+            selectedItems.addComponentColumn(item -> {
                 Image image = new Image("Image from file", new FileResource(new File(basePath + item.getItem().getSmallImagePath())));
                 return image;
-            }).setCaption("picture").setWidth(220);
-            nameColumn = selectedItems.addColumn(item -> item.getItem().getName()).setCaption("name");
-            brandColumn = selectedItems.addColumn(item -> item.getItem().getBrand()).setCaption("brand");
-            quantityColumn = selectedItems.addColumn(SelectedItem::getQuantity).setCaption("quantity");
-            savedItemLayoutColumn.setHidden(true);
-            nameColumn.setHidden(true);
-            brandColumn.setHidden(true);
-            brandColumn.setHidden(true);
-            quantityColumn.setHidden(true);
+            }).setCaption("picture").setWidthUndefined();
+            selectedItems.addColumn(item -> item.getItem().getName()).setCaption("name");
+            selectedItems.addColumn(item -> item.getItem().getBrand()).setCaption("brand");
+            quantityColumn = selectedItems.addColumn(SelectedItem::getQuantity).setCaption("quantity").setHidden(true);
+            deleteColumn = selectedItems.addComponentColumn(this::deleteItemButton).setWidth(220).setCaption("delete").setHidden(true);
+            optionsColumn = selectedItems.addComponentColumn(this::buttonsForGridLayout).setWidth(220).setCaption("options").setHidden(true);
+            selectedItems.addComponentColumn(i -> {
+                Label label = new Label("p: " + i.getQuantity() * i.getItem().getPrice());
+                return label;
+            });
 
             userPurchases.addColumn(Purchase::getDate).setCaption("date");
             userPurchases.addColumn(Purchase::getItemsPrice).setCaption("price");
@@ -149,8 +155,8 @@ public class BagView extends HorizontalLayout implements View {
             setSizeFull();
             addComponent(sideBar);
             addComponent(content);
-            setExpandRatio(sideBar, 1);
-            setExpandRatio(content, 4);
+            setExpandRatio(sideBar, 2);
+            setExpandRatio(content, 7);
             setSpacing(false);
             setMargin(false);
         }
@@ -228,50 +234,27 @@ public class BagView extends HorizontalLayout implements View {
         verticalLayout.setSizeFull();
 
         if (itemService.findItemsByIsForBag(loggedUser, true).isEmpty()) {
-            Label label = new Label("Your bag is empty," + "please check the shop menu!", ContentMode.PREFORMATTED);
+            Label label = new Label("Your bag is empty,\n" + "please check the shop menu!", ContentMode.PREFORMATTED);
             label.setStyleName(ValoTheme.LABEL_H2);
             verticalLayout.addComponents(label);
         } else {
-            brandColumn.setHidden(false);
+            optionsColumn.setHidden(true);
+            deleteColumn.setHidden(false);
             quantityColumn.setHidden(false);
-            nameColumn.setHidden(false);
-            imageColumn.setHidden(false);
-            savedItemLayoutColumn.setHidden(true);
-
             selectedItems.setBodyRowHeight(200);
             selectedItems.setItems(itemService.findItemsByIsForBag(loggedUser, true));
             selectedItems.setSelectionMode(Grid.SelectionMode.SINGLE);
             Label purchasePrice = new Label("TOTAL TO PAY:  $" + purchaseService.getSelectedItemsPrice(loggedUser), ContentMode.PREFORMATTED);
             purchasePrice.setStyleName(ValoTheme.LABEL_H2);
             Button purchase = purchaseButton(purchasePrice);
-            Button delete = createButton("DELETE SELECTED");
-            delete.addClickListener(clickEvent -> {
-                Optional<SelectedItem> items = selectedItems.getSelectionModel().getFirstSelectedItem();
-                purchaseService.deleteItemFromStorage(items.get(), loggedUser);
-                selectedItems.setItems(loggedUser.getSelectedItems());
 
-            });
 
-            verticalLayout.addComponents(selectedItems, delete, purchasePrice, purchase);
+            verticalLayout.addComponents(selectedItems, purchasePrice, purchase);
 
             verticalLayout.setComponentAlignment(purchase, Alignment.BOTTOM_RIGHT);
             verticalLayout.setComponentAlignment(purchasePrice, Alignment.BOTTOM_RIGHT);
-            verticalLayout.setComponentAlignment(delete, Alignment.BOTTOM_LEFT);
         }
         return verticalLayout;
-    }
-
-    private Button savedItemDeleteButton(SelectedItem item) {
-        Button button = createButton("DELETE");
-        button.setIcon(VaadinIcons.TRASH);
-
-        return button;
-    }
-
-    private Button addItemFromSavedToBagButton(SelectedItem item) {
-        Button button = createButton("ADD TO BAG");
-        button.setIcon(VaadinIcons.ARROW_FORWARD);
-        return button;
     }
 
     private VerticalLayout savedItemLayout() {
@@ -287,15 +270,12 @@ public class BagView extends HorizontalLayout implements View {
             infoText.setStyleName(ValoTheme.LABEL_H2);
             verticalLayout.addComponent(infoText);
         } else {
-            brandColumn.setHidden(true);
+            optionsColumn.setHidden(false);
+            deleteColumn.setHidden(true);
             quantityColumn.setHidden(true);
-            nameColumn.setHidden(true);
-            imageColumn.setHidden(true);
-            savedItemLayoutColumn.setHidden(false);
-
             Label text = new Label("These items will be stored for 60 days", ContentMode.PREFORMATTED);
             text.setStyleName(ValoTheme.LABEL_H2);
-            selectedItems.setBodyRowHeight(800);
+            selectedItems.setBodyRowHeight(200);
             selectedItems.setItems(itemService.findItemsByIsForBag(loggedUser, false));
             verticalLayout.addComponents(text, selectedItems);
         }
@@ -312,23 +292,38 @@ public class BagView extends HorizontalLayout implements View {
         title.setStyleName(ValoTheme.LABEL_H1);
 
         FormLayout formLayout = new FormLayout();
+        Binder<User> binderForAccountInfo = new Binder<>();
+
         TextField firstName = createTextField("FIRST NAME:");
         firstName.setPlaceholder(loggedUser.getFirstName());
+        binderForAccountInfo.forField(firstName).withValidator(name -> name.length() >= 3 || name.length() == 0, "must contain at least 3 characters")
+                .bind(User::getFirstName, User::setFirstName);
+
+
         TextField lastName = createTextField("LAST NAME:");
         lastName.setPlaceholder(loggedUser.getLastName());
+        binderForAccountInfo.forField(lastName).withValidator(name -> name.length() >= 3 || name.length() == 0, "must contain at least 3 characters")
+                .bind(User::getLastName, User::setLastName);
+
+
         TextField email = createTextField("EMAIL ADDRESS:");
+        binderForAccountInfo.forField(email).withNullRepresentation("").withValidator(new EmailValidator("This doesn't look like a valid email address"))
+                .bind(User::getEmail, User::setEmail);
         email.setPlaceholder(loggedUser.getEmail());
+
         TextField address = createTextField("ADDRESS:");
         address.setPlaceholder(loggedUser.getAddress());
+        binderForAccountInfo.forField(address).withValidator(name -> name.length() >= 3 || name.length() == 0, "must contain at least 3 characters")
+                .bind(User::getAddress, User::setAddress);
 
-        formLayout.addComponents( firstName, lastName, email, address);
-        verticalLayout.addComponents(title, text,formLayout);
-        verticalLayout.addComponent(saveChangesButton(firstName, lastName, email, address));
+        formLayout.addComponents(firstName, lastName, email, address);
+        verticalLayout.addComponents(title, text, formLayout);
+        verticalLayout.addComponent(saveChangesButton(firstName, lastName, email, address, binderForAccountInfo));
         verticalLayout.setSizeFull();
         return verticalLayout;
     }
 
-    private Button saveChangesButton(TextField firstName, TextField lastName, TextField email, TextField address) {
+    private Button saveChangesButton(TextField firstName, TextField lastName, TextField email, TextField address, Binder<User> binder) {
         Button button = new Button("SAVE CHANGES");
         button.setIcon(VaadinIcons.REFRESH);
         button.setClickShortcut(ShortcutAction.KeyCode.ENTER);
@@ -347,9 +342,12 @@ public class BagView extends HorizontalLayout implements View {
             if (!address.getValue().isEmpty()) {
                 loggedUser.setAddress(address.getValue());
             }
-            if (!firstName.getValue().isEmpty() || !lastName.getValue().isEmpty() || !email.getValue().isEmpty() || !address.getValue().isEmpty()) {
+            if (!binder.isValid()) {
+                Notification.show("Please check red fields!");
+            } else if (!firstName.getValue().isEmpty() || !lastName.getValue().isEmpty() || !email.getValue().isEmpty() || !address.getValue().isEmpty()) {
                 userService.createUser(loggedUser);
-                Notification.show("Successful change");
+                Notification.show("You successfully changed details!");
+                accountInformationButton.click();
             } else {
                 Notification.show("If you want to change your details your have to fill the below areas");
             }
@@ -385,6 +383,7 @@ public class BagView extends HorizontalLayout implements View {
 
     private Button purchaseButton(Label label) {
         Button button = new Button("CONFIRM PURCHASE");
+        button.setIcon(VaadinIcons.CHECK_SQUARE);
         button.setClickShortcut(ShortcutAction.KeyCode.ENTER);
         button.setStyleName(ValoTheme.BUTTON_DANGER);
         button.addClickListener(clickEvent -> {
@@ -393,10 +392,24 @@ public class BagView extends HorizontalLayout implements View {
             } else {
                 purchaseService.purchaseItemsFromStorage(loggedUser);
                 label.setValue("TOTAL TO PAY:  $" + purchaseService.getSelectedItemsPrice(loggedUser));
-                selectedItems.setItems(loggedUser.getSelectedItems());
+                MyUI.getCurrent().addWindow(purchaseLayout());
+                selectedItemsButton.click();
             }
         });
         return button;
+    }
+
+    private Window purchaseLayout() {
+        Window window = new Window();
+        window.setSizeFull();
+        VerticalLayout content = new VerticalLayout();
+        content.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+        Label text = new Label("Transfer to the bank page....", ContentMode.PREFORMATTED);
+        text.setStyleName(ValoTheme.LABEL_H2);
+        content.addComponent(text);
+        window.setContent(content);
+        return window;
+
     }
 
 
@@ -414,6 +427,9 @@ public class BagView extends HorizontalLayout implements View {
         TextField password = addUserWindowTextField("password:");
         TextField email = addUserWindowTextField("email:");
         TextField address = addUserWindowTextField("address:");
+        DateField dateField = new DateField("birth date:");
+        dateField.setWidth("250");
+        dateField.addStyleNames(ValoTheme.TEXTAREA_LARGE, "mystyle");
         binder.forField(userName).withNullRepresentation("").withValidator(str -> str.length() >= 3, "must contain at least 3 characters").bind(User::getUserName, User::setUserName);
         binder.forField(firstName).withNullRepresentation("").withValidator(str -> str.length() >= 3, "must contain at least 3 characters").bind(User::getFirstName, User::setFirstName);
         binder.forField(lastName).withNullRepresentation("").withValidator(str -> str.length() >= 3, "must contain at least 3 characters").bind(User::getLastName, User::setLastName);
@@ -443,9 +459,9 @@ public class BagView extends HorizontalLayout implements View {
             if (Objects.nonNull(userService.findUserByName(userName.getValue()))) {
                 Notification.show("This username has been already used!");
             } else if (!userName.isEmpty() && !firstName.isEmpty() && !lastName.isEmpty() && !email.isEmpty() &&
-                    !address.isEmpty() && !password.isEmpty() && !type.isEmpty()) {
+                    !address.isEmpty() && !dateField.isEmpty() && !password.isEmpty() && !type.isEmpty()) {
                 User user = new User(userName.getValue(), firstName.getValue(), lastName.getValue(), email.getValue(),
-                        address.getValue(), password.getValue(), type.getValue());
+                        address.getValue(), dateField.getValue().toString(), password.getValue(), type.getValue());
                 userService.createUser(user);
             } else {
                 Notification.show("Please fill all details to create new account!");
@@ -453,7 +469,7 @@ public class BagView extends HorizontalLayout implements View {
 
         });
 
-        content.addComponents(title, userName, firstName, lastName, password, email, address, type, confirmAdd);
+        content.addComponents(title, userName, firstName, lastName, dateField, email, address, password, type, confirmAdd);
         window.setContent(content);
         window.center();
         window.setModal(true);
@@ -475,18 +491,96 @@ public class BagView extends HorizontalLayout implements View {
         Image image = new Image("", new FileResource(new File(basePath + item.getItem().getLargeImagePath())));
 
 
-        verticalLayout.addComponents(nameLabel,image);
+        verticalLayout.addComponents(nameLabel, image);
         return verticalLayout;
     }
 
     private TextField createTextField(String caption) {
         TextField textField = new TextField(caption);
-        textField.setWidth("220");
+        textField.setWidth("350");
         textField.addStyleNames(ValoTheme.TEXTAREA_LARGE, ValoTheme.TEXTFIELD_INLINE_ICON, "mystyle");
         textField.setValueChangeMode(ValueChangeMode.EAGER);
         return textField;
     }
 
+    private Button deleteItemButton(SelectedItem item) {
+        Button button = createButton("DELETE");
+        button.setWidth("185");
+        button.setIcon(VaadinIcons.TRASH);
+        button.addClickListener(clickEvent -> {
+            purchaseService.deleteItemFromStorage(item, loggedUser);
+            selectedItems.setItems(loggedUser.getSelectedItems());
+            if (itemService.findItemsByIsForBag(loggedUser, true).isEmpty()) {
+                selectedItemsButton.click();
+            }
+        });
+        return button;
+    }
+
+    private Button addItemToBag(SelectedItem item) {
+        Button button = createButton("ADD TO BAG");
+        button.setWidth("185");
+        button.setIcon(VaadinIcons.PLUS);
+        button.addClickListener(clickEvent -> MyUI.getCurrent().addWindow(addItemToBagWindow(item)));
+        return button;
+    }
+
+    private VerticalLayout buttonsForGridLayout(SelectedItem item) {
+        VerticalLayout verticalLayout = new VerticalLayout();
+        verticalLayout.setSizeUndefined();
+        verticalLayout.setSpacing(false);
+        verticalLayout.setMargin(false);
+        verticalLayout.addComponents(addItemToBag(item), deleteItemButton(item));
+        return verticalLayout;
+
+    }
+
+    private Window addItemToBagWindow(SelectedItem item) {
+        Window window = new Window();
+        VerticalLayout content = new VerticalLayout();
+        Label title = new Label("Before add, please select!");
+        title.setStyleName(ValoTheme.LABEL_H2);
+        content.addComponent(title);
+
+
+        Label sizeLabel = new Label("SIZE: ",ContentMode.PREFORMATTED);
+        sizeLabel.setStyleName(ValoTheme.LABEL_H3);
+        content.addComponent(sizeLabel);
+
+        ComboBox<String> sizeBox = new ComboBox<>();
+        Collection<String> sizes = new ArrayList<>();
+        for (Size size : Size.values()) {
+            sizes.add(size.toString());
+        }
+        sizeBox.setItems(sizes);
+        sizeBox.setEmptySelectionCaption("Please select");
+        sizeBox.setEmptySelectionAllowed(false);
+        sizeBox.setStyleName(ValoTheme.COMBOBOX_LARGE);
+        sizeBox.setWidth("250");
+        content.addComponent(sizeBox);
+
+        Label quantityLabel = new Label("QUANTITY: ",ContentMode.PREFORMATTED);
+        quantityLabel.setStyleName(ValoTheme.LABEL_H3);
+        content.addComponent(quantityLabel
+        );
+        ComboBox<Integer> quantityBox = new ComboBox<>();
+        List<Integer> collect = IntStream.range(1, 6).boxed().collect(Collectors.toList());
+        quantityBox.setItems(collect);
+        quantityBox.setEmptySelectionCaption("Please select");
+        quantityBox.setEmptySelectionAllowed(false);
+        quantityBox.setStyleName(ValoTheme.COMBOBOX_LARGE);
+        quantityBox.setWidth("250");
+        content.addComponent(quantityBox);
+
+        Button add = createButton("ADD");
+        add.setIcon(VaadinIcons.PLUS);
+        add.setWidth("250");
+        content.addComponent(add);
+        window.setContent(content);
+        window.center();
+        window.setModal(true);
+        return window;
+    }
 }
 
 

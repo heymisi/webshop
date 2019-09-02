@@ -4,6 +4,7 @@ import com.vaadin.data.Binder;
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.shared.Position;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
@@ -40,13 +41,19 @@ public class PasswordResetView extends VerticalLayout implements View {
         TextField emailField = new TextField("EMAIL ADDRESS:");
         binder.forField(emailField).withValidator(new EmailValidator("This doesn't look like a valid email address"))
                 .bind(User::getEmail, User::setEmail);
-        emailField.setWidth("210");
+        emailField.setWidth("250");
+        emailField.addStyleNames(ValoTheme.TEXTAREA_LARGE,"mystyle");
         Button resetButton = new Button("RESET");
-        resetButton.setWidth("210");
+        resetButton.setWidth("250");
         resetButton.setStyleName(ValoTheme.BUTTON_DANGER);
+        Notification notification= new Notification("");
+        notification.setPosition(Position.TOP_CENTER);
         resetButton.addClickListener(clickEvent -> {
-            if (Objects.isNull(userService.findUserByEmail(emailField.getValue()))) {
-                Notification.show("There is no such registered email!");
+            if(emailField.getValue().isEmpty()){
+                notification.show("You have to type your email!");
+            }
+           else if (Objects.isNull(userService.findUserByEmail(emailField.getValue()))) {
+                notification.show("There is no such registered email!");
             } else {
                 String newPassword = userService.generateNewPassword(userService.findUserByEmail(emailField.getValue()));
                 try {
@@ -55,7 +62,7 @@ public class PasswordResetView extends VerticalLayout implements View {
                     e.printStackTrace();
                 }
                 UI.getCurrent().getNavigator().navigateTo(SignUpView.VIEW_NAME);
-                Notification.show("We send your email a new password, you can change it in BAG menu");
+                notification.show("We send your email a new password, you can change it in BAG menu");
             }
         });
 

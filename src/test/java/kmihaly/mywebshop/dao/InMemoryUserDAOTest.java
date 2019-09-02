@@ -16,11 +16,11 @@ public class InMemoryUserDAOTest {
 
     private InMemoryUserDAO dao = new InMemoryUserDAO();
     User user1 = new User("nickn1", "Nagy", "Bela", "a@mail",
-            "Bp", "123", UserType.USER);
+            "Bp","date", "123", UserType.USER);
     User user2 = new User("nickn2", "Nagy2", "Bela2", "a@mail2",
-            "Bp2", "1232", UserType.USER);
+            "Bp2", "date","1232", UserType.USER);
     User user3 = new User("nickn3", "Nagy3", "Bela3", "a@mail3",
-            "Bp", "123", UserType.ADMIN);
+            "Bp","date", "123", UserType.ADMIN);
 
     @Test
     public void returnAll() {
@@ -88,9 +88,9 @@ public class InMemoryUserDAOTest {
     public void test_update_an_user() {
         //
         User user1 = new User("nickn1", "Nagy", "Bela", "a@mail",
-                "Bp", "123", UserType.USER);
+                "Bp","date", "123", UserType.USER);
         User user2 = new User("nickn1", "Nagy", "Bela", "a@mail2",
-                "Bp2", "1232", UserType.USER);
+                "Bp2","date", "1232", UserType.USER);
         //
         dao.update(user1, user2);
         //

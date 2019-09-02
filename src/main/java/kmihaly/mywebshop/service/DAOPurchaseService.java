@@ -82,15 +82,19 @@ public class DAOPurchaseService implements PurchaseService {
         }
 
         Purchase purchase = new Purchase(user, new Date(), getSelectedItemsPrice(user));
-
+        List<SelectedItem> items = new ArrayList<>();
         user.getSelectedItems().stream().forEach(s -> {
             s.getItem().setAvailableQuantity(s.getItem().getAvailableQuantity() - 1);
             itemRepository.save(s.getItem());
-            purchase.getItems().add(s);
+            purchase.addItem(s);
+
+            if(s.isForBag()){
+                items.add(s);
+            }
         });
-        List<SelectedItem> selectedItems = user.getSelectedItems();
-        selectedItemRepository.deleteAll(user.getSelectedItems());
-        user.getSelectedItems().removeAll(selectedItems);
+        purchaseRepository.save(purchase);
+
+        user.getSelectedItems().removeAll(items);
         userRepository.save(user);
         //
 //        List<SelectedItem> selectedItems = user.getSelectedItems();

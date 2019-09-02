@@ -65,7 +65,7 @@ public interface UserService {
      * @return visszaadja a létrehozott felhasználót
      */
 
-    void register(String userName, String firstName, String lastName, String email, String address, String password);
+    void register(String userName, String firstName, String lastName, String email, String address,String birthDate, String password);
 
     boolean isUserNameUsed(String username);
 

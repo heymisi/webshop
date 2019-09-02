@@ -25,34 +25,30 @@ $v-selection-item-border-radius: 0;
 @mixin mytheme {
   @include valo;
 
- .v-button-primary.v-button-primary {
+ .v-button-primary {
     float: left;
     background: #fcfcfc;
     border-color: $v-focus-color;
     color: $v-focus-color;
-    font-size: 22px;
+    font-size: 28px;
   }
 
-  .v-button-danger.v-button-danger {
+  .v-button-danger {
     background: #f5f5f5;
     border-color: #000000;
     color: #000000;
     font-size: 22px;
+    font-wight: bold;
   }
-  .v-button-friendly.v-button-friendly {
+  .v-button-friendly{
     background: #e1efef;
     border-color: #000000;
     color: #000000;
     font-size: 22px;
   }
- .v-button-borderless.v-button-borderless {
+ .v-button-borderless {
     color: #3f000f;
     font-size: 22px;
-  }
-
-  .v-slider-base:before,
-  .v-slider-base:after {
-    border: none !important;
   }
 
   .my-img-button {
@@ -60,10 +56,19 @@ $v-selection-item-border-radius: 0;
   }
 
   .v-caption-mystyle {
-   font-weight: bold;
    font-size: 22px;
-}
 
+}
+  .mylabel{
+    color: #3f000f;
+    font-size: 26px;	
+  }
+
+.mynotification {
+    background: #3f000f;
+    border: 10px solid #C00000;
+    color: black;
+}
 
 }
 

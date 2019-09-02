@@ -21,5 +21,7 @@ public interface ItemRepository extends JpaRepository<Item,Long> {
 
     List<Item> findByOrderByPriceAsc();
 
+    List<Item> findByOrderByRateDesc();
 
+    Item findByName(String name);
 }

@@ -7,7 +7,7 @@ import kmihaly.mywebshop.domain.model.item.Type;
 import kmihaly.mywebshop.domain.model.user.User;
 import kmihaly.mywebshop.repository.ItemRepository;
 import kmihaly.mywebshop.repository.SelectedItemRepository;
-import org.springframework.data.domain.Sort;
+import kmihaly.mywebshop.repository.UserRepository;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -19,9 +19,12 @@ public class DAOItemService implements ItemService {
 
     private final SelectedItemRepository selectedItemRepository;
 
-    public DAOItemService(ItemRepository itemRepository, SelectedItemRepository selectedItemRepository) {
+    private final UserRepository userRepository;
+
+    public DAOItemService(ItemRepository itemRepository, SelectedItemRepository selectedItemRepository, UserRepository userRepository) {
         this.itemRepository = itemRepository;
         this.selectedItemRepository = selectedItemRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -134,22 +137,25 @@ public class DAOItemService implements ItemService {
     }
 
     @Override
-    public List<Item> findItemsOrderByPrice() {
-        return itemRepository.findByOrderByPriceAsc();
+    public List<Item> findItemsOrderByPrice(int size) {
+        ArrayList<Item> orderedItems = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            orderedItems.add(itemRepository.findByOrderByPriceAsc().get(i));
+        }
+        return orderedItems;
     }
 
     @Override
     public List<SelectedItem> findItemsByIsForBag(User user, boolean isForBag) {
         ArrayList<SelectedItem> selectedItems = new ArrayList<>();
         if (isForBag) {
-            user.getSelectedItems().stream()
-                    .forEach(e -> {
-                        if (e.isForBag()) {
-                            selectedItems.add(e);
-                        }
-                    });
+            for (SelectedItem e : user.getSelectedItems()) {
+                if (e.isForBag()) {
+                    selectedItems.add(e);
+                }
+            }
         } else {
-            user.getSelectedItems().stream()
+            user.getSelectedItems()
                     .forEach(e -> {
                         if (!e.isForBag()) {
                             selectedItems.add(e);
@@ -158,4 +164,27 @@ public class DAOItemService implements ItemService {
         }
         return selectedItems;
     }
+
+    @Override
+    public List<Item> findItemsOrderByRate(int size) {
+        ArrayList<Item> orderedItems = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            orderedItems.add(itemRepository.findByOrderByRateDesc().get(i));
+        }
+        return orderedItems;
+    }
+    @Override
+    public Item findItemByName(String name) {
+        return   itemRepository.findByName(name);
+    }
+
+    @Override
+    public void setItemsForBag(SelectedItem items, User user) {
+        user.getSelectedItems().stream().forEach(i -> {
+            if (i.equals(items)) {
+                i.setForBag(true);
+            }});
+            userRepository.save(user);
+    }
+
 }

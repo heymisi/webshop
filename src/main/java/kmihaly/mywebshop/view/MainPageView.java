@@ -1,10 +1,12 @@
 package kmihaly.mywebshop.view;
 
 import com.vaadin.annotations.DesignRoot;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.VaadinService;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
 import com.vaadin.ui.renderers.ImageRenderer;
@@ -36,16 +38,26 @@ public class MainPageView extends VerticalLayout implements View {
 
     private User loggedUser = ((MyUI) UI.getCurrent()).getUser();
 
+    private int size = 5;
+
     @PostConstruct
     void init() {
-        Label newItemsLabel = new Label("Latest fashion");
+        Label newItemsLabel = new Label(VaadinIcons.ROAD.getHtml() + "Explore clothes");
         newItemsLabel.setStyleName(ValoTheme.LABEL_H1);
-        Label cheapestItemsLabel = new Label("Best prices clothes");
+        newItemsLabel.setContentMode(ContentMode.HTML);
+        Label cheapestItemsLabel = new Label(VaadinIcons.WALLET.getHtml() + " Best prices clothes");
         cheapestItemsLabel.setStyleName(ValoTheme.LABEL_H1);
-        Label bestRating = new Label("Best Rated clothes");
+        cheapestItemsLabel.setContentMode(ContentMode.HTML);
+        Label bestRating = new Label(VaadinIcons.TRENDING_UP.getHtml() + " Best Rated clothes");
         bestRating.setStyleName(ValoTheme.LABEL_H1);
+        bestRating.setContentMode(ContentMode.HTML);
 
-        addComponents(newItemsLabel, clothsLayout(itemService.getRandomItems(4)), cheapestItemsLabel, clothsLayout(itemService.findItemsOrderByPrice()), bestRating, clothsLayout(itemService.getRandomItems(4)));
+        if(itemService.listItems().size()< size){
+            size = itemService.listItems().size();
+        }
+
+        addComponents(cheapestItemsLabel, clothsLayout(itemService.findItemsOrderByPrice(size)),
+                bestRating, clothsLayout(itemService.findItemsOrderByRate(size)), newItemsLabel, clothsLayout(itemService.getRandomItems(size)));
     }
 
     @Override
@@ -59,7 +71,7 @@ public class MainPageView extends VerticalLayout implements View {
         Panel panel = new Panel();
         for (Item item : items) {
             Image image = new Image("", new FileResource(new File(basePath + item.getLargeImagePath())));
-            ItemDetails components = new ItemDetails(item, loggedUser,purchaseService,itemService);
+            ItemDetails components = new ItemDetails(item, loggedUser, purchaseService, itemService);
             image.addClickListener(e -> getCurrent().addWindow(components));
             image.addStyleName("my-img-button");
             horizontalLayout.addComponent(image);

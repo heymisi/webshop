@@ -83,9 +83,13 @@ public interface ItemService {
 
     Boolean isSelected(Set<Item> item);
 
-    List<Item> findItemsOrderByPrice();
+    List<Item> findItemsOrderByPrice(int size);
 
     List<SelectedItem> findItemsByIsForBag(User user, boolean isForBag);
 
+    List<Item> findItemsOrderByRate(int size);
 
+    Item findItemByName(String name);
+
+    void setItemsForBag(SelectedItem items, User user);
 }

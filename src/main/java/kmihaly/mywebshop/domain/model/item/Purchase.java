@@ -17,6 +17,7 @@ import java.util.Set;
  */
 @Data
 @Entity
+@Table(name = "purchase")
 public class Purchase implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -26,6 +27,7 @@ public class Purchase implements Serializable {
     private User user;
 
     @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "purchase_id")
     private Set<SelectedItem> items;
 
     private int itemsPrice;
@@ -40,6 +42,10 @@ public class Purchase implements Serializable {
         this.date = date;
         this.itemsPrice = itemsPrice;
         items = new HashSet<>();
+    }
+
+    public void addItem(SelectedItem item){
+        items.add(item);
     }
 
 }

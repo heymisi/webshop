@@ -3,6 +3,7 @@ package kmihaly.mywebshop.view;
 import com.vaadin.data.Binder;
 import com.vaadin.data.HasValue;
 import com.vaadin.data.converter.StringToIntegerConverter;
+import com.vaadin.event.ShortcutAction;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -101,9 +102,10 @@ public class ShopView extends VerticalLayout implements View {
         Label label = new Label("Advanced search");
 
         TextField search = new TextField("Search by name");
+        search.setWidth("240");
         search.setPlaceholder("All");
         ComboBox<String> typeFilter = new ComboBox<>("Choose Type");
-
+        typeFilter.setWidth("240");
         Collection<String> types = new ArrayList<>();
         for (Type type : Type.values()) {
             types.add(type.toString());
@@ -121,13 +123,13 @@ public class ShopView extends VerticalLayout implements View {
         brandFilter.setPlaceholder("Choose Brand");
         brandFilter.setEmptySelectionCaption("All");
         brandFilter.setItems(brandTypes);
-
+        brandFilter.setWidth("240");
         Label price = new Label();
 
-        Slider slider = new Slider("Choose Maximum Price",1,100);
+        Slider slider = new Slider("Choose Price Limit", 1, 100);
         slider.setStyleName(ValoTheme.SLIDER_NO_INDICATOR);
         slider.setResolution(0);
-        slider.setWidth("180");
+        slider.setWidth("240");
         slider.addValueChangeListener((HasValue.ValueChangeEvent<Double> event) -> {
             Double val = event.getValue();
             price.setValue(Math.round(val) + "$");
@@ -135,7 +137,7 @@ public class ShopView extends VerticalLayout implements View {
 
         Button searchButton = createButton("Search");
         searchButton.setIcon(VaadinIcons.SEARCH);
-
+        searchButton.setWidth("240");
         Label title = new Label();
         title.setStyleName(ValoTheme.LABEL_H2);
         if (genreType.equals(Genre.MEN)) {
@@ -146,14 +148,18 @@ public class ShopView extends VerticalLayout implements View {
         Label rowCount = new Label(itemService.searchByGenre(genreType).size() + " clothes found");
         rowCount.addStyleName(ValoTheme.LABEL_BOLD);
         searchButton.addClickListener((Button.ClickListener) clickEvent -> {
-            List<Item> filteredItems = itemService.multipleSearch(search.getValue(), genreType.name(), brandFilter.getValue(), typeFilter.getValue(),slider.getValue().intValue());
+            List<Item> filteredItems = itemService.multipleSearch(search.getValue(), genreType.name(), brandFilter.getValue(), typeFilter.getValue(), slider.getValue().intValue());
             foundItem = filteredItems.size();
             rowCount.setValue(foundItem + " clothes found");
             items.setItems(filteredItems);
         });
         Button addItem = createButton("ADD ITEM");
+        addItem.setWidth("400");
+        addItem.setIcon(VaadinIcons.PLUS);
         addItem.addClickListener(clickEvent -> getCurrent().addWindow(addItemWindow()));
         Button deleteItem = createButton("DELETE ITEM");
+        deleteItem.setWidth("400");
+        deleteItem.setIcon(VaadinIcons.TRASH);
         deleteItem.addClickListener(clickEvent -> {
             Set<Item> item = items.getSelectionModel().getSelectedItems();
             if (item.isEmpty()) {
@@ -161,7 +167,7 @@ public class ShopView extends VerticalLayout implements View {
             } else if (itemService.isSelected(item)) {
                 Notification.show("idk if its good");
             } else {
-                getCurrent().addWindow(verificationWindow("ARE YOU SURE TO DELETE?", clickEvent1 -> {
+                getCurrent().addWindow(verificationWindow("Are you sure to delete?", clickEvent1 -> {
                     for (Item i : item) {
                         itemService.deleteItem(i);
                     }
@@ -219,73 +225,97 @@ public class ShopView extends VerticalLayout implements View {
     private Button itemDetailsButton(Item item) {
         Button button = new Button("MORE INFORMATION");
         button.setStyleName(ValoTheme.BUTTON_DANGER);
-        button.addClickListener(event -> {
-            getCurrent().addWindow(new ItemDetails(item,loggedUser,purchaseService,itemService));
-        });
+        button.setIcon(VaadinIcons.ANGLE_DOWN);
+        button.addClickListener(event -> getCurrent().addWindow(new ItemDetails(item, loggedUser, purchaseService, itemService)));
         return button;
     }
 
 
     private Window addItemWindow() {
         Window window = new Window();
+        window.setModal(true);
         VerticalLayout content = new VerticalLayout();
 
         content.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-        TextField nameField = createTextField("name:");
-        TextField descriptionField = createTextField("description:");
-        TextField priceField = createTextField("price:");
-        TextField availableQuantityField = createTextField("quantity:");
-        ComboBox<Type> typeComboBox = new ComboBox<>("type:");
-        typeComboBox.setStyleName("mystyle");
-        ComboBox<Genre> genreComboBox = new ComboBox<>("genre:");
-        genreComboBox.setStyleName("mystyle");
-        ComboBox<Brand> brandComboBox = new ComboBox<>("brand:");
-        brandComboBox.setStyleName("mystyle");
 
+        Label title = new Label("ADD NEW ITEM");
+        title.setStyleName(ValoTheme.LABEL_H1);
+        TextField nameField = createTextField("Name:");
+        TextField descriptionField = createTextField("Description:");
+        TextField priceField = createTextField("Price:");
+        TextField availableQuantityField = createTextField("Quantity:");
+        ComboBox<Type> typeComboBox = new ComboBox<>("Type:");
+        typeComboBox.addStyleNames(ValoTheme.COMBOBOX_LARGE, "mystyle");
+        typeComboBox.setPlaceholder("Please select");
+        typeComboBox.setWidth("400");
 
+        ComboBox<Genre> genreComboBox = new ComboBox<>("Genre:");
+        genreComboBox.addStyleNames(ValoTheme.COMBOBOX_LARGE, "mystyle");
+        genreComboBox.setPlaceholder("Please select");
+        genreComboBox.setWidth("400");
 
-        TextField imageSmallField = createTextField("small image path:");
-        TextField imageBigField = createTextField("large image path:");
+        ComboBox<Brand> brandComboBox = new ComboBox<>("Brand:");
+        brandComboBox.addStyleNames(ValoTheme.COMBOBOX_LARGE, "mystyle");
+        brandComboBox.setPlaceholder("Please select");
+        brandComboBox.setWidth("400");
 
 
         binder.forField(nameField).withNullRepresentation("").withValidator(str -> str.length() >= 3, "must contain at least 3 characters").bind(Item::getName, Item::setName);
         binder.forField(descriptionField).withNullRepresentation("").withValidator(str -> str.length() >= 3, "must contain at least 3 characters").bind(Item::getDescription, Item::setDescription);
-        binder.forField(priceField).withConverter(new StringToIntegerConverter("Must enter a number")).bind(Item::getPrice, Item::setPrice);
-        binder.forField(availableQuantityField).withConverter(new StringToIntegerConverter("Must enter a number")).bind(Item::getAvailableQuantity, Item::setAvailableQuantity);
-        binder.forField(imageSmallField).withNullRepresentation("").withValidator(str -> str.length() >= 3, "must contain at least 3 characters").bind(Item::getSmallImagePath, Item::setSmallImagePath);
-        binder.forField(imageBigField).withNullRepresentation("").withValidator(str -> str.length() >= 3, "must contain at least 3 characters").bind(Item::getLargeImagePath, Item::setLargeImagePath);
-
+        binder.forField(priceField).withNullRepresentation("0").withConverter(new StringToIntegerConverter("Must enter a number")).bind(Item::getPrice, Item::setPrice);
+        binder.forField(availableQuantityField).withNullRepresentation("0").withConverter(new StringToIntegerConverter("Must enter a number")).bind(Item::getAvailableQuantity, Item::setAvailableQuantity);
 
         ArrayList<Type> types = new ArrayList<>();
-        Arrays.asList(Type.values()).addAll(types);
+        types.addAll(Arrays.asList(Type.values()));
         typeComboBox.setItems(types);
         typeComboBox.setEmptySelectionAllowed(false);
+
         ArrayList<Genre> genres = new ArrayList<>();
         Collections.addAll(genres, Genre.values());
-
         genreComboBox.setItems(genres);
         genreComboBox.setEmptySelectionAllowed(false);
+
         ArrayList<Brand> brands = new ArrayList<>();
         Collections.addAll(brands, Brand.values());
         brandComboBox.setItems(brands);
         brandComboBox.setEmptySelectionAllowed(false);
 
+        UploadFile uploadSmallImage = new UploadFile("Small image", "upload");
+        UploadFile uploadLargeImage = new UploadFile("Large image", "upload");
+
+        uploadSmallImage.setWidth("400");
+        uploadLargeImage.setWidth("400");
+        uploadSmallImage.addFinishedListener(finishedEvent -> uploadSmallImage.setButtonCaption(finishedEvent.getFilename()));
+        uploadLargeImage.addFinishedListener(finishedEvent -> uploadLargeImage.setButtonCaption(finishedEvent.getFilename()));
+
+
         Button confirmAdd = createButton("CONFIRM ADD");
+        confirmAdd.setClickShortcut(ShortcutAction.KeyCode.ENTER);
+
         confirmAdd.setIcon(VaadinIcons.CHECK);
+        confirmAdd.setWidth("400");
         confirmAdd.addClickListener(clickEvent -> {
-            if (!nameField.isEmpty() && !descriptionField.isEmpty() && !brandComboBox.isEmpty() && !priceField.isEmpty()
-                    && !availableQuantityField.isEmpty() && !genreComboBox.isEmpty() && !typeComboBox.isEmpty() && !imageSmallField.isEmpty() && !imageBigField.isEmpty()) {
-                Item item = new Item(nameField.getValue(), descriptionField.getValue(), brandComboBox.getValue(), Integer.parseInt(priceField.getValue()),
-                        Integer.parseInt(availableQuantityField.getValue()), genreComboBox.getValue(),
-                        typeComboBox.getValue(), imageBigField.getValue(), imageBigField.getValue());
-                itemService.addItem(item);
-            } else {
+            if (nameField.isEmpty() || descriptionField.isEmpty() || brandComboBox.isEmpty() || priceField.isEmpty()
+                    || availableQuantityField.isEmpty() || genreComboBox.isEmpty() || typeComboBox.isEmpty()
+                    || uploadSmallImage.getFileName().isEmpty() || uploadLargeImage.getFileName().isEmpty()) {
+
                 Notification.show("You have to fill all details to add item!");
+            } else if (!binder.isValid()) {
+                Notification.show("Please check the red fields!");
+            } else if (!Objects.isNull(itemService.findItemByName(nameField.getValue()))) {
+                Notification.show("This item name has been used! Please choose other");
+            } else {
+                Item item = new Item(nameField.getValue(), descriptionField.getValue(), brandComboBox.getValue(),
+                        Integer.parseInt(priceField.getValue()), Integer.parseInt(availableQuantityField.getValue()),
+                        genreComboBox.getValue(), typeComboBox.getValue(), "/img/" + uploadSmallImage.getFileName(),
+                        "/img/" + uploadLargeImage.getFileName());
+
+                itemService.addItem(item);
             }
         });
 
 
-        content.addComponents(nameField, descriptionField, priceField, availableQuantityField, typeComboBox, genreComboBox, brandComboBox, imageBigField, imageSmallField, confirmAdd);
+        content.addComponents(title, nameField, descriptionField, priceField, availableQuantityField, typeComboBox, genreComboBox, brandComboBox, uploadSmallImage, uploadLargeImage, confirmAdd);
         window.setContent(content);
         window.center();
         return window;
@@ -301,15 +331,22 @@ public class ShopView extends VerticalLayout implements View {
         HorizontalLayout horizontalLayout = new HorizontalLayout();
         horizontalLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
         Button okButton = new Button("YES");
+        okButton.setClickShortcut(ShortcutAction.KeyCode.ENTER);
+        okButton.setIcon(VaadinIcons.CHECK);
         okButton.addClickListener(listener);
         okButton.addClickListener(clickEvent -> window.close());
         okButton.setWidth("150");
+        okButton.setHeight("50");
         okButton.addStyleName(ValoTheme.BUTTON_HUGE);
         okButton.addStyleName(ValoTheme.BUTTON_DANGER);
         horizontalLayout.addComponent(okButton);
         Button cancelButton = new Button("NO");
+        cancelButton.setIcon(VaadinIcons.CLOSE);
+        cancelButton.setClickShortcut(ShortcutAction.KeyCode.ESCAPE);
+
         cancelButton.addClickListener(clickEvent -> window.close());
         cancelButton.setWidth("150");
+        cancelButton.setHeight("50");
         cancelButton.addStyleName(ValoTheme.BUTTON_HUGE);
         cancelButton.addStyleName(ValoTheme.BUTTON_DANGER);
         horizontalLayout.addComponents(okButton, cancelButton);
@@ -323,11 +360,12 @@ public class ShopView extends VerticalLayout implements View {
         return window;
     }
 
-    private TextField createTextField(String caption){
+    private TextField createTextField(String caption) {
         TextField textField = new TextField(caption);
-        textField.setWidth("200");
-        textField.addStyleName("mystyle");
+        textField.setWidth("400");
+        textField.addStyleNames(ValoTheme.TEXTFIELD_LARGE, "mystyle");
         return textField;
     }
+
 
 }

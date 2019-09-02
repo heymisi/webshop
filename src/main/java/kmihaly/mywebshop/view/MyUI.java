@@ -17,6 +17,7 @@ import kmihaly.mywebshop.domain.model.user.User;
 import kmihaly.mywebshop.domain.model.user.UserType;
 import kmihaly.mywebshop.service.DAOUserService;
 import kmihaly.mywebshop.service.EmailService;
+import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @SpringUI
@@ -26,14 +27,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Widgetset("AppWidgetset")
 public class MyUI extends UI implements ViewDisplay {
 
-    private User user = new User("quest", "quest", "quest", "quest", "quest", "quest", UserType.GUEST);
+    private User user = new User("guest", "guest", "guest", "guest", "guest", "guest","guest", UserType.GUEST);
 
     private Panel springViewDisplay;
 
+    private Label loginInform = new Label("Welcome Guest!" + VaadinIcons.HANDSHAKE.getHtml());
 
-    private Button loginInform = new Button("Welcome Guest!");
     @Autowired
-    private DAOUserService userService;
+    DAOUserService userService;
+
     @Autowired
     private EmailService emailService;
 
@@ -43,7 +45,7 @@ public class MyUI extends UI implements ViewDisplay {
 
     @Override
     protected void init(VaadinRequest request) {
-
+        setUser(userService.findUserByName("usern"));
         springViewDisplay = new Panel();
         springViewDisplay.setSizeFull();
         VerticalLayout mainLayout = new VerticalLayout(navigationBarLayout(), springViewDisplay, footerLayout());
@@ -54,7 +56,7 @@ public class MyUI extends UI implements ViewDisplay {
     private Button createNavigationButton(String caption, final String viewName) {
         Button button = new Button(caption);
         button.addStyleName(ValoTheme.BUTTON_PRIMARY);
-        button.setWidth("250");
+        button.setWidth("300");
         button.setHeight("50");
         button.addClickListener(event -> getUI().getNavigator().navigateTo(viewName));
 
@@ -77,55 +79,65 @@ public class MyUI extends UI implements ViewDisplay {
     @Override
     protected void refresh(VaadinRequest request) {
         if (user.getUserType().equals(UserType.GUEST)) {
-            loginInform.setCaption("Welcome Guest!");
+            loginInform.setValue("Welcome Guest!" + VaadinIcons.HANDSHAKE.getHtml());
             signUp.setCaption("Sign up");
             signUp.setIcon(VaadinIcons.SIGN_IN);
             bag.setVisible(false);
         } else if (user.getUserType().equals(UserType.ADMIN)) {
-            loginInform.setCaption("Welcome " + user.getUserName() + "! (ADMIN)");
+            loginInform.setValue("Welcome " + user.getUserName() + "! (ADMIN)" + VaadinIcons.HANDSHAKE.getHtml());
             signUp.setCaption("Log out");
             signUp.setIcon(VaadinIcons.SIGN_OUT);
             bag.setVisible(true);
         } else {
-            loginInform.setCaption("Welcome " + user.getUserName() + "!");
+            loginInform.setValue("Welcome " + user.getUserName() + "!" + VaadinIcons.HANDSHAKE.getHtml());
             signUp.setCaption("Log out");
             bag.setVisible(true);
         }
     }
 
-    private GridLayout navigationBarLayout() {
+    private HorizontalLayout navigationBarLayout() {
 
-        user = userService.findUserByName("usern");
-        GridLayout navigationBar = new GridLayout(6, 2);
-        navigationBar.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-        bag = createNavigationButton("Bag", BagView.VIEW_NAME);
-        signUp = createNavigationButton("Sign Up", SignUpView.VIEW_NAME);
-        Button shop = createNavigationButton("Shop", ShopView.VIEW_NAME);
-        Button mainPage = createNavigationButton("Main Page", MainPageView.VIEW_NAME);
-        loginInform.setStyleName(ValoTheme.BUTTON_BORDERLESS);
-        loginInform.setEnabled(true);
-        loginInform.setIcon(VaadinIcons.SMILEY_O);
-        navigationBar.addComponent(mainPage, 0, 1);
-        navigationBar.addComponent(shop, 1, 1);
-        navigationBar.addComponent(signUp, 2, 1);
-        navigationBar.addComponent(bag, 3, 1);
-        navigationBar.addComponent(loginInform, 4, 0, 5, 0);
-        navigationBar.setComponentAlignment(loginInform, Alignment.TOP_RIGHT);
-        bag.setIcon(VaadinIcons.BRIEFCASE);
-        bag.setVisible(false);
-        signUp.setIcon(VaadinIcons.SIGN_IN);
-        shop.setIcon(VaadinIcons.CART);
+        HorizontalLayout content = new HorizontalLayout();
+        content.setSizeFull();
 
+        HorizontalLayout navigationBar = new HorizontalLayout();
         navigationBar.setMargin(false);
         navigationBar.setSpacing(false);
-        navigationBar.setStyleName(ValoTheme.MENU_APPEAR_ON_HOVER);
-        return navigationBar;
+
+        bag = createNavigationButton("Bag", BagView.VIEW_NAME);
+        bag.setIcon(VaadinIcons.BRIEFCASE);
+        bag.setVisible(false);
+
+        signUp = createNavigationButton("Sign Up", SignUpView.VIEW_NAME);
+        signUp.setIcon(VaadinIcons.SIGN_IN);
+
+        Button shop = createNavigationButton("Shop", ShopView.VIEW_NAME);
+        shop.setIcon(VaadinIcons.CART);
+
+        Button mainPage = createNavigationButton("Main Page", MainPageView.VIEW_NAME);
+        mainPage.setIcon(VaadinIcons.SHOP);
+
+        navigationBar.addComponents(mainPage, shop, signUp, bag);
+
+        HorizontalLayout loginInformLayout = new HorizontalLayout();
+        loginInform.setContentMode(ContentMode.HTML);
+        loginInform.addStyleNames(ValoTheme.LABEL_BOLD, ValoTheme.LABEL_H2,"mylabel");
+        loginInformLayout.addComponent(loginInform);
+
+        content.addComponents(navigationBar, loginInformLayout);
+        content.setComponentAlignment(navigationBar, Alignment.MIDDLE_LEFT);
+        content.setComponentAlignment(loginInformLayout, Alignment.MIDDLE_RIGHT);
+        content.setExpandRatio(navigationBar,5);
+        content.setExpandRatio(loginInformLayout,1);
+
+        return content;
     }
 
     private HorizontalLayout footerLayout() {
 
         HorizontalLayout footer = new HorizontalLayout();
         VerticalLayout feedbackLayout = new VerticalLayout();
+        feedbackLayout.setSizeUndefined();
         Label feedbackLabel = new Label("Please send us your feedback \n" + "about our website!", ContentMode.PREFORMATTED);
         feedbackLabel.setStyleName(ValoTheme.LABEL_H3);
 
@@ -135,29 +147,37 @@ public class MyUI extends UI implements ViewDisplay {
         feedbackText.setWidth("400");
 
         Button feedbackButton = new Button("SEND");
+        feedbackButton.setIcon(VaadinIcons.ENVELOPE_O);
         feedbackButton.setWidth("400");
         feedbackButton.setStyleName(ValoTheme.BUTTON_DANGER);
         feedbackButton.addClickListener(clickEvent -> {
-            try {
-                emailService.sendMail("heymisi99@gmail.com", "Feedback", feedbackText.toString());
-            } catch (javax.mail.MessagingException e) {
-                e.printStackTrace();
+            if (feedbackText.isEmpty()) {
+                Notification.show("Write something before send!");
+            } else {
+                try {
+                    emailService.sendMail("heymisi99@gmail.com", "Feedback", feedbackText.toString());
+                } catch (javax.mail.MessagingException e) {
+                    e.printStackTrace();
+                }
             }
         });
         feedbackLayout.addComponents(feedbackLabel, feedbackText, feedbackButton);
 
-        Button aboutUsButton = new Button("About Us");
+        VerticalLayout buttonLayout = new VerticalLayout();
+        buttonLayout.setSizeUndefined();
+        Button aboutUsButton = createNavigationButton("About Us", AboutUsView.VIEW_NAME);
+        aboutUsButton.setIcon(VaadinIcons.INFO_CIRCLE);
+        aboutUsButton.addClickListener(clickEvent -> MyUI.getCurrent().setScrollTop(0));
         aboutUsButton.setStyleName(ValoTheme.BUTTON_BORDERLESS);
         aboutUsButton.setWidth("500");
-        Button helpButton = new Button("Help & Information");
-        helpButton.setStyleName(ValoTheme.BUTTON_BORDERLESS);
-        helpButton.setWidth("500");
+        buttonLayout.addComponent(aboutUsButton);
 
-        footer.addComponents(aboutUsButton, helpButton, feedbackLayout);
-        footer.setComponentAlignment(feedbackLayout, Alignment.TOP_RIGHT);
-        footer.setComponentAlignment(aboutUsButton, Alignment.MIDDLE_CENTER);
-        footer.setComponentAlignment(helpButton, Alignment.MIDDLE_CENTER);
-        footer.setExpandRatio(feedbackLayout, 1);
+        footer.setSizeFull();
+        footer.addComponent(buttonLayout);
+        footer.addComponent(feedbackLayout);
+        footer.setComponentAlignment(buttonLayout, Alignment.MIDDLE_LEFT);
+        footer.setComponentAlignment(feedbackLayout, Alignment.MIDDLE_RIGHT);
+
         return footer;
     }
 

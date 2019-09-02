@@ -17,11 +17,11 @@ public class InMemoryPurchaseDAOTest {
 
     private InMemoryPurchaseDAO dao = new InMemoryPurchaseDAO();
     Purchase pur1 = new Purchase(new User("nickn1", "Nagy1", "Bela1", "a@mail1",
-            "Bp1", "1231", UserType.USER), new Date(2015, 01, 12),1);
+            "Bp1", "date","1231", UserType.USER), new Date(2015, 01, 12),1);
     Purchase pur2 = new Purchase(new User("nickn2", "Nagy2", "Bela2", "a@mail2",
-            "Bp2", "1232", UserType.USER), new Date(2015, 01, 12),1);
+            "Bp2","date", "1232", UserType.USER), new Date(2015, 01, 12),1);
     Purchase pur3 = new Purchase(new User("nickn2", "Nagy2", "Bela2", "a@mail2",
-            "Bp2", "1232", UserType.USER), new Date(2015, 01, 15),1);
+            "Bp2","date", "1232", UserType.USER), new Date(2015, 01, 15),1);
 
     @Test
     public void returnAll() {
@@ -50,7 +50,7 @@ public class InMemoryPurchaseDAOTest {
         dao.create(pur1);
         dao.create(pur2);
         User user = new User("nickn1", "Nagy1", "Bela1", "a@mail1",
-                "Bp1", "1231", UserType.USER);
+                "Bp1","date", "1231", UserType.USER);
         //
         List<Purchase> expected = Arrays.asList(pur1);
         Collection<Purchase> actual = dao.readPurhcasesByUser(user);

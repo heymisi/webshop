@@ -23,7 +23,7 @@ public class Purchase implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @ManyToOne()
+    @OneToOne
     private User user;
 
     @OneToMany(fetch = FetchType.EAGER)

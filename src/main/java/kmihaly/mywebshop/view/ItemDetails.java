@@ -46,15 +46,22 @@ class ItemDetails extends Window implements View {
 
         VerticalLayout infoContent = new VerticalLayout();
         infoContent.setSizeFull();
-        infoContent.addComponent(createLabel("NAME:  " + item.getName()));
-        infoContent.addComponent(createLabel("DESCRIPTION: " + item.getDescription()));
-        infoContent.addComponent(createLabel("BRAND:  " + item.getBrand().toString()));
+        infoContent.addComponent(createLabel("NAME:  " ));
+        infoContent.addComponent(createDataLabel(item.getName()));
+        infoContent.addComponent(createLabel("DESCRIPTION: " ));
+        infoContent.addComponent(createDataLabel(item.getDescription()));
+        infoContent.addComponent(createLabel("BRAND:  " ));
+        infoContent.addComponent(createDataLabel(item.getBrand().toString()));
 
-        Label availableQuantityLabel = createLabel("AVAILABLE QUANTITY:  " + item.getAvailableQuantity());
-        availableQuantityLabel.setVisible(false);
-        infoContent.addComponents(availableQuantityLabel);
+        Label availableQuantityLabel = createLabel("AVAILABLE QUANTITY:  " );
+        Label availableQuantityDataLabel = createDataLabel(valueOf(item.getAvailableQuantity()));
+
+        availableQuantityLabel.setVisible(loggedUser.getUserType().equals(UserType.ADMIN));
+        availableQuantityDataLabel.setVisible(loggedUser.getUserType().equals(UserType.ADMIN));
+
+        infoContent.addComponents(availableQuantityLabel,availableQuantityDataLabel);
         Label sizeLabel = createLabel("SIZE: ");
-        sizeLabel.setVisible(false);
+        sizeLabel.setVisible(loggedUser.getUserType().equals(UserType.USER));
         infoContent.addComponent(sizeLabel);
 
         ComboBox<String> sizeBox = new ComboBox<>();
@@ -66,7 +73,7 @@ class ItemDetails extends Window implements View {
         sizeBox.setEmptySelectionCaption("Please select");
         infoContent.addComponent(sizeBox);
         sizeBox.setEmptySelectionAllowed(false);
-        sizeBox.setVisible(false);
+        sizeBox.setVisible(loggedUser.getUserType().equals(UserType.USER));
         sizeBox.setStyleName(ValoTheme.COMBOBOX_LARGE);
 
         ComboBox<Integer> quantityBox = new ComboBox<>();
@@ -74,11 +81,11 @@ class ItemDetails extends Window implements View {
         quantityBox.setItems(collect);
         quantityBox.setEmptySelectionCaption("Please select");
         quantityBox.setEmptySelectionAllowed(false);
-        quantityBox.setVisible(false);
+        quantityBox.setVisible(loggedUser.getUserType().equals(UserType.USER));
         quantityBox.setStyleName(ValoTheme.COMBOBOX_LARGE);
 
         Label quantityLabel = createLabel("QUANTITY: ");
-        quantityLabel.setVisible(false);
+        quantityLabel.setVisible(loggedUser.getUserType().equals(UserType.USER));
         infoContent.addComponent(quantityLabel);
         infoContent.addComponent(quantityBox);
 
@@ -101,11 +108,13 @@ class ItemDetails extends Window implements View {
         HorizontalLayout addToBagLayout = new HorizontalLayout();
         addToBagLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
         Button addToBagButton = new Button("ADD TO BAG");
-        addToBagButton.setStyleName(ValoTheme.BUTTON_DANGER);
+        addToBagButton.setStyleName("addbutton");
+        addToBagButton.setIcon(VaadinIcons.PLUS);
+        addToBagButton.setHeight("50");
         Button changeItem = changeItemButton(item, itemService);
         changeItem.setStyleName(ValoTheme.BUTTON_DANGER);
-        addToBagLayout.setVisible(false);
-        changeItem.setVisible(false);
+        addToBagLayout.setVisible(loggedUser.getUserType().equals(UserType.USER));
+        changeItem.setVisible(loggedUser.getUserType().equals(UserType.ADMIN));
 
         Image saveItem = new Image("", new FileResource(new File(basePath + "/img/hear.png")));
         saveItem.setHeight("40");
@@ -113,19 +122,6 @@ class ItemDetails extends Window implements View {
         saveItem.setStyleName("my-img-button");
 
         addToBagLayout.addComponents(addToBagButton, saveItem);
-
-        if (loggedUser.getUserType().equals(UserType.USER)) {
-            addToBagLayout.setVisible(true);
-            quantityBox.setVisible(true);
-            sizeBox.setVisible(true);
-            sizeLabel.setVisible(true);
-            quantityLabel.setVisible(true);
-        }
-
-        if (loggedUser.getUserType().equals(UserType.ADMIN)) {
-            changeItem.setVisible(true);
-            availableQuantityLabel.setVisible(true);
-        }
 
         saveItem.addClickListener(clickEvent -> {
             purchaseService.addItemToStorage(item, 1, loggedUser, false);
@@ -164,7 +160,12 @@ class ItemDetails extends Window implements View {
 
     private Label createLabel(String caption) {
         Label label = new Label(caption, ContentMode.PREFORMATTED);
-        label.setStyleName(ValoTheme.LABEL_H3);
+        label.setStyleName("mylabel");
+        return label;
+    }
+    private Label createDataLabel(String caption){
+        Label label = new Label(caption,ContentMode.PREFORMATTED);
+        label.setStyleName("mylabelfordata");
         return label;
     }
 
@@ -174,7 +175,6 @@ class ItemDetails extends Window implements View {
         button.setIcon(VaadinIcons.REFRESH);
         button.setStyleName(ValoTheme.BUTTON_DANGER);
         button.addClickListener(clickEvent -> UI.getCurrent().addWindow(changeItemDetailsWindow(item, itemService)));
-        button.setVisible(false);
         return button;
     }
 

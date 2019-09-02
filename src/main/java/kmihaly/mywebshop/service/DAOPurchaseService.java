@@ -1,6 +1,5 @@
 package kmihaly.mywebshop.service;
 
-import javafx.scene.control.SelectionMode;
 import kmihaly.mywebshop.domain.model.item.Item;
 import kmihaly.mywebshop.domain.model.item.Purchase;
 import kmihaly.mywebshop.domain.model.item.SelectedItem;
@@ -26,12 +25,15 @@ public class DAOPurchaseService implements PurchaseService {
 
     private final ItemRepository itemRepository;
 
+    private final DAOItemService itemService;
 
-    public DAOPurchaseService(PurchaseRepository purchaseRepository, UserRepository userRepository, SelectedItemRepository selectedItemRepository, ItemRepository itemRepository) {
+
+    public DAOPurchaseService(PurchaseRepository purchaseRepository, UserRepository userRepository, SelectedItemRepository selectedItemRepository, ItemRepository itemRepository, DAOItemService itemService) {
         this.purchaseRepository = purchaseRepository;
         this.userRepository = userRepository;
         this.selectedItemRepository = selectedItemRepository;
         this.itemRepository = itemRepository;
+        this.itemService = itemService;
     }
 
     @Override
@@ -48,7 +50,7 @@ public class DAOPurchaseService implements PurchaseService {
     }
 
     @Override
-    public void addItemToStorage(Item item, int orderedQuantity, User user,boolean isForBag) {
+    public void addItemToStorage(Item item, int orderedQuantity, User user, boolean isForBag) {
         if (Objects.isNull(user)) {
             throw new IllegalArgumentException("üres user!");
         } else if (Objects.isNull(item)) {
@@ -59,7 +61,7 @@ public class DAOPurchaseService implements PurchaseService {
             throw new IllegalArgumentException("nem jó a rendelés mennyiség!");
         } else {
 
-            user.addItem(selectedItemRepository.save(new SelectedItem(item, orderedQuantity,isForBag)));
+            user.addItem(selectedItemRepository.save(new SelectedItem(item, orderedQuantity, isForBag)));
             userRepository.save(user);
         }
     }
@@ -82,31 +84,24 @@ public class DAOPurchaseService implements PurchaseService {
         }
 
         Purchase purchase = new Purchase(user, new Date(), getSelectedItemsPrice(user));
-        List<SelectedItem> items = new ArrayList<>();
         user.getSelectedItems().stream().forEach(s -> {
             s.getItem().setAvailableQuantity(s.getItem().getAvailableQuantity() - 1);
             itemRepository.save(s.getItem());
             purchase.addItem(s);
-
-            if(s.isForBag()){
-                items.add(s);
-            }
         });
         purchaseRepository.save(purchase);
-
-        user.getSelectedItems().removeAll(items);
+        user.getSelectedItems().removeAll(itemService.findItemsByIsForBag(user,true));
         userRepository.save(user);
-        //
-//        List<SelectedItem> selectedItems = user.getSelectedItems();
-//        for(SelectedItem i : selectedItems){
-//            deleteItemFromStorage(i,user);
-//        }
+        itemRepository.saveAll(itemRepository.findAll());
     }
+
 
     public int getSelectedItemsPrice(User user) {
         int price = 0;
         for (SelectedItem items : user.getSelectedItems()) {
-            price += items.getItem().getPrice() * items.getQuantity();
+            if (items.isForBag()) {
+                price += items.getItem().getPrice() * items.getQuantity();
+            }
         }
         return price;
     }

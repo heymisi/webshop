@@ -76,8 +76,7 @@ public class ShopView extends VerticalLayout implements View {
         tabs.addTab(tab1, "MEN").setIcon(VaadinIcons.MALE);
         tabs.addTab(tab2, "WOMEN").setIcon(VaadinIcons.FEMALE);
         tabs.setSizeFull();
-        tabs.setStyleName(ValoTheme.TABSHEET_FRAMED);
-        tabs.setStyleName(ValoTheme.TABSHEET_EQUAL_WIDTH_TABS);
+        tabs.addStyleNames(ValoTheme.TABSHEET_EQUAL_WIDTH_TABS,ValoTheme.TABSHEET_FRAMED,"dirtyTabCaption");
         tab1.addComponents(layoutMen);
         tabs.addSelectedTabChangeListener((TabSheet.SelectedTabChangeListener) selectedTabChangeEvent -> {
             TabSheet tabSheet = selectedTabChangeEvent.getTabSheet();
@@ -100,11 +99,13 @@ public class ShopView extends VerticalLayout implements View {
     private HorizontalLayout filter(Grid<Item> items, Genre genreType) {
         VerticalLayout sideBar = new VerticalLayout();
         Label label = new Label("Advanced search");
-
+        label.setStyleName(ValoTheme.LABEL_H2);
         TextField search = new TextField("Search by name");
+        search.addStyleNames("mystyle",ValoTheme.TEXTFIELD_LARGE);
         search.setWidth("240");
         search.setPlaceholder("All");
         ComboBox<String> typeFilter = new ComboBox<>("Choose Type");
+        typeFilter.addStyleNames("mystyle",ValoTheme.COMBOBOX_LARGE);
         typeFilter.setWidth("240");
         Collection<String> types = new ArrayList<>();
         for (Type type : Type.values()) {
@@ -120,6 +121,7 @@ public class ShopView extends VerticalLayout implements View {
         }
 
         ComboBox<String> brandFilter = new ComboBox<>("Choose Brand");
+        brandFilter.addStyleNames("mystyle",ValoTheme.COMBOBOX_LARGE);
         brandFilter.setPlaceholder("Choose Brand");
         brandFilter.setEmptySelectionCaption("All");
         brandFilter.setItems(brandTypes);
@@ -127,7 +129,7 @@ public class ShopView extends VerticalLayout implements View {
         Label price = new Label();
 
         Slider slider = new Slider("Choose Price Limit", 1, 100);
-        slider.setStyleName(ValoTheme.SLIDER_NO_INDICATOR);
+        slider.addStyleNames("mystyle",ValoTheme.SLIDER_NO_INDICATOR);
         slider.setResolution(0);
         slider.setWidth("240");
         slider.addValueChangeListener((HasValue.ValueChangeEvent<Double> event) -> {
@@ -138,6 +140,7 @@ public class ShopView extends VerticalLayout implements View {
         Button searchButton = createButton("Search");
         searchButton.setIcon(VaadinIcons.SEARCH);
         searchButton.setWidth("240");
+        searchButton.setHeight("45");
         Label title = new Label();
         title.setStyleName(ValoTheme.LABEL_H2);
         if (genreType.equals(Genre.MEN)) {
@@ -165,7 +168,7 @@ public class ShopView extends VerticalLayout implements View {
             if (item.isEmpty()) {
                 Notification.show("To delete an item you have to select one!");
             } else if (itemService.isSelected(item)) {
-                Notification.show("idk if its good");
+                Notification.show("You can not delete item that already been used by users!");
             } else {
                 getCurrent().addWindow(verificationWindow("Are you sure to delete?", clickEvent1 -> {
                     for (Item i : item) {
@@ -175,14 +178,12 @@ public class ShopView extends VerticalLayout implements View {
                 }));
             }
         });
-        addItem.setVisible(false);
-        deleteItem.setVisible(false);
-
-        if (Objects.nonNull(loggedUser) && loggedUser.getUserType().equals(UserType.ADMIN)) {
-            addItem.setVisible(true);
-            deleteItem.setVisible(true);
+        if (loggedUser.getUserType().equals(UserType.ADMIN)) {
             items.setSelectionMode(Grid.SelectionMode.MULTI);
         }
+        addItem.setVisible(loggedUser.getUserType().equals(UserType.ADMIN));
+        deleteItem.setVisible(loggedUser.getUserType().equals(UserType.ADMIN));
+
 
         VerticalLayout itemLayout = new VerticalLayout(title, rowCount, items, addItem, deleteItem);
         itemLayout.setComponentAlignment(title, Alignment.TOP_CENTER);
@@ -207,8 +208,8 @@ public class ShopView extends VerticalLayout implements View {
         items.setHeightMode(HeightMode.UNDEFINED);
         items.addComponentColumn(item -> new Image("Image from file", new FileResource(new File(basePath + item.getSmallImagePath())))).setCaption("picture").setWidth(220);
         items.setItems(itemService.searchByGenre(genreType));
-        items.addColumn(Item::getName).setCaption("name");
-        items.addColumn(item -> item.getPrice() + "$").setCaption("price");
+        items.addColumn(Item::getName).setCaption("name").setStyleGenerator(e -> "middlealign");
+        items.addColumn(item -> item.getPrice() + "$").setCaption("price").setStyleGenerator(e -> "middlealign");
         items.setBodyRowHeight(200);
         items.addComponentColumn(this::itemDetailsButton).setCaption("more info");
         items.setSelectionMode(Grid.SelectionMode.SINGLE);

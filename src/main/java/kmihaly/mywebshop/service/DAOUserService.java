@@ -43,12 +43,6 @@ public class DAOUserService implements UserService {
         return repository.findByEmail(email).orElse(null);
     }
 
-//    @Override
-//    public User findUserByEmail(String email) {
-//
-//        return repository.findByEmail(email).orElse(null);
-//    }
-
 
     @Override
     public void deleteUser(User user) {

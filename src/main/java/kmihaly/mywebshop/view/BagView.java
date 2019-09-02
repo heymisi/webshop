@@ -63,8 +63,11 @@ public class BagView extends HorizontalLayout implements View {
     private Grid.Column<SelectedItem, Integer> quantityColumn;
 
     private Button selectedItemsButton;
-
+    private Button savedItemsButton;
     private Button accountInformationButton;
+
+    private boolean showColumnsForBag;
+    private boolean showColumnsForSaved;
 
     @PostConstruct
     void init() {
@@ -116,7 +119,7 @@ public class BagView extends HorizontalLayout implements View {
             VerticalLayout content = new VerticalLayout();
 
             selectedItemsButton = createMenuButton("BAG");
-            Button savedItemsButton = createMenuButton("SAVED ITEMS");
+            savedItemsButton = createMenuButton("SAVED ITEMS");
             accountInformationButton = createMenuButton("ACCOUNT INFORMATION");
             Button myOrdersButton = createMenuButton("MY ORDERS");
 
@@ -125,25 +128,24 @@ public class BagView extends HorizontalLayout implements View {
             Panel panel = new Panel();
             panel.setSizeUndefined();
             panel.setSizeFull();
+            selectedItems.setStyleGenerator(selectedItem -> "middlealign");
             selectedItems.setSizeFull();
             selectedItems.setHeightMode(HeightMode.UNDEFINED);
             selectedItems.addComponentColumn(item -> {
                 Image image = new Image("Image from file", new FileResource(new File(basePath + item.getItem().getSmallImagePath())));
                 return image;
-            }).setCaption("picture").setWidthUndefined();
-            selectedItems.addColumn(item -> item.getItem().getName()).setCaption("name");
-            selectedItems.addColumn(item -> item.getItem().getBrand()).setCaption("brand");
-            quantityColumn = selectedItems.addColumn(SelectedItem::getQuantity).setCaption("quantity").setHidden(true);
+            }).setCaption("picture").setWidth(235);
+            selectedItems.addColumn(item -> item.getItem().getName()).setCaption("name").setStyleGenerator(s -> "middlealign");
+            selectedItems.addColumn(item -> item.getItem().getBrand()).setCaption("brand").setStyleGenerator(s -> "middlealign");
+            quantityColumn = selectedItems.addColumn(SelectedItem::getQuantity).setCaption("quantity").setHidden(true).setStyleGenerator(s -> "middlealign");
+            selectedItems.addColumn(i -> i.getItem().getPrice() + "$").setCaption("price").setStyleGenerator(s -> "middlealign");
             deleteColumn = selectedItems.addComponentColumn(this::deleteItemButton).setWidth(220).setCaption("delete").setHidden(true);
             optionsColumn = selectedItems.addComponentColumn(this::buttonsForGridLayout).setWidth(220).setCaption("options").setHidden(true);
-            selectedItems.addComponentColumn(i -> {
-                Label label = new Label("p: " + i.getQuantity() * i.getItem().getPrice());
-                return label;
-            });
 
-            userPurchases.addColumn(Purchase::getDate).setCaption("date");
-            userPurchases.addColumn(Purchase::getItemsPrice).setCaption("price");
-            userPurchases.addColumn(Purchase::getItems).setCaption("items");
+            userPurchases.setBodyRowHeight(500);
+            userPurchases.addColumn(Purchase::getDate).setCaption("date").setStyleGenerator(s -> "middlealign");
+            userPurchases.addColumn(p -> p.getItemsPrice() + "$").setCaption("price").setStyleGenerator(s -> "middlealign");
+            userPurchases.addComponentColumn(this::myOrdersItemsLayout);
 
             panel.setContent(selectedItemLayout());
             selectedItemsButton.addClickListener((Button.ClickListener) clickEvent -> panel.setContent(selectedItemLayout()));
@@ -324,7 +326,7 @@ public class BagView extends HorizontalLayout implements View {
     }
 
     private Button saveChangesButton(TextField firstName, TextField lastName, TextField email, TextField address, Binder<User> binder) {
-        Button button = new Button("SAVE CHANGES");
+        Button button = createButton("SAVE CHANGES");
         button.setIcon(VaadinIcons.REFRESH);
         button.setClickShortcut(ShortcutAction.KeyCode.ENTER);
         button.setStyleName(ValoTheme.BUTTON_DANGER);
@@ -382,7 +384,9 @@ public class BagView extends HorizontalLayout implements View {
 
 
     private Button purchaseButton(Label label) {
-        Button button = new Button("CONFIRM PURCHASE");
+        Button button = createButton("CONFIRM PURCHASE");
+        button.setStyleName("addbutton");
+        button.setWidth("300");
         button.setIcon(VaadinIcons.CHECK_SQUARE);
         button.setClickShortcut(ShortcutAction.KeyCode.ENTER);
         button.setStyleName(ValoTheme.BUTTON_DANGER);
@@ -476,6 +480,7 @@ public class BagView extends HorizontalLayout implements View {
         return window;
     }
 
+
     private TextField addUserWindowTextField(String name) {
         TextField textField = new TextField(name);
         textField.setWidth("250");
@@ -504,8 +509,10 @@ public class BagView extends HorizontalLayout implements View {
     }
 
     private Button deleteItemButton(SelectedItem item) {
-        Button button = createButton("DELETE");
+        Button button = new Button("DELETE");
+        button.setStyleName("deletebutton");
         button.setWidth("185");
+        button.setHeight("50");
         button.setIcon(VaadinIcons.TRASH);
         button.addClickListener(clickEvent -> {
             purchaseService.deleteItemFromStorage(item, loggedUser);
@@ -519,6 +526,7 @@ public class BagView extends HorizontalLayout implements View {
 
     private Button addItemToBag(SelectedItem item) {
         Button button = createButton("ADD TO BAG");
+        button.setStyleName("addbutton");
         button.setWidth("185");
         button.setIcon(VaadinIcons.PLUS);
         button.addClickListener(clickEvent -> MyUI.getCurrent().addWindow(addItemToBagWindow(item)));
@@ -543,7 +551,7 @@ public class BagView extends HorizontalLayout implements View {
         content.addComponent(title);
 
 
-        Label sizeLabel = new Label("SIZE: ",ContentMode.PREFORMATTED);
+        Label sizeLabel = new Label("SIZE: ", ContentMode.PREFORMATTED);
         sizeLabel.setStyleName(ValoTheme.LABEL_H3);
         content.addComponent(sizeLabel);
 
@@ -559,7 +567,7 @@ public class BagView extends HorizontalLayout implements View {
         sizeBox.setWidth("250");
         content.addComponent(sizeBox);
 
-        Label quantityLabel = new Label("QUANTITY: ",ContentMode.PREFORMATTED);
+        Label quantityLabel = new Label("QUANTITY: ", ContentMode.PREFORMATTED);
         quantityLabel.setStyleName(ValoTheme.LABEL_H3);
         content.addComponent(quantityLabel
         );
@@ -575,12 +583,36 @@ public class BagView extends HorizontalLayout implements View {
         Button add = createButton("ADD");
         add.setIcon(VaadinIcons.PLUS);
         add.setWidth("250");
+
+        add.addClickListener(clickEvent -> {
+            itemService.setItemsForBag(item, loggedUser, quantityBox.getValue());
+            savedItemsButton.click();
+            window.close();
+            Notification.show("You added this item to your bag!");
+
+        });
         content.addComponent(add);
         window.setContent(content);
         window.center();
         window.setModal(true);
         return window;
     }
+
+
+    private VerticalLayout myOrdersItemsLayout(Purchase purchase) {
+        VerticalLayout verticalLayout = new VerticalLayout();
+        verticalLayout.setSizeFull();
+        verticalLayout.setMargin(false);
+        verticalLayout.setSpacing(false);
+        purchase.getItems().stream().forEach(
+                item -> verticalLayout.addComponents(
+                        (new Image("", new FileResource(new File(basePath + item.getItem().getSmallImagePath()))))));
+        return verticalLayout;
+    }
+
 }
+
+
+
 
 

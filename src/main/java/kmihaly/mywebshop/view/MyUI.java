@@ -156,6 +156,7 @@ public class MyUI extends UI implements ViewDisplay {
             } else {
                 try {
                     emailService.sendMail("heymisi99@gmail.com", "Feedback", feedbackText.toString());
+                    Notification.show("Thanks for your feedback!");
                 } catch (javax.mail.MessagingException e) {
                     e.printStackTrace();
                 }

@@ -6,7 +6,9 @@ import lombok.Data;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Az User az oldalt használó felhasználót reprezentálja
@@ -53,4 +55,5 @@ public class User implements Serializable {
     public void addItem(SelectedItem item){
         selectedItems.add(item);
     }
+
 }

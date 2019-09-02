@@ -34,17 +34,17 @@ public class DAOItemService implements ItemService {
 
     @Override
     public Item addItem(Item item) {
-//        if (Objects.isNull(item) || (repository.findById(item.getId()).isPresent())) {
-//            throw new IllegalArgumentException("hibás bemenet!");
-//        }
+        if (Objects.isNull(item) || (userRepository.findById(item.getId()).isPresent())) {
+            throw new IllegalArgumentException("hibás bemenet!");
+        }
         return itemRepository.save(item);
     }
 
     @Override
     public void changeItem(Item newItem) {
-//        if (Objects.isNull(newItem) || (repository.findById(newItem.getId()).isPresent())) {
-//            throw new IllegalArgumentException("hibás bemenet!");
-//        }
+        if (Objects.isNull(newItem) || (userRepository.findById(newItem.getId()).isPresent())) {
+            throw new IllegalArgumentException("hibás bemenet!");
+        }
         itemRepository.save(newItem);
     }
 
@@ -179,10 +179,12 @@ public class DAOItemService implements ItemService {
     }
 
     @Override
-    public void setItemsForBag(SelectedItem items, User user) {
+    public void setItemsForBag(SelectedItem items, User user,int quantity) {
         user.getSelectedItems().stream().forEach(i -> {
             if (i.equals(items)) {
                 i.setForBag(true);
+                i.setQuantity(quantity);
+                selectedItemRepository.save(i);
             }});
             userRepository.save(user);
     }

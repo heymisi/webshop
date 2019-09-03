@@ -1,9 +1,14 @@
 package kmihaly.mywebshop.domain.model.user;
 
-import kmihaly.mywebshop.domain.model.item.Purchase;
+import kmihaly.mywebshop.domain.model.item.SelectedItem;
 import lombok.Data;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Az User az oldalt használó felhasználót reprezentálja
@@ -13,33 +18,42 @@ import java.io.Serializable;
  */
 @Data
 @Entity
+@Table(name = "user")
 public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private long id;
+    private Long id;
     private String userName;
     private String firstName;
     private String lastName;
     private String email;
+    private String birthDate;
     private String address;
     private String password;
     private UserType userType;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
-    private Purchase storage;
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private List<SelectedItem> selectedItems;
+
 
     public User() {}
 
-    public User(String userName, String firstName, String lastName, String email, String address, String password, UserType userType) {
+    public User(String userName, String firstName, String lastName, String email, String address,String birthDate, String password, UserType userType) {
         this.userName = userName;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.address = address;
+        this.birthDate = birthDate;
         this.password = password;
         this.userType = userType;
+        selectedItems = new ArrayList<>();
     }
 
+    public void addItem(SelectedItem item){
+        selectedItems.add(item);
+    }
 
 }

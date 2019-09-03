@@ -1,5 +1,5 @@
 package kmihaly.mywebshop.domain.model.item;
 
-public enum GenreType {
-    MEN,WOMEN
+public enum Size {
+    S, M, L, XL
 }

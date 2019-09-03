@@ -14,8 +14,8 @@ public interface UserService {
      * @return visszadja a regisztrált felhasználók egy listáját
      */
     List<User> listUsers();
+
     /**
-     *
      * @return
      */
     Optional<User> findUserById(long id);
@@ -24,11 +24,15 @@ public interface UserService {
 
     List<User> findUserByType(UserType type);
 
-    /**
-     * felhasználó törlése a rendszerből
-     *
-     * @param id a felhasználó aki törölve lesz
-     */
+    User findUserByEmail(String email);
+
+//     User findUserByEmail(String email);
+
+        /**
+         * felhasználó törlése a rendszerből
+         *
+         * @param id a felhasználó aki törölve lesz
+         */
 
     void deleteUser(User user);
 
@@ -38,7 +42,7 @@ public interface UserService {
      * @param user    a felhasználó akinek az adata változni fog
      * @param newUser a felhasználó adatai amiké változni fog
      */
-    void updateUser(User newUser);
+    void createUser(User newUser);
 
     /**
      * metódus amely bejelentezésre szolgál
@@ -61,5 +65,11 @@ public interface UserService {
      * @return visszaadja a létrehozott felhasználót
      */
 
-    void register(String userName, String firstName, String lastName, String email, String address, String password);
+    void register(String userName, String firstName, String lastName, String email, String address,String birthDate, String password);
+
+    boolean isUserNameUsed(String username);
+
+    boolean isPasswordsEquals(String psw1, String psw2);
+
+    String generateNewPassword(User user);
 }

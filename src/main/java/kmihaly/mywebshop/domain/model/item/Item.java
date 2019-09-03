@@ -3,6 +3,7 @@ package kmihaly.mywebshop.domain.model.item;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.io.Serializable;
 
 /**
@@ -16,27 +17,36 @@ public class Item implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private long id;
+    private Long id;
     private String name;
     private String description;
-    private String brand;
     private int price;
-    private int rate;
+    private double rate;
     private int availableQuantity;
     @Enumerated
-    private SizeType size;
+    private Brand brand;
     @Enumerated
-    private GenreType genre;
+    private Size size;
+    @Enumerated
+    private Genre genre;
+    @Enumerated
+    private Type type;
+    private String smallImagePath;
+    private String LargeImagePath;
 
     public Item() {}
 
-    public Item(String name, String description, String brand, int price, int availableQuantity,GenreType genre) {
+    public Item(String name, String description,Brand brand, int price, int availableQuantity, Genre genre, Type type, String smallImagePath,String LargeImagePath) {
         this.name = name;
         this.description = description;
         this.brand = brand;
         this.price = price;
         this.availableQuantity = availableQuantity;
         this.genre = genre;
+        this.type = type;
+        this.smallImagePath = smallImagePath;
+        this.LargeImagePath = LargeImagePath;
+        rate = 0.0;
     }
 
 }

@@ -28,7 +28,7 @@ public class EmailService {
         helper.setSubject(subject);
         helper.setText(message);
 
-        if(file != null){
+        if (file != null) {
             helper.addAttachment(file.getName(), file);
         }
         javaMailSender.send(mimeMessage);

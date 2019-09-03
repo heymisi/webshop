@@ -1,10 +1,14 @@
 package kmihaly.mywebshop.service;
 
-import kmihaly.mywebshop.domain.model.item.GenreType;
+import kmihaly.mywebshop.domain.model.item.Genre;
 import kmihaly.mywebshop.domain.model.item.Item;
+import kmihaly.mywebshop.domain.model.item.SelectedItem;
+import kmihaly.mywebshop.domain.model.item.Type;
+import kmihaly.mywebshop.domain.model.user.User;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 
 public interface ItemService {
@@ -63,15 +67,29 @@ public interface ItemService {
     List<Item> searchItemByBrand(String brand);
 
     /**
-     *
      * @param amount
      * @return
      */
 
     List<Item> getRandomItems(int amount);
 
-    List<Item> searchByGenre(GenreType genreType);
+    List<Item> searchByGenre(Genre genreType);
 
-    List<Item> searchByGenreAndBrand(GenreType genreType,String Brand);
+    List<Item> searchByGenreAndBrand(Genre genreType, String Brand);
 
-    }
+    List<Item> searchByType(Type itemType);
+
+    List<Item> multipleSearch(String name, String genre, String brand, String type, int price);
+
+    Boolean isSelected(Set<Item> item);
+
+    List<Item> findItemsOrderByPrice(int size);
+
+    List<SelectedItem> findItemsByIsForBag(User user, boolean isForBag);
+
+    List<Item> findItemsOrderByRate(int size);
+
+    Item findItemByName(String name);
+
+    void setItemsForBag(SelectedItem items, User user, int quantity);
+}

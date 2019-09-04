@@ -2,11 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6df5c66b-8ef0-4396-83bc-eece27a4484f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/domain/model/item/UserBag.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/configuration/ApplicationConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/configuration/ApplicationConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/domain/model/item/UserBag.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/domain/model/item/UserBag.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/domain/model/user/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/domain/model/user/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/DAOItemService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/DAOItemService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/DAOPurchaseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/DAOPurchaseService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/DAOUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/DAOUserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/AboutUsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/AboutUsView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/BagView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/BagView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/ItemDetails.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/ItemDetails.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/MainPageView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/MainPageView.java" afterDir="false" />
@@ -18,8 +21,19 @@
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/VAADIN/themes/mytheme/mytheme.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/VAADIN/themes/mytheme/mytheme.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/VAADIN/themes/mytheme/styles.scss.cache" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/VAADIN/themes/mytheme/styles.scss.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/service/DAOUserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/service/DAOUserService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/service/EmailService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/service/EmailService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/asddsa.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/shortB02.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/shortB03.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/shortB04.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/shortS02.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/shortS03.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/shortS04.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/trash.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/img/yolo.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/configuration/ApplicationConfiguration.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/configuration/ApplicationConfiguration.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/service/DAOItemService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/service/DAOItemService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/service/DAOPurchaseService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/kmihaly/mywebshop/service/DAOPurchaseService.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -51,10 +65,22 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/MyUI.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/PasswordResetView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="44" column="49" selection-start-line="44" selection-start-column="49" selection-end-line="44" selection-end-column="49" />
+            <state relative-caret-position="396">
+              <caret line="47" column="43" selection-start-line="47" selection-start-column="43" selection-end-line="47" selection-end-column="43" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/RegisterView.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="312">
+              <caret line="61" column="55" selection-start-line="61" selection-start-column="55" selection-end-line="61" selection-end-column="55" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -65,8 +91,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/ShopView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1209">
-              <caret line="217" column="96" lean-forward="true" selection-start-line="217" selection-start-column="57" selection-end-line="217" selection-end-column="96" />
+            <state relative-caret-position="23">
+              <caret line="206" lean-forward="true" selection-start-line="206" selection-end-line="206" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -75,10 +101,19 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/webapp/VAADIN/themes/mytheme/styles.scss.cache">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="720">
+              <caret column="367731" selection-start-column="367731" selection-end-column="367731" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/BagView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="277">
-              <caret line="557" column="11" lean-forward="true" selection-start-line="557" selection-start-column="11" selection-end-line="557" selection-end-column="11" />
+            <state relative-caret-position="108">
+              <caret line="141" selection-start-line="141" selection-end-line="141" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -87,53 +122,13 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/domain/model/item/UserBag.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/DAOPurchaseService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="19" column="39" selection-start-line="19" selection-start-column="39" selection-end-line="19" selection-end-column="39" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#628#629#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/domain/model/item/Type.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="12" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/domain/model/item/SelectedItem.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="15" selection-start-line="15" selection-end-line="18" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/DAOItemService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="195" column="122" selection-start-line="195" selection-start-column="122" selection-end-line="195" selection-end-column="122" />
+            <state relative-caret-position="153">
+              <caret line="76" selection-start-line="76" selection-end-line="76" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/domain/model/user/User.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="35" column="18" selection-start-line="35" selection-end-line="36" />
             </state>
           </provider>
         </entry>
@@ -142,19 +137,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="187">
-              <caret line="11" column="40" selection-start-line="11" selection-start-column="40" selection-end-line="11" selection-end-column="40" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/DAOPurchaseService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="224">
-              <caret line="96" column="5" lean-forward="true" selection-start-line="96" selection-start-column="5" selection-end-line="96" selection-end-column="5" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+              <caret line="11" column="40" lean-forward="true" selection-start-line="11" selection-start-column="37" selection-end-line="11" selection-end-column="40" />
             </state>
           </provider>
         </entry>
@@ -167,16 +150,13 @@
         <option value="JUnit4 Test Class" />
         <option value="Kotlin File" />
         <option value="Enum" />
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>setVisible</find>
-      <find>createL</find>
-      <find>add to bag</find>
       <find>my orders</find>
       <find>search</find>
       <find>found</find>
@@ -196,7 +176,6 @@
       <find>ADD ITEM</find>
       <find>createMenuButton</find>
       <find>saveItem</find>
-      <find>BAG</find>
       <find>SAVED ITEMS</find>
       <find>SAVE</find>
       <find>ADD USER</find>
@@ -204,6 +183,10 @@
       <find>H1</find>
       <find>ADD NEW ITEM</find>
       <find>MY ORDERS</find>
+      <find>SAVED ITEM</find>
+      <find>ACCOUNT INF</find>
+      <find>BAG</find>
+      <find>MORE IN</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -258,7 +241,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/webapp/VAADIN/themes/mytheme/mytheme.scss" />
         <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/ItemView.java" />
         <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/NativeInput.java" />
         <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/ConfirmationDialog.java" />
@@ -290,25 +272,26 @@
         <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/domain/model/item/Item.java" />
         <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/domain/model/item/Purchase.java" />
         <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/EmailService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/DAOUserService.java" />
         <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/PurchaseService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/AboutUsView.java" />
         <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/UploadFile.java" />
-        <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/configuration/ApplicationConfiguration.java" />
-        <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/RegisterView.java" />
-        <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/PasswordResetView.java" />
-        <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/MainPageView.java" />
-        <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/SignUpView.java" />
-        <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/ItemDetails.java" />
-        <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/ShopView.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/application.properties" />
-        <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/DAOPurchaseService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/DAOItemService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/MyUI.java" />
-        <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/BagView.java" />
         <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/domain/model/item/SelectedItem.java" />
+        <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/repository/UserBagRepository.java" />
         <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/domain/model/user/User.java" />
         <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/domain/model/item/UserBag.java" />
+        <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/configuration/ApplicationConfiguration.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/application.properties" />
+        <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/AboutUsView.java" />
+        <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/ItemDetails.java" />
+        <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/MainPageView.java" />
+        <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/MyUI.java" />
+        <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/PasswordResetView.java" />
+        <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/RegisterView.java" />
+        <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/SignUpView.java" />
+        <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/DAOItemService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/DAOUserService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/ShopView.java" />
+        <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/BagView.java" />
+        <option value="$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/DAOPurchaseService.java" />
       </list>
     </option>
   </component>
@@ -416,6 +399,15 @@
               <item name="mywebshop" type="462c0819:PsiDirectoryNode" />
               <item name="model" type="462c0819:PsiDirectoryNode" />
               <item name="user" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="clothwebshop" type="b2602c69:ProjectViewProjectNode" />
+              <item name="clothwebshop" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="mywebshop" type="462c0819:PsiDirectoryNode" />
+              <item name="repository" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="clothwebshop" type="b2602c69:ProjectViewProjectNode" />
@@ -849,7 +841,14 @@
       <option name="project" value="LOCAL" />
       <updated>1567581028231</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="t">
+      <created>1567596696636</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1567596696636</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -903,7 +902,7 @@
       <window_info id="Structure" order="3" sideWeight="0.15229563" side_tool="true" weight="0.24938875" />
       <window_info id="Favorites" order="4" sideWeight="0.15042736" side_tool="true" weight="0.17114915" />
       <window_info id="Image Layers" order="5" />
-      <window_info active="true" content_ui="combo" id="Project" order="6" sideWeight="0.84770435" visible="true" weight="0.27139366" />
+      <window_info content_ui="combo" id="Project" order="6" sideWeight="0.84770435" visible="true" weight="0.27139366" />
       <window_info anchor="bottom" id="Messages" order="0" sideWeight="0.6717604" weight="0.31354985" />
       <window_info anchor="bottom" id="Terminal" order="1" weight="0.3661814" />
       <window_info anchor="bottom" id="Event Log" order="2" sideWeight="0.085574575" side_tool="true" weight="0.30459127" />
@@ -911,7 +910,7 @@
       <window_info anchor="bottom" id="Find" order="4" sideWeight="0.49392712" weight="0.32586786" />
       <window_info anchor="bottom" id="Version Control" order="5" sideWeight="0.7964548" weight="0.4580067" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49938875" weight="0.033594623" />
-      <window_info anchor="bottom" id="Run" order="7" sideWeight="0.91442543" visible="true" weight="0.3180291" />
+      <window_info active="true" anchor="bottom" id="Run" order="7" sideWeight="0.91442543" visible="true" weight="0.3180291" />
       <window_info anchor="bottom" id="Debug" order="8" sideWeight="0.49938875" weight="0.49048153" />
       <window_info anchor="bottom" id="Cvs" order="9" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="10" weight="0.4" />
@@ -1038,7 +1037,8 @@
     <MESSAGE value="v9" />
     <MESSAGE value="v10" />
     <MESSAGE value="v11" />
-    <option name="LAST_COMMIT_MESSAGE" value="v11" />
+    <MESSAGE value="t" />
+    <option name="LAST_COMMIT_MESSAGE" value="t" />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
@@ -1050,20 +1050,6 @@
     </SUITE>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/test/java/kmihaly/mywebshop/service/DAOItemServiceTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="239">
-          <caret line="111" selection-start-line="111" selection-start-column="2" selection-end-line="123" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/kmihaly/mywebshop/service/DAOUserServiceTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="35" column="24" lean-forward="true" selection-start-line="35" selection-start-column="24" selection-end-line="35" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/kmihaly/mywebshop/dao/InMemoryItemDAOTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="72">
@@ -1113,13 +1099,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/repository/PurchaseRepository.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="9" column="17" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/org/apache/tomcat/embed/tomcat-embed-core/9.0.21/tomcat-embed-core-9.0.21.jar!/org/apache/catalina/connector/OutputBuffer.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1326">
@@ -1131,13 +1110,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
           <caret line="15" column="18" selection-start-line="15" selection-start-column="18" selection-end-line="15" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/VAADIN/themes/mytheme/styles.scss.cache">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="253" lean-forward="true" selection-start-column="253" selection-end-column="253" />
         </state>
       </provider>
     </entry>
@@ -1223,55 +1195,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/EmailService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/DAOUserService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="15" lean-forward="true" selection-start-line="4" selection-start-column="15" selection-end-line="4" selection-end-column="15" />
-          <folding>
-            <element signature="e#1070#1071#0" expanded="true" />
-            <element signature="e#1135#1136#0" expanded="true" />
-            <element signature="e#2254#2255#0" expanded="true" />
-            <element signature="e#2324#2325#0" expanded="true" />
-            <element signature="e#2460#2461#0" expanded="true" />
-            <element signature="e#2500#2501#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/ItemService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="7" lean-forward="true" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/PurchaseService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="7" lean-forward="true" selection-start-line="4" selection-start-column="7" selection-end-line="4" selection-end-column="7" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/UserService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/UploadFile.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="459">
@@ -1299,133 +1222,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/PasswordResetView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="36" column="47" selection-start-line="36" selection-start-column="45" selection-end-line="36" selection-end-column="47" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/AboutUsView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="227">
-          <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/MainPageView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="271">
-          <caret line="56" column="21" selection-start-line="56" selection-start-column="8" selection-end-line="56" selection-end-column="21" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/SignUpView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1309">
-          <caret line="136" column="14" lean-forward="true" selection-start-line="136" selection-start-column="14" selection-end-line="136" selection-end-column="14" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/ItemDetails.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="447">
-          <caret line="221" column="11" lean-forward="true" selection-start-line="221" selection-start-column="11" selection-end-line="221" selection-end-column="11" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/RegisterView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="244">
-          <caret line="57" column="47" selection-start-line="57" selection-start-column="47" selection-end-line="57" selection-end-column="47" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/configuration/ApplicationConfiguration.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="484">
-          <caret line="61" column="82" selection-start-line="61" selection-start-column="82" selection-end-line="61" selection-end-column="82" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="40" selection-start-line="11" selection-start-column="40" selection-end-line="11" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/DAOPurchaseService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
-          <caret line="96" column="5" lean-forward="true" selection-start-line="96" selection-start-column="5" selection-end-line="96" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/DAOItemService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="195" column="122" selection-start-line="195" selection-start-column="122" selection-end-line="195" selection-end-column="122" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/MyUI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="44" column="49" selection-start-line="44" selection-start-column="49" selection-end-line="44" selection-end-column="49" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/ShopView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1209">
-          <caret line="217" column="96" lean-forward="true" selection-start-line="217" selection-start-column="57" selection-end-line="217" selection-end-column="96" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/BagView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="277">
-          <caret line="557" column="11" lean-forward="true" selection-start-line="557" selection-start-column="11" selection-end-line="557" selection-end-column="11" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/domain/model/item/Type.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
@@ -1440,20 +1236,226 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/ItemService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="194">
+          <caret line="13" column="17" selection-start-line="13" selection-start-column="17" selection-end-line="13" selection-end-column="17" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/PurchaseService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="17" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/UserService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="17" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/repository/SelectedItemRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="8" column="80" selection-start-line="8" selection-start-column="40" selection-end-line="8" selection-end-column="80" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/repository/PurchaseRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="11" column="14" selection-start-line="11" selection-end-line="12" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/domain/model/user/User.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="35" column="18" selection-start-line="35" selection-end-line="36" />
+        <state relative-caret-position="17">
+          <caret line="33" column="30" selection-start-line="33" selection-start-column="30" selection-end-line="33" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/repository/UserBagRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="64" selection-start-line="7" selection-start-column="64" selection-end-line="7" selection-end-column="64" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/domain/model/item/UserBag.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="19" column="39" selection-start-line="19" selection-start-column="39" selection-end-line="19" selection-end-column="39" />
+        <state relative-caret-position="170">
+          <caret line="16" column="41" selection-start-line="16" selection-start-column="41" selection-end-line="16" selection-end-column="41" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#597#598#0" expanded="true" />
             <element signature="e#628#629#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/configuration/ApplicationConfiguration.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="173">
+          <caret line="108" column="30" selection-start-line="108" selection-start-column="30" selection-end-line="108" selection-end-column="30" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/AboutUsView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="26" column="62" selection-start-line="26" selection-start-column="62" selection-end-line="26" selection-end-column="62" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/ItemDetails.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="328">
+          <caret line="214" column="63" selection-start-line="214" selection-start-column="63" selection-end-line="214" selection-end-column="63" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/MainPageView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="57" column="57" selection-start-line="57" selection-start-column="57" selection-end-line="57" selection-end-column="57" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/MyUI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="58" selection-start-line="58" selection-end-line="58" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/PasswordResetView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="47" column="43" selection-start-line="47" selection-start-column="43" selection-end-line="47" selection-end-column="43" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/RegisterView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="312">
+          <caret line="61" column="55" selection-start-line="61" selection-start-column="55" selection-end-line="61" selection-end-column="55" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/SignUpView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="383">
+          <caret line="258" column="5" selection-start-line="258" selection-start-column="5" selection-end-line="258" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/DAOItemService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="158" column="17" selection-start-line="158" selection-start-column="17" selection-end-line="158" selection-end-column="17" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/DAOUserService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="30" column="41" selection-start-line="30" selection-start-column="41" selection-end-line="30" selection-end-column="41" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/EmailService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="28" column="32" selection-start-line="28" selection-start-column="32" selection-end-line="28" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/VAADIN/themes/mytheme/styles.scss.cache">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="720">
+          <caret column="367731" selection-start-column="367731" selection-end-column="367731" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/ShopView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="23">
+          <caret line="206" lean-forward="true" selection-start-line="206" selection-end-line="206" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/view/BagView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="141" selection-start-line="141" selection-end-line="141" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="40" lean-forward="true" selection-start-line="11" selection-start-column="37" selection-end-line="11" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/kmihaly/mywebshop/service/DAOPurchaseService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="76" selection-start-line="76" selection-end-line="76" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

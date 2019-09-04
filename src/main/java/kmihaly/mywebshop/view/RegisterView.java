@@ -33,7 +33,7 @@ public class RegisterView extends VerticalLayout implements View {
         FormLayout formLayout = new FormLayout();
         formLayout.setSizeUndefined();
         Label label = new Label("REGISTRATION");
-        label.addStyleNames(ValoTheme.LABEL_H1,ValoTheme.LABEL_BOLD);
+        label.addStyleNames(ValoTheme.LABEL_H1, ValoTheme.LABEL_BOLD);
         TextField username = createTextField("username (at least 4 characters)");
         binder.forField(username).withNullRepresentation("").withValidator(name -> name.length() >= 4, "must contain at least 4 characters").bind(User::getUserName, User::setUserName);
 
@@ -84,8 +84,8 @@ public class RegisterView extends VerticalLayout implements View {
                     !address.getValue().isEmpty() && !birthDate.isEmpty() && !passwordField.getValue().isEmpty() && !passwordField2.getValue().isEmpty()) {
 
                 service.register(username.getValue(), firstName.getValue(), lastName.getValue(),
-                        email.getValue(), address.getValue(),birthDate.getValue().toString(), passwordField2.getValue());
-                Notification.show("Successful registration!\n" + "Welcome "+firstName.getValue() +" "+ lastName.getValue());
+                        email.getValue(), address.getValue(), birthDate.getValue().toString(), passwordField2.getValue());
+                Notification.show("Successful registration!\n" + "Welcome " + firstName.getValue() + " " + lastName.getValue());
                 ((MyUI) UI.getCurrent()).setUser(service.findUserByName(username.getValue()));
                 UI.getCurrent().getPage().reload();
                 getUI().getNavigator().navigateTo(MainPageView.VIEW_NAME);

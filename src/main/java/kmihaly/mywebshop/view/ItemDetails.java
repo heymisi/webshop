@@ -197,7 +197,7 @@ class ItemDetails extends Window implements View {
         uploadLargeImage.addFinishedListener(finishedEvent -> uploadLargeImage.setButtonCaption(finishedEvent.getFilename()));
 
         Button saveButton = new Button("SAVE");
-        saveButton.addStyleNames(ValoTheme.BUTTON_DANGER,"addbutton");
+        saveButton.addStyleNames(ValoTheme.BUTTON_DANGER, "addbutton");
         saveButton.setWidth("500");
         saveButton.setIcon(VaadinIcons.CHECK_SQUARE);
         saveButton.setClickShortcut(ShortcutAction.KeyCode.ENTER);

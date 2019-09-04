@@ -33,9 +33,9 @@ public class User implements Serializable {
     private String password;
     private UserType userType;
 
-    @OneToMany()
-//    @JoinColumn(name = "user_id")
-    private List<SelectedItem> selectedItems;
+//    @OneToMany()
+////    @JoinColumn(name = "user_id")
+//    private List<SelectedItem> selectedItems;
 
 
     public User() {}
@@ -52,8 +52,8 @@ public class User implements Serializable {
 //        selectedItems = new ArrayList<>();
     }
 
-    public void addItem(SelectedItem item){
-        selectedItems.add(item);
-    }
+//    public void addItem(SelectedItem item){
+//        selectedItems.add(item);
+//    }
 
 }

@@ -3,11 +3,9 @@ package kmihaly.mywebshop.service;
 import kmihaly.mywebshop.domain.model.item.Item;
 import kmihaly.mywebshop.domain.model.item.Purchase;
 import kmihaly.mywebshop.domain.model.item.SelectedItem;
+import kmihaly.mywebshop.domain.model.item.UserBag;
 import kmihaly.mywebshop.domain.model.user.User;
-import kmihaly.mywebshop.repository.ItemRepository;
-import kmihaly.mywebshop.repository.PurchaseRepository;
-import kmihaly.mywebshop.repository.SelectedItemRepository;
-import kmihaly.mywebshop.repository.UserRepository;
+import kmihaly.mywebshop.repository.*;
 
 import java.util.Date;
 import java.util.List;
@@ -26,13 +24,16 @@ public class DAOPurchaseService implements PurchaseService {
 
     private final DAOItemService itemService;
 
+    private final UserBagRepository userBagRepository;
 
-    public DAOPurchaseService(PurchaseRepository purchaseRepository, UserRepository userRepository, SelectedItemRepository selectedItemRepository, ItemRepository itemRepository, DAOItemService itemService) {
+
+    public DAOPurchaseService(PurchaseRepository purchaseRepository, UserRepository userRepository, SelectedItemRepository selectedItemRepository, ItemRepository itemRepository, DAOItemService itemService, UserBagRepository userBagRepository) {
         this.purchaseRepository = purchaseRepository;
         this.userRepository = userRepository;
         this.selectedItemRepository = selectedItemRepository;
         this.itemRepository = itemRepository;
         this.itemService = itemService;
+        this.userBagRepository = userBagRepository;
     }
 
     @Override
@@ -59,9 +60,10 @@ public class DAOPurchaseService implements PurchaseService {
         } else if (orderedQuantity <= 0) {
             throw new IllegalArgumentException("nem jó a rendelés mennyiség!");
         } else {
-
-            user.addItem(selectedItemRepository.save(new SelectedItem(item, orderedQuantity, isForBag)));
-            userRepository.save(user);
+            UserBag bag = userBagRepository.findByUser(user);
+            SelectedItem save = selectedItemRepository.save(new SelectedItem(item, orderedQuantity, isForBag));
+            bag.addItem(save);
+            userBagRepository.save(bag);
         }
     }
 
@@ -70,10 +72,8 @@ public class DAOPurchaseService implements PurchaseService {
         if (Objects.isNull(user) || !(userRepository.findById(user.getId()).isPresent()) || Objects.isNull(item)) {
             throw new IllegalArgumentException("hibás bemenet!");
         }
-        user.getSelectedItems().remove(item);
-//        user.setSelectedItems(user.getSelectedItems());
-        selectedItemRepository.delete(item);
-        userRepository.save(user);
+        userBagRepository.delete(userBagRepository.findByUser(user));
+        userBagRepository.save(new UserBag(user));
     }
 
     @Override
@@ -84,22 +84,23 @@ public class DAOPurchaseService implements PurchaseService {
 
         Purchase purchase = new Purchase(user, new Date(), getSelectedItemsPrice(user));
 
-        itemService.findItemsByIsForBag(user,true).forEach(s -> {
+        itemService.findItemsByIsForBag(user, true).forEach(s -> {
             s.getItem().setAvailableQuantity(s.getItem().getAvailableQuantity() - 1);
             itemRepository.save(s.getItem());
             purchase.addItem(s);
         });
+
         purchaseRepository.save(purchase);
 
-        user.getSelectedItems().clear();
-        userRepository.save(user);
+        userBagRepository.delete(userBagRepository.findByUser(user));
+        userBagRepository.save(new UserBag(user));
 
     }
 
 
     public int getSelectedItemsPrice(User user) {
         int price = 0;
-        for (SelectedItem items : user.getSelectedItems()) {
+        for (SelectedItem items : userBagRepository.findByUser(user).getItems()) {
             if (items.isForBag()) {
                 price += items.getItem().getPrice() * items.getQuantity();
             }

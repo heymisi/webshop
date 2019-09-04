@@ -79,10 +79,10 @@ public class MyUI extends UI implements ViewDisplay {
             signUp.setCaption("Sign up");
             signUp.setIcon(VaadinIcons.SIGN_IN);
         } else if (user.getUserType().equals(UserType.ADMIN)) {
-            signUp.setCaption(" Account information" );
+            signUp.setCaption(" Account information");
             signUp.setIcon(VaadinIcons.USER);
         } else {
-            signUp.setCaption(" Account information" );
+            signUp.setCaption(" Account information");
             signUp.setIcon(VaadinIcons.USER);
         }
     }

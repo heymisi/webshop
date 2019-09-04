@@ -130,4 +130,15 @@ $v-selection-item-border-radius: 0;
 .v-textfield-my-text{
    text-align:right !important;
  }
+.labelForName{
+    color:3f000f;
+    font-size: 40px;
+    font-weight: bold;
+    text-allign: center;
+}
+.no-stripes .v-grid-row-stripe > td {background-color: #FFF;}
+
+.yourgrid .v-grid-cell {
+        border: none !important;
+}
 }

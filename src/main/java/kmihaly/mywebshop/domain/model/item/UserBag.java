@@ -14,7 +14,7 @@ public class UserBag {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.MERGE)
     User user;
 
     @OneToMany(fetch = FetchType.EAGER)
@@ -28,7 +28,7 @@ public class UserBag {
         items = new ArrayList<>();
     }
 
-    public void addItems(SelectedItem item) {
+    public void addItem(SelectedItem item) {
         items.add(item);
     }
 }

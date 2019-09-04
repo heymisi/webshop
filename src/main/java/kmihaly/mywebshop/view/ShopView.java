@@ -210,15 +210,21 @@ public class ShopView extends VerticalLayout implements View {
 
     private void setUpItems(Grid<Item> items, Genre genreType) {
         items.setSizeFull();
+        items.addStyleName("yourgrid");
         items.setHeightMode(HeightMode.UNDEFINED);
         items.setHeaderVisible(false);
         items.setFooterVisible(false);
-        items.addComponentColumn(item -> new Image("Image from file", new FileResource(new File(basePath + item.getSmallImagePath())))).setCaption("picture").setWidth(220);
+        items.addComponentColumn(item -> {
+
+            Image i = new Image("Image from file", new FileResource(new File(basePath + item.getSmallImagePath())));
+            i.setWidth("250");
+            return i;
+        }).setCaption("picture").setStyleGenerator(e -> "middlealign").setWidth(300);
         items.setItems(itemService.searchByGenre(genreType));
         items.addColumn(Item::getName).setCaption("name").setStyleGenerator(e -> "middlealign");
-        items.addColumn(item ->"price: " + item.getPrice() + "$").setCaption("price").setStyleGenerator(e -> "middlealign");
-        items.setBodyRowHeight(200);
-        items.addComponentColumn(this::itemDetailsButton).setCaption("more info");
+        items.addColumn(item -> "price: " + item.getPrice() + "$").setCaption("price").setStyleGenerator(e -> "middlealign");
+        items.setBodyRowHeight(260);
+        items.addComponentColumn(this::itemDetailsButton).setCaption("more info").setStyleGenerator(e -> "middlealign");
         items.setSelectionMode(Grid.SelectionMode.SINGLE);
     }
 
@@ -247,7 +253,7 @@ public class ShopView extends VerticalLayout implements View {
         content.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 
         Label title = new Label("ADD NEW ITEM");
-        title.addStyleNames(ValoTheme.LABEL_H1,ValoTheme.LABEL_BOLD);
+        title.addStyleNames(ValoTheme.LABEL_H1, ValoTheme.LABEL_BOLD);
         TextField nameField = createTextField("Name:");
         TextField descriptionField = createTextField("Description:");
         TextField priceField = createTextField("Price($):");

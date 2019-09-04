@@ -42,8 +42,12 @@ public class SignUpView extends HorizontalLayout implements View {
             contentPanel.setSizeFull();
 
             sideBar.setSizeFull();
-            sideBar.addComponent(createMenuButton("UPDATE YOUR ACCOUNT",accountInformationLayout(),contentPanel));
-            sideBar.addComponent(createMenuButton("LOG OUT",logOutLayout(),contentPanel));
+            sideBar.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+            Label nameLabel = new Label(loggedUser.getUserName().toUpperCase());
+            nameLabel.addStyleNames(ValoTheme.LABEL_H1, "labelForName");
+            sideBar.addComponent(nameLabel);
+            sideBar.addComponent(createMenuButton("YOUR ACCOUNT", accountInformationLayout(), contentPanel));
+            sideBar.addComponent(createMenuButton("LOG OUT", logOutLayout(), contentPanel));
 
             contentPanel.setContent(accountInformationLayout());
             content.addComponent(contentPanel);
@@ -61,17 +65,17 @@ public class SignUpView extends HorizontalLayout implements View {
             singInLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
             Label title = new Label("SIGN IN");
             Label text = new Label("If you already have an account sign in,\n" + "or if you don't have click the register button!", ContentMode.PREFORMATTED);
-            title.addStyleNames(ValoTheme.LABEL_H1,ValoTheme.LABEL_BOLD);
+            title.addStyleNames(ValoTheme.LABEL_H1, ValoTheme.LABEL_BOLD);
             text.setStyleName(ValoTheme.LABEL_H2);
             TextField username = new TextField("username");
             username.setIcon(VaadinIcons.USER);
             username.setWidth("300");
-            username.addStyleNames(ValoTheme.TEXTFIELD_LARGE,"mystyle");
+            username.addStyleNames(ValoTheme.TEXTFIELD_LARGE, "mystyle");
             binder.forField(username).withNullRepresentation("").withValidator(name -> name.length() >= 3, "must contain at least 3 characters").bind(User::getUserName, User::setUserName);
             PasswordField password = new PasswordField("password");
             password.setWidth("300");
             password.setIcon(VaadinIcons.PASSWORD);
-            password.addStyleNames(ValoTheme.TEXTFIELD_LARGE,"mystyle");
+            password.addStyleNames(ValoTheme.TEXTFIELD_LARGE, "mystyle");
 
             binder.forField(password).withNullRepresentation("").withValidator(psw -> psw.length() >= 3, "must contain at least 3 characters").bind(User::getPassword, User::setPassword);
 
@@ -131,7 +135,7 @@ public class SignUpView extends HorizontalLayout implements View {
         return submit;
     }
 
-    private VerticalLayout logOutLayout(){
+    private VerticalLayout logOutLayout() {
         VerticalLayout logOutLayout = new VerticalLayout();
         logOutLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
         logOutLayout.setSizeFull();
@@ -139,18 +143,18 @@ public class SignUpView extends HorizontalLayout implements View {
         label.setStyleName(ValoTheme.LABEL_H2);
         addComponents(label);
         Button logoutButton = new Button("LOG OUT", clickEvent -> {
-            ((MyUI) UI.getCurrent()).setUser(new User("guest", "guest", "guest", "guest", "guest", "guest","guest",   UserType.GUEST));
+            ((MyUI) UI.getCurrent()).setUser(new User("guest", "guest", "guest", "guest", "guest", "guest", "guest", UserType.GUEST));
             UI.getCurrent().getPage().reload();
             Notification.show("you have been logged out!");
             getUI().getNavigator().navigateTo(MainPageView.VIEW_NAME);
 
         });
         logoutButton.setIcon(VaadinIcons.EXIT);
-        logoutButton.addStyleNames(ValoTheme.BUTTON_DANGER,"deletebutton");
+        logoutButton.addStyleNames(ValoTheme.BUTTON_DANGER, "deletebutton");
         logoutButton.setWidth("300");
         logoutButton.setHeight("55");
 
-        logOutLayout.addComponents(label,logoutButton);
+        logOutLayout.addComponents(label, logoutButton);
         return logOutLayout;
     }
 
@@ -159,10 +163,10 @@ public class SignUpView extends HorizontalLayout implements View {
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
         verticalLayout.setSizeFull();
-        Label title = new Label("ACCOUNT INFORMATION");
+        Label title = new Label("ACCOUNT INFORMATION ");
         Label text = new Label("Feel free to edit any of your details below so your account is totally up to date.", ContentMode.PREFORMATTED);
         text.setStyleName(ValoTheme.LABEL_H2);
-        title.addStyleNames(ValoTheme.LABEL_H1,ValoTheme.LABEL_BOLD);
+        title.addStyleNames(ValoTheme.LABEL_H1, ValoTheme.LABEL_BOLD);
 
         FormLayout formLayout = new FormLayout();
         formLayout.setSizeUndefined();
@@ -235,6 +239,7 @@ public class SignUpView extends HorizontalLayout implements View {
         textField.setValueChangeMode(ValueChangeMode.EAGER);
         return textField;
     }
+
     private Button createButton(String caption) {
         Button button = new Button(caption);
         button.addStyleNames(ValoTheme.BUTTON_DANGER);
@@ -244,10 +249,10 @@ public class SignUpView extends HorizontalLayout implements View {
     }
 
 
-    private Button createMenuButton(String caption,VerticalLayout layout,Panel panel) {
-        Button button = new Button(caption,clickEvent -> panel.setContent(layout));
+    private Button createMenuButton(String caption, VerticalLayout layout, Panel panel) {
+        Button button = new Button(caption, clickEvent -> panel.setContent(layout));
         button.addStyleNames(ValoTheme.BUTTON_FRIENDLY);
-        button.setWidth("400");
+        button.setWidth("380");
         button.setHeight("60");
 
         return button;

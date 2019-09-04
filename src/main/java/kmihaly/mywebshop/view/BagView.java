@@ -60,7 +60,7 @@ public class BagView extends HorizontalLayout implements View {
 
     private Grid.Column<SelectedItem, VerticalLayout> optionsColumn;
     private Grid.Column<SelectedItem, Button> deleteColumn;
-    private Grid.Column<SelectedItem, Integer> quantityColumn;
+    private Grid.Column<SelectedItem, String> quantityColumn;
 
     private Button selectedItemsButton;
     private Button savedItemsButton;
@@ -136,21 +136,27 @@ public class BagView extends HorizontalLayout implements View {
             sideBar.addComponents(selectedItemsButton, savedItemsButton, myOrdersButton);
             Panel panel = new Panel();
             panel.setSizeFull();
-            selectedItems.setStyleGenerator(selectedItem -> "middlealign");
+
             selectedItems.setSizeFull();
+            selectedItems.addStyleName("yourgrid");
             selectedItems.setHeaderVisible(false);
             selectedItems.setFooterVisible(false);
             selectedItems.setHeightMode(HeightMode.UNDEFINED);
             selectedItems.addComponentColumn(item -> {
-                Image image = new Image("Image from file", new FileResource(new File(basePath + item.getItem().getSmallImagePath())));
-                return image;
-            }).setCaption("picture").setWidth(235);
+
+                Image i = new Image("Image from file", new FileResource(new File(basePath + item.getItem().getSmallImagePath())));
+                i.setWidth("250");
+                return i;
+            }).setCaption("picture").setStyleGenerator(e -> "middlealign").setWidth(300);
             selectedItems.addColumn(item -> item.getItem().getName()).setCaption("name").setStyleGenerator(s -> "middlealign");
             selectedItems.addColumn(item -> item.getItem().getBrand()).setCaption("brand").setStyleGenerator(s -> "middlealign");
-            quantityColumn = selectedItems.addColumn(SelectedItem::getQuantity).setCaption("quantity").setHidden(true).setStyleGenerator(s -> "middlealign");
+            quantityColumn = selectedItems.addColumn(i -> "quantity : " + i.getQuantity()).setCaption("quantity").setHidden(true).setStyleGenerator(s -> "middlealign");
+            selectedItems.setBodyRowHeight(260);
             selectedItems.addColumn(i -> i.getItem().getPrice() + "$").setCaption("price").setStyleGenerator(s -> "middlealign");
-            deleteColumn = selectedItems.addComponentColumn(this::deleteItemButton).setWidth(220).setCaption("delete").setHidden(true);
-            optionsColumn = selectedItems.addComponentColumn(this::buttonsForGridLayout).setWidth(220).setCaption("options").setHidden(true);
+            deleteColumn = selectedItems.addComponentColumn(this::deleteItemButton).setCaption("delete").setHidden(true);
+            optionsColumn = selectedItems.addComponentColumn(this::buttonsForGridLayout).setCaption("options").setHidden(true);
+
+
 
             userPurchases.setHeaderVisible(false);
             userPurchases.setSizeFull();
@@ -256,7 +262,6 @@ public class BagView extends HorizontalLayout implements View {
             optionsColumn.setHidden(true);
             deleteColumn.setHidden(false);
             quantityColumn.setHidden(false);
-            selectedItems.setBodyRowHeight(200);
             selectedItems.setItems(itemService.findItemsByIsForBag(loggedUser, true));
             selectedItems.setSelectionMode(Grid.SelectionMode.SINGLE);
             Label purchasePrice = new Label("TOTAL TO PAY:  $" + purchaseService.getSelectedItemsPrice(loggedUser), ContentMode.PREFORMATTED);
@@ -331,9 +336,7 @@ public class BagView extends HorizontalLayout implements View {
         button.setIcon(VaadinIcons.CHECK_SQUARE);
         button.setClickShortcut(ShortcutAction.KeyCode.ENTER);
         button.addClickListener(clickEvent -> {
-            if (loggedUser.getSelectedItems().isEmpty()) {
-                Notification.show("Your bag is empty!");
-            } else {
+            {
                 purchaseService.purchaseItemsFromStorage(loggedUser);
                 label.setValue("TOTAL TO PAY:  $" + purchaseService.getSelectedItemsPrice(loggedUser));
                 MyUI.getCurrent().addWindow(purchaseLayout());
@@ -449,7 +452,7 @@ public class BagView extends HorizontalLayout implements View {
         button.setIcon(VaadinIcons.TRASH);
         button.addClickListener(clickEvent -> {
             purchaseService.deleteItemFromStorage(item, loggedUser);
-            selectedItems.setItems(loggedUser.getSelectedItems());
+//            selectedItems.setItems(loggedUser.getSelectedItems());
             if (itemService.findItemsByIsForBag(loggedUser, true).isEmpty()) {
                 button.click();
             }

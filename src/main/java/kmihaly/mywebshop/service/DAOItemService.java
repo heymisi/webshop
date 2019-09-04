@@ -7,6 +7,7 @@ import kmihaly.mywebshop.domain.model.item.Type;
 import kmihaly.mywebshop.domain.model.user.User;
 import kmihaly.mywebshop.repository.ItemRepository;
 import kmihaly.mywebshop.repository.SelectedItemRepository;
+import kmihaly.mywebshop.repository.UserBagRepository;
 import kmihaly.mywebshop.repository.UserRepository;
 
 import java.util.*;
@@ -21,10 +22,13 @@ public class DAOItemService implements ItemService {
 
     private final UserRepository userRepository;
 
-    public DAOItemService(ItemRepository itemRepository, SelectedItemRepository selectedItemRepository, UserRepository userRepository) {
+    private final UserBagRepository userBagRepository;
+
+    public DAOItemService(ItemRepository itemRepository, SelectedItemRepository selectedItemRepository, UserRepository userRepository, UserBagRepository userBagRepository) {
         this.itemRepository = itemRepository;
         this.selectedItemRepository = selectedItemRepository;
         this.userRepository = userRepository;
+        this.userBagRepository = userBagRepository;
     }
 
     @Override
@@ -149,13 +153,13 @@ public class DAOItemService implements ItemService {
     public List<SelectedItem> findItemsByIsForBag(User user, boolean isForBag) {
         ArrayList<SelectedItem> selectedItems = new ArrayList<>();
         if (isForBag) {
-            for (SelectedItem e : user.getSelectedItems()) {
+            for (SelectedItem e : userBagRepository.findByUser(user).getItems()) {
                 if (e.isForBag()) {
                     selectedItems.add(e);
                 }
             }
         } else {
-            user.getSelectedItems()
+            userBagRepository.findByUser(user).getItems()
                     .forEach(e -> {
                         if (!e.isForBag()) {
                             selectedItems.add(e);
@@ -181,7 +185,7 @@ public class DAOItemService implements ItemService {
 
     @Override
     public void setItemsForBag(SelectedItem items, User user, int quantity) {
-        user.getSelectedItems().forEach(i -> {
+        userBagRepository.findByUser(user).getItems().forEach(i -> {
             if (i.equals(items)) {
                 i.setForBag(true);
                 i.setQuantity(quantity);
@@ -192,10 +196,10 @@ public class DAOItemService implements ItemService {
     }
 
     @Override
-    public void rateItem(Item item, double rate){
+    public void rateItem(Item item, double rate) {
         double r = ((item.getRate().getValue() * item.getRate().getCounter()) + rate) / (item.getRate().getCounter() + 1);
         item.getRate().setValue(r);
-        item.getRate().setCounter(item.getRate().getCounter()+ 1);
+        item.getRate().setCounter(item.getRate().getCounter() + 1);
 
         itemRepository.save(item);
     }

@@ -1,6 +1,5 @@
 package kmihaly.mywebshop.view;
 
-import com.vaadin.client.ui.Icon;
 import com.vaadin.data.Binder;
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.event.ShortcutAction;
@@ -14,22 +13,24 @@ import com.vaadin.shared.ui.ValueChangeMode;
 import com.vaadin.shared.ui.grid.HeightMode;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
-import com.vaadin.ui.components.grid.SingleSelectionModel;
 import com.vaadin.ui.themes.ValoTheme;
-import kmihaly.mywebshop.domain.model.item.*;
+import kmihaly.mywebshop.domain.model.item.Purchase;
+import kmihaly.mywebshop.domain.model.item.SelectedItem;
+import kmihaly.mywebshop.domain.model.item.Size;
 import kmihaly.mywebshop.domain.model.user.User;
 import kmihaly.mywebshop.domain.model.user.UserType;
-import kmihaly.mywebshop.repository.ItemRepository;
 import kmihaly.mywebshop.service.DAOItemService;
 import kmihaly.mywebshop.service.DAOPurchaseService;
 import kmihaly.mywebshop.service.DAOUserService;
-import kmihaly.mywebshop.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.info.BuildInfoContributor;
+import org.vaadin.teemu.ratingstars.RatingStars;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -57,7 +58,6 @@ public class BagView extends HorizontalLayout implements View {
 
     private Binder<User> binder = new Binder<>();
 
-
     private Grid.Column<SelectedItem, VerticalLayout> optionsColumn;
     private Grid.Column<SelectedItem, Button> deleteColumn;
     private Grid.Column<SelectedItem, Integer> quantityColumn;
@@ -66,8 +66,6 @@ public class BagView extends HorizontalLayout implements View {
     private Button savedItemsButton;
     private Button accountInformationButton;
 
-    private boolean showColumnsForBag;
-    private boolean showColumnsForSaved;
 
     @PostConstruct
     void init() {
@@ -142,9 +140,10 @@ public class BagView extends HorizontalLayout implements View {
             deleteColumn = selectedItems.addComponentColumn(this::deleteItemButton).setWidth(220).setCaption("delete").setHidden(true);
             optionsColumn = selectedItems.addComponentColumn(this::buttonsForGridLayout).setWidth(220).setCaption("options").setHidden(true);
 
-            userPurchases.setBodyRowHeight(500);
-            userPurchases.addColumn(Purchase::getDate).setCaption("date").setStyleGenerator(s -> "middlealign");
-            userPurchases.addColumn(p -> p.getItemsPrice() + "$").setCaption("price").setStyleGenerator(s -> "middlealign");
+
+            userPurchases.setSizeFull();
+            userPurchases.setBodyRowHeight(300);
+            userPurchases.setHeightMode(HeightMode.UNDEFINED);
             userPurchases.addComponentColumn(this::myOrdersItemsLayout);
 
             panel.setContent(selectedItemLayout());
@@ -249,7 +248,6 @@ public class BagView extends HorizontalLayout implements View {
             Label purchasePrice = new Label("TOTAL TO PAY:  $" + purchaseService.getSelectedItemsPrice(loggedUser), ContentMode.PREFORMATTED);
             purchasePrice.setStyleName(ValoTheme.LABEL_H2);
             Button purchase = purchaseButton(purchasePrice);
-
 
             verticalLayout.addComponents(selectedItems, purchasePrice, purchase);
 
@@ -373,7 +371,6 @@ public class BagView extends HorizontalLayout implements View {
         } else {
 
             userPurchases.setItems(purchaseService.listPurchases());
-            userPurchases.setSizeFull();
 
             verticalLayout.addComponents(userPurchases);
             verticalLayout.setMargin(false);
@@ -518,7 +515,7 @@ public class BagView extends HorizontalLayout implements View {
             purchaseService.deleteItemFromStorage(item, loggedUser);
             selectedItems.setItems(loggedUser.getSelectedItems());
             if (itemService.findItemsByIsForBag(loggedUser, true).isEmpty()) {
-                selectedItemsButton.click();
+                button.click();
             }
         });
         return button;
@@ -599,14 +596,50 @@ public class BagView extends HorizontalLayout implements View {
     }
 
 
-    private VerticalLayout myOrdersItemsLayout(Purchase purchase) {
+    private HorizontalLayout myOrdersItemsLayout(Purchase purchase) {
+        HorizontalLayout mainContent = new HorizontalLayout();
+        VerticalLayout labels = new VerticalLayout();
+        labels.setMargin(false);
+        labels.setSpacing(false);
+
+        Label date = new Label("order date: ", ContentMode.PREFORMATTED);
+        date.addStyleNames("labelForOrders");
+        Label dateValue = new Label(purchase.getDate().toString(), ContentMode.PREFORMATTED);
+        dateValue.addStyleNames("labelForOrdersValue");
+
+        Label price = new Label("order price: ", ContentMode.PREFORMATTED);
+        price.addStyleNames("labelForOrders");
+        Label priceValue = new Label(purchase.getItemsPrice() + "$", ContentMode.PREFORMATTED);
+        priceValue.addStyleNames("labelForOrdersValue");
+
+        labels.addComponents(date, dateValue, price, priceValue);
+
+        HorizontalLayout images = new HorizontalLayout();
+        images.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+
+        purchase.getItems().forEach(item -> images.addComponent(myOrdersContentLayout(item)));
+
+        mainContent.addComponents(labels, images);
+        return mainContent;
+    }
+
+    private VerticalLayout myOrdersContentLayout(SelectedItem item) {
         VerticalLayout verticalLayout = new VerticalLayout();
-        verticalLayout.setSizeFull();
         verticalLayout.setMargin(false);
         verticalLayout.setSpacing(false);
-        purchase.getItems().stream().forEach(
-                item -> verticalLayout.addComponents(
-                        (new Image("", new FileResource(new File(basePath + item.getItem().getSmallImagePath()))))));
+        verticalLayout.addComponent(new Image("", new FileResource(new File(basePath + item.getItem().getSmallImagePath()))));
+        Label label = new Label("Rate it!");
+        label.setStyleName(ValoTheme.LABEL_BOLD);
+        verticalLayout.addComponent(label);
+        RatingStars ratingStars = new RatingStars();
+        ratingStars.setValue(item.getItem().getRate().getValue());
+
+        ratingStars.addValueChangeListener(e -> {
+            itemService.rateItem(item.getItem(), e.getValue());
+            ratingStars.setValue(item.getItem().getRate().getValue());
+        });
+
+        verticalLayout.addComponents(ratingStars);
         return verticalLayout;
     }
 

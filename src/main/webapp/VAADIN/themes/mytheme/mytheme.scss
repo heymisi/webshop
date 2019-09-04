@@ -1,4 +1,4 @@
-$v-app-loading-text: "Flat Valo";
+$v-app-loading-text: "REFRESH";
 $v-font-family: "Roboto", sans-serif;
 $v-font-weight: 400;
 $v-font-weight--header: 400;
@@ -59,6 +59,13 @@ $v-selection-item-border-radius: 0;
    font-size: 22px;
 
 }
+
+  .v-caption-mystyleforRating {
+   color: #3f000f;
+   font-size: 22px;
+   font-weight: bold;
+
+}
   .mylabel{
     color: #3f000f;
     font-size: 26px;
@@ -104,4 +111,17 @@ $v-selection-item-border-radius: 0;
 	color:3f000f;
      	}
 }
+
+ .labelForOrders{
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 1.0;
+ }
+
+
+ .labelForOrdersValue{
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 1.0;
+ }
 }

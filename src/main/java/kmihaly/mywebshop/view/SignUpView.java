@@ -1,6 +1,5 @@
 package kmihaly.mywebshop.view;
 
-import com.sun.org.apache.bcel.internal.generic.LADD;
 import com.vaadin.data.Binder;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.icons.VaadinIcons;
@@ -14,7 +13,6 @@ import kmihaly.mywebshop.domain.model.user.User;
 import kmihaly.mywebshop.domain.model.user.UserType;
 import kmihaly.mywebshop.service.DAOUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
 
 import javax.annotation.PostConstruct;
 import java.util.Objects;
@@ -45,7 +43,7 @@ public class SignUpView extends VerticalLayout implements View {
 
             });
             logoutButton.setIcon(VaadinIcons.EXIT);
-            logoutButton.setStyleName(ValoTheme.BUTTON_DANGER);
+            logoutButton.addStyleNames(ValoTheme.BUTTON_DANGER,"deletebutton");
             logoutButton.setWidth("240");
             addComponents(logoutButton);
         } else {

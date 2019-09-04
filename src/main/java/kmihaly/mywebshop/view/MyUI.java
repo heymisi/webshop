@@ -1,7 +1,6 @@
 package kmihaly.mywebshop.view;
 
 import com.vaadin.annotations.PreserveOnRefresh;
-import com.vaadin.annotations.Push;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.icons.VaadinIcons;
@@ -17,7 +16,6 @@ import kmihaly.mywebshop.domain.model.user.User;
 import kmihaly.mywebshop.domain.model.user.UserType;
 import kmihaly.mywebshop.service.DAOUserService;
 import kmihaly.mywebshop.service.EmailService;
-import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @SpringUI
@@ -45,7 +43,6 @@ public class MyUI extends UI implements ViewDisplay {
 
     @Override
     protected void init(VaadinRequest request) {
-        setUser(userService.findUserByName("usern"));
         springViewDisplay = new Panel();
         springViewDisplay.setSizeFull();
         VerticalLayout mainLayout = new VerticalLayout(navigationBarLayout(), springViewDisplay, footerLayout());

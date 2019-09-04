@@ -5,7 +5,6 @@ import kmihaly.mywebshop.domain.model.user.UserType;
 import kmihaly.mywebshop.repository.UserRepository;
 import kmihaly.mywebshop.security.RandomString;
 
-import javax.jws.soap.SOAPBinding;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -60,14 +59,7 @@ public class DAOUserService implements UserService {
     @Override
     public boolean signIn(String userName, String password) {
         User user = repository.findByUserName(userName).orElseThrow(() -> new IllegalArgumentException("nincs ilyen felhasználó"));
-        if (user.equals(null)) {
-            return false;
-        }
-        if (user.getPassword().equals(password)) {
-            return true;
-        } else {
-            return false;
-        }
+        return user.getPassword().equals(password);
     }
 
     @Override
@@ -77,18 +69,12 @@ public class DAOUserService implements UserService {
 
     @Override
     public boolean isUserNameUsed(String username) {
-        if (repository.findByUserName(username).isPresent()) {
-            return true;
-        }
-        return false;
+        return repository.findByUserName(username).isPresent();
     }
 
     @Override
     public boolean isPasswordsEquals(String psw1, String psw2) {
-        if (psw1.equals(psw2)) {
-            return true;
-        }
-        return false;
+        return psw1.equals(psw2);
     }
 
     @Override

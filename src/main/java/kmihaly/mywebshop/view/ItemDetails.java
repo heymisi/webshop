@@ -18,13 +18,10 @@ import kmihaly.mywebshop.service.DAOPurchaseService;
 import org.vaadin.teemu.ratingstars.RatingStars;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -97,13 +94,12 @@ class ItemDetails extends Window implements View {
 
         infoContent.addComponent(availableLabel);
 
-        infoContent.addComponents(createLabel("RATING:\n"));
-
         RatingStars ratingStars = new RatingStars();
-        ratingStars.setValue(item.getRate());
+        ratingStars.setCaption("Rated by: "+ item.getRate().getCounter());
+        ratingStars.setStyleName("mystyleforRating");
+        ratingStars.setValue(item.getRate().getValue());
         ratingStars.setEnabled(false);
         infoContent.addComponent(ratingStars);
-
 
         HorizontalLayout addToBagLayout = new HorizontalLayout();
         addToBagLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);

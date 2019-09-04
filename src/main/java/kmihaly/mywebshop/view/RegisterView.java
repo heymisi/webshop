@@ -9,17 +9,12 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.shared.ui.ValueChangeMode;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.themes.ValoTheme;
-import javafx.scene.input.KeyCode;
 import kmihaly.mywebshop.domain.model.user.User;
 import kmihaly.mywebshop.service.DAOUserService;
-import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
-import java.util.concurrent.Future;
 
 
 @SpringView(name = RegisterView.VIEW_NAME)
@@ -78,7 +73,7 @@ public class RegisterView extends VerticalLayout implements View {
         CheckBox sendUpdate = new CheckBox("E-mail me updates");
         sendUpdate.setStyleName(ValoTheme.CHECKBOX_LARGE);
         HorizontalLayout actions = new HorizontalLayout();
-        Button submit = new Button("SUBMIT", (Button.ClickListener) clickEvent -> {
+        Button submit = new Button("REGISTER", (Button.ClickListener) clickEvent -> {
             if (service.isUserNameUsed(username.getValue())) {
                 Notification.show("Sorry, this username has already used!");
             } else if (service.isPasswordsEquals(passwordField.toString(), passwordField2.toString())) {

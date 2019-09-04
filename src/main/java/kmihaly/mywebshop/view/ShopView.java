@@ -14,24 +14,22 @@ import com.vaadin.shared.ui.grid.HeightMode;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
-import kmihaly.mywebshop.domain.model.item.*;
+import kmihaly.mywebshop.domain.model.item.Brand;
+import kmihaly.mywebshop.domain.model.item.Genre;
+import kmihaly.mywebshop.domain.model.item.Item;
+import kmihaly.mywebshop.domain.model.item.Type;
 import kmihaly.mywebshop.domain.model.user.User;
 import kmihaly.mywebshop.domain.model.user.UserType;
 import kmihaly.mywebshop.service.DAOItemService;
 import kmihaly.mywebshop.service.DAOPurchaseService;
 import kmihaly.mywebshop.service.DAOUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.vaadin.teemu.ratingstars.RatingStars;
 
 import javax.annotation.PostConstruct;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
-import static java.lang.String.valueOf;
-import static kmihaly.mywebshop.view.MyUI.*;
+import static kmihaly.mywebshop.view.MyUI.getCurrent;
 
 @SpringView(name = ShopView.VIEW_NAME)
 public class ShopView extends VerticalLayout implements View {
@@ -76,7 +74,7 @@ public class ShopView extends VerticalLayout implements View {
         tabs.addTab(tab1, "MEN").setIcon(VaadinIcons.MALE);
         tabs.addTab(tab2, "WOMEN").setIcon(VaadinIcons.FEMALE);
         tabs.setSizeFull();
-        tabs.addStyleNames(ValoTheme.TABSHEET_EQUAL_WIDTH_TABS,ValoTheme.TABSHEET_FRAMED,"dirtyTabCaption");
+        tabs.addStyleNames(ValoTheme.TABSHEET_EQUAL_WIDTH_TABS, ValoTheme.TABSHEET_FRAMED, "dirtyTabCaption");
         tab1.addComponents(layoutMen);
         tabs.addSelectedTabChangeListener((TabSheet.SelectedTabChangeListener) selectedTabChangeEvent -> {
             TabSheet tabSheet = selectedTabChangeEvent.getTabSheet();
@@ -101,11 +99,11 @@ public class ShopView extends VerticalLayout implements View {
         Label label = new Label("Advanced search");
         label.setStyleName(ValoTheme.LABEL_H2);
         TextField search = new TextField("Search by name");
-        search.addStyleNames("mystyle",ValoTheme.TEXTFIELD_LARGE);
+        search.addStyleNames("mystyle", ValoTheme.TEXTFIELD_LARGE);
         search.setWidth("240");
         search.setPlaceholder("All");
         ComboBox<String> typeFilter = new ComboBox<>("Choose Type");
-        typeFilter.addStyleNames("mystyle",ValoTheme.COMBOBOX_LARGE);
+        typeFilter.addStyleNames("mystyle", ValoTheme.COMBOBOX_LARGE);
         typeFilter.setWidth("240");
         Collection<String> types = new ArrayList<>();
         for (Type type : Type.values()) {
@@ -121,15 +119,15 @@ public class ShopView extends VerticalLayout implements View {
         }
 
         ComboBox<String> brandFilter = new ComboBox<>("Choose Brand");
-        brandFilter.addStyleNames("mystyle",ValoTheme.COMBOBOX_LARGE);
+        brandFilter.addStyleNames("mystyle", ValoTheme.COMBOBOX_LARGE);
         brandFilter.setPlaceholder("Choose Brand");
         brandFilter.setEmptySelectionCaption("All");
         brandFilter.setItems(brandTypes);
         brandFilter.setWidth("240");
         Label price = new Label();
 
-        Slider slider = new Slider("Choose Price Limit", 1, 100);
-        slider.addStyleNames("mystyle",ValoTheme.SLIDER_NO_INDICATOR);
+        Slider slider = new Slider("Choose Price Limit", 0, 100);
+        slider.addStyleNames("mystyle", ValoTheme.SLIDER_NO_INDICATOR);
         slider.setResolution(0);
         slider.setWidth("240");
         slider.addValueChangeListener((HasValue.ValueChangeEvent<Double> event) -> {
@@ -149,12 +147,17 @@ public class ShopView extends VerticalLayout implements View {
             title.setValue("WOMEN CLOTHES");
         }
         Label rowCount = new Label(itemService.searchByGenre(genreType).size() + " clothes found");
-        rowCount.addStyleName(ValoTheme.LABEL_BOLD);
+        rowCount.addStyleNames(ValoTheme.LABEL_H3, ValoTheme.LABEL_BOLD);
         searchButton.addClickListener((Button.ClickListener) clickEvent -> {
-            List<Item> filteredItems = itemService.multipleSearch(search.getValue(), genreType.name(), brandFilter.getValue(), typeFilter.getValue(), slider.getValue().intValue());
+            List<Item> filteredItems = itemService.multipleSearch(search.getValue(), genreType.toString(), brandFilter.getValue(), typeFilter.getValue(), slider.getValue().intValue());
             foundItem = filteredItems.size();
             rowCount.setValue(foundItem + " clothes found");
             items.setItems(filteredItems);
+            if (foundItem == 0) {
+                items.setVisible(false);
+            } else {
+                items.setVisible(true);
+            }
         });
         Button addItem = createButton("ADD ITEM");
         addItem.setWidth("400");

@@ -3,11 +3,10 @@ package kmihaly.mywebshop.service;
 
 
 import kmihaly.mywebshop.domain.model.item.Item;
-import kmihaly.mywebshop.domain.model.item.SelectedItem;
 import kmihaly.mywebshop.domain.model.item.Purchase;
+import kmihaly.mywebshop.domain.model.item.SelectedItem;
 import kmihaly.mywebshop.domain.model.user.User;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface PurchaseService {

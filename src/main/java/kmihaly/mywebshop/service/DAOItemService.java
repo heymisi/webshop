@@ -111,12 +111,12 @@ public class DAOItemService implements ItemService {
 
     @Override
     public List<Item> multipleSearch(String name, String genre, String brand, String type, int price) {
-
         List<Predicate<Item>> predicates = new ArrayList<>();
+
         predicates.add(item -> item.getName().equals(name) || name.equals(""));
-        predicates.add(item -> item.getGenre().toString().equals(genre) || genre == null);
-        predicates.add(item -> item.getBrand().toString().equals(brand) || brand == null);
-        predicates.add(item -> item.getType().toString().equals(type) || type == null);
+        predicates.add(item -> item.getGenre().toString().equals(genre) || Objects.isNull(genre));
+        predicates.add(item -> item.getBrand().toString().equals(brand) || Objects.isNull(brand));
+        predicates.add(item -> item.getType().toString().equals(type) || Objects.isNull(type));
         predicates.add(item -> item.getPrice() >= price || price == 0);
 
         return itemRepository.findAll().stream()
@@ -173,20 +173,37 @@ public class DAOItemService implements ItemService {
         }
         return orderedItems;
     }
+
     @Override
     public Item findItemByName(String name) {
-        return   itemRepository.findByName(name);
+        return itemRepository.findByName(name);
     }
 
     @Override
-    public void setItemsForBag(SelectedItem items, User user,int quantity) {
-        user.getSelectedItems().stream().forEach(i -> {
+    public void setItemsForBag(SelectedItem items, User user, int quantity) {
+        user.getSelectedItems().forEach(i -> {
             if (i.equals(items)) {
                 i.setForBag(true);
                 i.setQuantity(quantity);
                 selectedItemRepository.save(i);
-            }});
-            userRepository.save(user);
+            }
+        });
+        userRepository.save(user);
+    }
+
+    @Override
+    public void rateItem(Item item, double rate){
+        System.err.println(item.getRate().getCounter()+ "-----1");
+        double r = ((item.getRate().getValue() * item.getRate().getCounter()) + rate) / (item.getRate().getCounter() + 1);
+        System.err.println(item.getRate().getCounter()+ "---2");
+
+        item.getRate().setValue(r);
+        System.err.println(item.getRate().getCounter()+"-----3");
+
+        item.getRate().setCounter(item.getRate().getCounter()+ 1);
+        System.err.println(item.getRate().getCounter()+"-------4");
+
+        itemRepository.save(item);
     }
 
 }

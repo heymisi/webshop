@@ -12,7 +12,6 @@ import com.vaadin.ui.themes.ValoTheme;
 import kmihaly.mywebshop.domain.model.user.User;
 import kmihaly.mywebshop.service.DAOUserService;
 import kmihaly.mywebshop.service.EmailService;
-import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.mail.MessagingException;

@@ -9,7 +9,6 @@ import kmihaly.mywebshop.repository.PurchaseRepository;
 import kmihaly.mywebshop.repository.SelectedItemRepository;
 import kmihaly.mywebshop.repository.UserRepository;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -72,7 +71,7 @@ public class DAOPurchaseService implements PurchaseService {
             throw new IllegalArgumentException("hibás bemenet!");
         }
         user.getSelectedItems().remove(item);
-        user.setSelectedItems(user.getSelectedItems());
+//        user.setSelectedItems(user.getSelectedItems());
         selectedItemRepository.delete(item);
         userRepository.save(user);
     }
@@ -84,15 +83,16 @@ public class DAOPurchaseService implements PurchaseService {
         }
 
         Purchase purchase = new Purchase(user, new Date(), getSelectedItemsPrice(user));
-        user.getSelectedItems().stream().forEach(s -> {
+
+        itemService.findItemsByIsForBag(user,true).forEach(s -> {
             s.getItem().setAvailableQuantity(s.getItem().getAvailableQuantity() - 1);
             itemRepository.save(s.getItem());
             purchase.addItem(s);
         });
         purchaseRepository.save(purchase);
-        user.getSelectedItems().removeAll(itemService.findItemsByIsForBag(user,true));
+        user.getSelectedItems().clear();
         userRepository.save(user);
-        itemRepository.saveAll(itemRepository.findAll());
+
     }
 
 

@@ -21,7 +21,8 @@ public class Item implements Serializable {
     private String name;
     private String description;
     private int price;
-    private double rate;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Rating rate;
     private int availableQuantity;
     @Enumerated
     private Brand brand;
@@ -46,7 +47,7 @@ public class Item implements Serializable {
         this.type = type;
         this.smallImagePath = smallImagePath;
         this.LargeImagePath = LargeImagePath;
-        rate = 0.0;
+        rate = new Rating();
     }
 
 }

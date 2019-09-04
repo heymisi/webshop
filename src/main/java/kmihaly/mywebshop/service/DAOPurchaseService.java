@@ -72,8 +72,12 @@ public class DAOPurchaseService implements PurchaseService {
         if (Objects.isNull(user) || !(userRepository.findById(user.getId()).isPresent()) || Objects.isNull(item)) {
             throw new IllegalArgumentException("hibás bemenet!");
         }
-        userBagRepository.delete(userBagRepository.findByUser(user));
-        userBagRepository.save(new UserBag(user));
+        UserBag bag = userBagRepository.findByUser(user);
+        bag.getItems().remove(item);
+        System.err.println(item);
+        userBagRepository.save(bag);
+        selectedItemRepository.delete(item);
+
     }
 
     @Override
@@ -92,8 +96,8 @@ public class DAOPurchaseService implements PurchaseService {
 
         purchaseRepository.save(purchase);
 
-        userBagRepository.delete(userBagRepository.findByUser(user));
-        userBagRepository.save(new UserBag(user));
+        userBagRepository.findByUser(user).getItems().removeAll(itemService.findItemsByIsForBag(user,true));
+        userBagRepository.save(userBagRepository.findByUser(user));
 
     }
 
@@ -106,5 +110,9 @@ public class DAOPurchaseService implements PurchaseService {
             }
         }
         return price;
+    }
+
+    public List<SelectedItem> getUserBagItems(User user){
+       return userBagRepository.findByUser(user).getItems();
     }
 }

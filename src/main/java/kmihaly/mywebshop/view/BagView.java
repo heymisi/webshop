@@ -64,6 +64,7 @@ public class BagView extends HorizontalLayout implements View {
 
     private Button selectedItemsButton;
     private Button savedItemsButton;
+    private Button myOrdersButton;
 
 
     @PostConstruct
@@ -130,7 +131,7 @@ public class BagView extends HorizontalLayout implements View {
 
             selectedItemsButton = createMenuButton("BAG");
             savedItemsButton = createMenuButton("SAVED ITEMS");
-            Button myOrdersButton = createMenuButton("MY ORDERS");
+             myOrdersButton = createMenuButton("MY ORDERS");
 
             sideBar.setSizeFull();
             sideBar.addComponents(selectedItemsButton, savedItemsButton, myOrdersButton);
@@ -452,9 +453,10 @@ public class BagView extends HorizontalLayout implements View {
         button.setIcon(VaadinIcons.TRASH);
         button.addClickListener(clickEvent -> {
             purchaseService.deleteItemFromStorage(item, loggedUser);
-//            selectedItems.setItems(loggedUser.getSelectedItems());
-            if (itemService.findItemsByIsForBag(loggedUser, true).isEmpty()) {
-                button.click();
+            selectedItems.setItems(purchaseService.getUserBagItems(loggedUser));
+            if (purchaseService.getUserBagItems(loggedUser).isEmpty()) {
+                selectedItemsButton.click();
+//                UI.getCurrent().getPage().reload();
             }
         });
         return button;

@@ -51,6 +51,7 @@ public interface PurchaseService {
 
     void purchaseItemsFromStorage(User user);
 
+     List<SelectedItem> getUserBagItems(User user);
 
 
 

@@ -160,10 +160,12 @@ public class ShopView extends VerticalLayout implements View {
             }
         });
         Button addItem = createButton("ADD ITEM");
+        addItem.setStyleName("addbutton");
         addItem.setWidth("400");
         addItem.setIcon(VaadinIcons.PLUS);
         addItem.addClickListener(clickEvent -> getCurrent().addWindow(addItemWindow()));
         Button deleteItem = createButton("DELETE ITEM");
+        deleteItem.setStyleName("deletebutton");
         deleteItem.setWidth("400");
         deleteItem.setIcon(VaadinIcons.TRASH);
         deleteItem.addClickListener(clickEvent -> {
@@ -209,10 +211,12 @@ public class ShopView extends VerticalLayout implements View {
     private void setUpItems(Grid<Item> items, Genre genreType) {
         items.setSizeFull();
         items.setHeightMode(HeightMode.UNDEFINED);
+        items.setHeaderVisible(false);
+        items.setFooterVisible(false);
         items.addComponentColumn(item -> new Image("Image from file", new FileResource(new File(basePath + item.getSmallImagePath())))).setCaption("picture").setWidth(220);
         items.setItems(itemService.searchByGenre(genreType));
         items.addColumn(Item::getName).setCaption("name").setStyleGenerator(e -> "middlealign");
-        items.addColumn(item -> item.getPrice() + "$").setCaption("price").setStyleGenerator(e -> "middlealign");
+        items.addColumn(item ->"price: " + item.getPrice() + "$").setCaption("price").setStyleGenerator(e -> "middlealign");
         items.setBodyRowHeight(200);
         items.addComponentColumn(this::itemDetailsButton).setCaption("more info");
         items.setSelectionMode(Grid.SelectionMode.SINGLE);
@@ -238,16 +242,18 @@ public class ShopView extends VerticalLayout implements View {
     private Window addItemWindow() {
         Window window = new Window();
         window.setModal(true);
-        VerticalLayout content = new VerticalLayout();
-
+        FormLayout content = new FormLayout();
+        content.setSizeUndefined();
         content.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 
         Label title = new Label("ADD NEW ITEM");
-        title.setStyleName(ValoTheme.LABEL_H1);
+        title.addStyleNames(ValoTheme.LABEL_H1,ValoTheme.LABEL_BOLD);
         TextField nameField = createTextField("Name:");
         TextField descriptionField = createTextField("Description:");
-        TextField priceField = createTextField("Price:");
+        TextField priceField = createTextField("Price($):");
+        priceField.addStyleName("my-text");
         TextField availableQuantityField = createTextField("Quantity:");
+        availableQuantityField.addStyleName("my-text");
         ComboBox<Type> typeComboBox = new ComboBox<>("Type:");
         typeComboBox.addStyleNames(ValoTheme.COMBOBOX_LARGE, "mystyle");
         typeComboBox.setPlaceholder("Please select");
@@ -366,7 +372,7 @@ public class ShopView extends VerticalLayout implements View {
 
     private TextField createTextField(String caption) {
         TextField textField = new TextField(caption);
-        textField.setWidth("400");
+        textField.setWidth("300");
         textField.addStyleNames(ValoTheme.TEXTFIELD_LARGE, "mystyle");
         return textField;
     }

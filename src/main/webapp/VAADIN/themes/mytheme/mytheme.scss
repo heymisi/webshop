@@ -43,8 +43,10 @@ $v-selection-item-border-radius: 0;
   .v-button-friendly{
     background: #e1efef;
     border-color: #000000;
-    color: #000000;
-    font-size: 22px;
+    color:  #3f000f;
+    font-size: 26px;
+    font-weight: bold;
+
   }
  .v-button-borderless {
     color: #3f000f;
@@ -123,5 +125,9 @@ $v-selection-item-border-radius: 0;
     font-size: 18px;
     font-weight: bold;
     line-height: 1.0;
+ }
+
+.v-textfield-my-text{
+   text-align:right !important;
  }
 }

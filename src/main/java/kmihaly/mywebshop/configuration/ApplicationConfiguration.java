@@ -49,24 +49,17 @@ public class ApplicationConfiguration {
 
             if (itemRepository.findAll().isEmpty()) {
 
-                itemRepository.save(new Item("name1", "BCI provides farming-practice training \n" +
-                        "It promotes things like water efficiency and\n" +
-                        "reducing the most harmful chemicals"
+                itemRepository.save(new Item("name1", "Its a very good product\n"
+
                         , Brand.ADIDAS,
                         10, 100, Genre.MEN, Type.JEAN, "/img/jeanS01.jpg", "/img/jeanB01.jpg"));
-                itemRepository.save( new Item("name2", "BCI provides farming-practice training \n" +
-                        "It promotes things like water efficiency and\n" +
-                        "reducing the most harmful chemicals"
+                itemRepository.save( new Item("name2", "Its a very good product\n"
                         , Brand.NIKE,
                         9, 100, Genre.MEN, Type.SUIT, "/img/suitS01.png", "/img/suitB01.png"));
-                itemRepository.save( new Item("name3", "BCI provides farming-practice training \n" +
-                        "It promotes things like water efficiency and\n" +
-                        "reducing the most harmful chemicals"
+                itemRepository.save( new Item("name3", "Its a very good product\n"
                         , Brand.ZARA,
                         8, 100, Genre.MEN, Type.SOCKS, "/img/socksS01.png", "/img/socksB01.png"));
-                itemRepository.save( new Item("name4", "BCI provides farming-practice training \n" +
-                        "It promotes things like water efficiency and\n" +
-                        "reducing the most harmful chemicals"
+                itemRepository.save( new Item("name4", "Its a very good product\n"
                         , Brand.CONVERSE,
                         107, 100, Genre.WOMEN, Type.SHIRT, "/img/tshirtS01.jpg", "/img/tshirtB01.jpg"));
                 itemRepository.save(new Item("name6", "6", Brand.NIKE,

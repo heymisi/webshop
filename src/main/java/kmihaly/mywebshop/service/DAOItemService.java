@@ -193,15 +193,9 @@ public class DAOItemService implements ItemService {
 
     @Override
     public void rateItem(Item item, double rate){
-        System.err.println(item.getRate().getCounter()+ "-----1");
         double r = ((item.getRate().getValue() * item.getRate().getCounter()) + rate) / (item.getRate().getCounter() + 1);
-        System.err.println(item.getRate().getCounter()+ "---2");
-
         item.getRate().setValue(r);
-        System.err.println(item.getRate().getCounter()+"-----3");
-
         item.getRate().setCounter(item.getRate().getCounter()+ 1);
-        System.err.println(item.getRate().getCounter()+"-------4");
 
         itemRepository.save(item);
     }

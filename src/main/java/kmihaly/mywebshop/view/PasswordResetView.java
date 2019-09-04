@@ -34,7 +34,7 @@ public class PasswordResetView extends VerticalLayout implements View {
         setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 
         Label header = new Label("Reset your password");
-        header.addStyleName(ValoTheme.LABEL_H1);
+        header.addStyleNames(ValoTheme.LABEL_H1,ValoTheme.LABEL_BOLD);
         Label label = new Label("Type in your email address below and we'll send you\n" + "an email with your new password", ContentMode.PREFORMATTED);
         label.setStyleName(ValoTheme.LABEL_H2);
         TextField emailField = new TextField("EMAIL ADDRESS:");

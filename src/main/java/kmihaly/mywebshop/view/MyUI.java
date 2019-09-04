@@ -25,11 +25,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Widgetset("AppWidgetset")
 public class MyUI extends UI implements ViewDisplay {
 
-    private User user = new User("guest", "guest", "guest", "guest", "guest", "guest","guest", UserType.GUEST);
+    private User user = new User("guest", "guest", "guest", "guest", "guest", "guest", "guest", UserType.GUEST);
 
     private Panel springViewDisplay;
 
-    private Label loginInform = new Label("Welcome Guest!" + VaadinIcons.HANDSHAKE.getHtml());
 
     @Autowired
     DAOUserService userService;
@@ -43,6 +42,7 @@ public class MyUI extends UI implements ViewDisplay {
 
     @Override
     protected void init(VaadinRequest request) {
+        setUser(userService.findUserByName("usern"));
         springViewDisplay = new Panel();
         springViewDisplay.setSizeFull();
         VerticalLayout mainLayout = new VerticalLayout(navigationBarLayout(), springViewDisplay, footerLayout());
@@ -53,7 +53,7 @@ public class MyUI extends UI implements ViewDisplay {
     private Button createNavigationButton(String caption, final String viewName) {
         Button button = new Button(caption);
         button.addStyleName(ValoTheme.BUTTON_PRIMARY);
-        button.setWidth("300");
+        button.setWidth("455");
         button.setHeight("50");
         button.addClickListener(event -> getUI().getNavigator().navigateTo(viewName));
 
@@ -76,19 +76,14 @@ public class MyUI extends UI implements ViewDisplay {
     @Override
     protected void refresh(VaadinRequest request) {
         if (user.getUserType().equals(UserType.GUEST)) {
-            loginInform.setValue("Welcome Guest!" + VaadinIcons.HANDSHAKE.getHtml());
             signUp.setCaption("Sign up");
             signUp.setIcon(VaadinIcons.SIGN_IN);
-            bag.setVisible(false);
         } else if (user.getUserType().equals(UserType.ADMIN)) {
-            loginInform.setValue("Welcome " + user.getUserName() + "! (ADMIN)" + VaadinIcons.HANDSHAKE.getHtml());
-            signUp.setCaption("Log out");
-            signUp.setIcon(VaadinIcons.SIGN_OUT);
-            bag.setVisible(true);
+            signUp.setCaption(" Account information" );
+            signUp.setIcon(VaadinIcons.USER);
         } else {
-            loginInform.setValue("Welcome " + user.getUserName() + "!" + VaadinIcons.HANDSHAKE.getHtml());
-            signUp.setCaption("Log out");
-            bag.setVisible(true);
+            signUp.setCaption(" Account information" );
+            signUp.setIcon(VaadinIcons.USER);
         }
     }
 
@@ -97,13 +92,13 @@ public class MyUI extends UI implements ViewDisplay {
         HorizontalLayout content = new HorizontalLayout();
         content.setSizeFull();
 
-        HorizontalLayout navigationBar = new HorizontalLayout();
-        navigationBar.setMargin(false);
-        navigationBar.setSpacing(false);
+
+        HorizontalLayout navigationBarLayout = new HorizontalLayout();
+
+        navigationBarLayout.setSizeFull();
 
         bag = createNavigationButton("Bag", BagView.VIEW_NAME);
         bag.setIcon(VaadinIcons.BRIEFCASE);
-        bag.setVisible(false);
 
         signUp = createNavigationButton("Sign Up", SignUpView.VIEW_NAME);
         signUp.setIcon(VaadinIcons.SIGN_IN);
@@ -114,18 +109,12 @@ public class MyUI extends UI implements ViewDisplay {
         Button mainPage = createNavigationButton("Main Page", MainPageView.VIEW_NAME);
         mainPage.setIcon(VaadinIcons.SHOP);
 
-        navigationBar.addComponents(mainPage, shop, signUp, bag);
-
+        navigationBarLayout.addComponents(mainPage, shop, bag, signUp);
         HorizontalLayout loginInformLayout = new HorizontalLayout();
-        loginInform.setContentMode(ContentMode.HTML);
-        loginInform.addStyleNames(ValoTheme.LABEL_BOLD, ValoTheme.LABEL_H2,"mylabel");
-        loginInformLayout.addComponent(loginInform);
 
-        content.addComponents(navigationBar, loginInformLayout);
-        content.setComponentAlignment(navigationBar, Alignment.MIDDLE_LEFT);
-        content.setComponentAlignment(loginInformLayout, Alignment.MIDDLE_RIGHT);
-        content.setExpandRatio(navigationBar,5);
-        content.setExpandRatio(loginInformLayout,1);
+        content.addComponents(navigationBarLayout, loginInformLayout);
+        content.setComponentAlignment(navigationBarLayout, Alignment.MIDDLE_LEFT);
+        content.setExpandRatio(navigationBarLayout, 5);
 
         return content;
     }
@@ -152,7 +141,7 @@ public class MyUI extends UI implements ViewDisplay {
                 Notification.show("Write something before send!");
             } else {
                 try {
-                    emailService.sendMail("heymisi99@gmail.com", "Feedback", feedbackText.toString());
+                    emailService.sendMail("heymisi99@gmail.com", "Feedback", feedbackText.getValue());
                     Notification.show("Thanks for your feedback!");
                 } catch (javax.mail.MessagingException e) {
                     e.printStackTrace();

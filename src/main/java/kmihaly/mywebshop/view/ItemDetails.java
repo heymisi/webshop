@@ -37,26 +37,23 @@ class ItemDetails extends Window implements View {
 
         HorizontalLayout content = new HorizontalLayout();
         Image image = new Image("", new FileResource(new File(basePath + item.getLargeImagePath())));
-        image.setHeight("1000");
-        image.setWidth("1000");
+        image.setHeight("800");
+        image.setWidth("800");
         content.addComponent(image);
 
         VerticalLayout infoContent = new VerticalLayout();
         infoContent.setSizeFull();
-        infoContent.addComponent(createLabel("NAME:  " ));
-        infoContent.addComponent(createDataLabel(item.getName()));
-        infoContent.addComponent(createLabel("DESCRIPTION: " ));
-        infoContent.addComponent(createDataLabel(item.getDescription()));
-        infoContent.addComponent(createLabel("BRAND:  " ));
-        infoContent.addComponent(createDataLabel(item.getBrand().toString()));
+        infoContent.addComponent(createLabel("NAME:  " + item.getName()));
+        infoContent.addComponent(createLabel("DESCRIPTION: \n" + item.getDescription()));
+        infoContent.addComponent(createLabel("BRAND:  " + item.getBrand().toString()));
 
-        Label availableQuantityLabel = createLabel("AVAILABLE QUANTITY:  " );
+        Label availableQuantityLabel = createLabel("AVAILABLE QUANTITY:  ");
         Label availableQuantityDataLabel = createDataLabel(valueOf(item.getAvailableQuantity()));
 
         availableQuantityLabel.setVisible(loggedUser.getUserType().equals(UserType.ADMIN));
         availableQuantityDataLabel.setVisible(loggedUser.getUserType().equals(UserType.ADMIN));
 
-        infoContent.addComponents(availableQuantityLabel,availableQuantityDataLabel);
+        infoContent.addComponents(availableQuantityLabel, availableQuantityDataLabel);
         Label sizeLabel = createLabel("SIZE: ");
         sizeLabel.setVisible(loggedUser.getUserType().equals(UserType.USER));
         infoContent.addComponent(sizeLabel);
@@ -88,14 +85,8 @@ class ItemDetails extends Window implements View {
 
         infoContent.addComponent(createLabel("PRICE: " + item.getPrice() + "$"));
 
-        Label availableLabel = createLabel("");
-        if (item.getAvailableQuantity() == 0) availableLabel.setValue("NOT AVAILABLE\n");
-        else availableLabel.setValue("AVAILABLE\n");
-
-        infoContent.addComponent(availableLabel);
-
         RatingStars ratingStars = new RatingStars();
-        ratingStars.setCaption("Rated by: "+ item.getRate().getCounter());
+        ratingStars.setCaption("Rated by: " + item.getRate().getCounter());
         ratingStars.setStyleName("mystyleforRating");
         ratingStars.setValue(item.getRate().getValue());
         ratingStars.setEnabled(false);
@@ -159,8 +150,9 @@ class ItemDetails extends Window implements View {
         label.setStyleName("mylabel");
         return label;
     }
-    private Label createDataLabel(String caption){
-        Label label = new Label(caption,ContentMode.PREFORMATTED);
+
+    private Label createDataLabel(String caption) {
+        Label label = new Label(caption, ContentMode.PREFORMATTED);
         label.setStyleName("mylabelfordata");
         return label;
     }
@@ -205,7 +197,7 @@ class ItemDetails extends Window implements View {
         uploadLargeImage.addFinishedListener(finishedEvent -> uploadLargeImage.setButtonCaption(finishedEvent.getFilename()));
 
         Button saveButton = new Button("SAVE");
-        saveButton.setStyleName(ValoTheme.BUTTON_DANGER);
+        saveButton.addStyleNames(ValoTheme.BUTTON_DANGER,"addbutton");
         saveButton.setWidth("500");
         saveButton.setIcon(VaadinIcons.CHECK_SQUARE);
         saveButton.setClickShortcut(ShortcutAction.KeyCode.ENTER);
@@ -236,9 +228,9 @@ class ItemDetails extends Window implements View {
                 Notification.show("If you want to change your details your have to fill the below areas");
             } else if (!binder.isValid()) {
                 Notification.show("Please check the red fields!");
-            }else if (!Objects.isNull(itemService.findItemByName(nameField.getValue()))) {
+            } else if (!Objects.isNull(itemService.findItemByName(nameField.getValue()))) {
                 Notification.show("This item name has been used! Please choose other");
-            }  else {
+            } else {
                 itemService.changeItem(item);
                 window.close();
                 Notification.show("Item has been changed");

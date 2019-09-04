@@ -33,7 +33,7 @@ public class RegisterView extends VerticalLayout implements View {
         FormLayout formLayout = new FormLayout();
         formLayout.setSizeUndefined();
         Label label = new Label("REGISTRATION");
-        label.setStyleName(ValoTheme.LABEL_H1);
+        label.addStyleNames(ValoTheme.LABEL_H1,ValoTheme.LABEL_BOLD);
         TextField username = createTextField("username (at least 4 characters)");
         binder.forField(username).withNullRepresentation("").withValidator(name -> name.length() >= 4, "must contain at least 4 characters").bind(User::getUserName, User::setUserName);
 

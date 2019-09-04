@@ -90,6 +90,7 @@ public class DAOPurchaseService implements PurchaseService {
             purchase.addItem(s);
         });
         purchaseRepository.save(purchase);
+
         user.getSelectedItems().clear();
         userRepository.save(user);
 

@@ -92,4 +92,6 @@ public interface ItemService {
     Item findItemByName(String name);
 
     void setItemsForBag(SelectedItem items, User user, int quantity);
+
+     void rateItem(Item item, double rate);
 }

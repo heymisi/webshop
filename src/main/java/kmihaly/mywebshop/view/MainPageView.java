@@ -9,13 +9,11 @@ import com.vaadin.server.VaadinService;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
-import com.vaadin.ui.renderers.ImageRenderer;
 import com.vaadin.ui.themes.ValoTheme;
 import kmihaly.mywebshop.domain.model.item.Item;
 import kmihaly.mywebshop.domain.model.user.User;
 import kmihaly.mywebshop.service.DAOItemService;
 import kmihaly.mywebshop.service.DAOPurchaseService;
-import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
@@ -43,16 +41,16 @@ public class MainPageView extends VerticalLayout implements View {
     @PostConstruct
     void init() {
         Label newItemsLabel = new Label(VaadinIcons.ROAD.getHtml() + "Explore clothes");
-        newItemsLabel.setStyleName(ValoTheme.LABEL_H1);
+        newItemsLabel.addStyleNames(ValoTheme.LABEL_H1, ValoTheme.LABEL_BOLD);
         newItemsLabel.setContentMode(ContentMode.HTML);
         Label cheapestItemsLabel = new Label(VaadinIcons.WALLET.getHtml() + " Best prices clothes");
-        cheapestItemsLabel.setStyleName(ValoTheme.LABEL_H1);
+        cheapestItemsLabel.addStyleNames(ValoTheme.LABEL_H1, ValoTheme.LABEL_BOLD);
         cheapestItemsLabel.setContentMode(ContentMode.HTML);
         Label bestRating = new Label(VaadinIcons.TRENDING_UP.getHtml() + " Best Rated clothes");
-        bestRating.setStyleName(ValoTheme.LABEL_H1);
+        bestRating.addStyleNames(ValoTheme.LABEL_H1, ValoTheme.LABEL_BOLD);
         bestRating.setContentMode(ContentMode.HTML);
 
-        if(itemService.listItems().size()< size){
+        if (itemService.listItems().size() < size) {
             size = itemService.listItems().size();
         }
 
@@ -71,6 +69,7 @@ public class MainPageView extends VerticalLayout implements View {
         Panel panel = new Panel();
         for (Item item : items) {
             Image image = new Image("", new FileResource(new File(basePath + item.getLargeImagePath())));
+            image.setWidth("500");
             ItemDetails components = new ItemDetails(item, loggedUser, purchaseService, itemService);
             image.addClickListener(e -> getCurrent().addWindow(components));
             image.addStyleName("my-img-button");

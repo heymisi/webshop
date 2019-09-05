@@ -7,6 +7,7 @@ import kmihaly.mywebshop.domain.model.item.Type;
 import kmihaly.mywebshop.domain.model.user.User;
 import kmihaly.mywebshop.repository.ItemRepository;
 import kmihaly.mywebshop.repository.SelectedItemRepository;
+import kmihaly.mywebshop.repository.UserBagRepository;
 import kmihaly.mywebshop.repository.UserRepository;
 
 import java.util.*;
@@ -21,10 +22,13 @@ public class DAOItemService implements ItemService {
 
     private final UserRepository userRepository;
 
-    public DAOItemService(ItemRepository itemRepository, SelectedItemRepository selectedItemRepository, UserRepository userRepository) {
+    private final UserBagRepository userBagRepository;
+
+    public DAOItemService(ItemRepository itemRepository, SelectedItemRepository selectedItemRepository, UserRepository userRepository, UserBagRepository userBagRepository) {
         this.itemRepository = itemRepository;
         this.selectedItemRepository = selectedItemRepository;
         this.userRepository = userRepository;
+        this.userBagRepository = userBagRepository;
     }
 
     @Override
@@ -111,12 +115,12 @@ public class DAOItemService implements ItemService {
 
     @Override
     public List<Item> multipleSearch(String name, String genre, String brand, String type, int price) {
-
         List<Predicate<Item>> predicates = new ArrayList<>();
+
         predicates.add(item -> item.getName().equals(name) || name.equals(""));
-        predicates.add(item -> item.getGenre().toString().equals(genre) || genre == null);
-        predicates.add(item -> item.getBrand().toString().equals(brand) || brand == null);
-        predicates.add(item -> item.getType().toString().equals(type) || type == null);
+        predicates.add(item -> item.getGenre().toString().equals(genre) || Objects.isNull(genre));
+        predicates.add(item -> item.getBrand().toString().equals(brand) || Objects.isNull(brand));
+        predicates.add(item -> item.getType().toString().equals(type) || Objects.isNull(type));
         predicates.add(item -> item.getPrice() >= price || price == 0);
 
         return itemRepository.findAll().stream()
@@ -149,13 +153,13 @@ public class DAOItemService implements ItemService {
     public List<SelectedItem> findItemsByIsForBag(User user, boolean isForBag) {
         ArrayList<SelectedItem> selectedItems = new ArrayList<>();
         if (isForBag) {
-            for (SelectedItem e : user.getSelectedItems()) {
+            for (SelectedItem e : userBagRepository.findByUser(user).getItems()) {
                 if (e.isForBag()) {
                     selectedItems.add(e);
                 }
             }
         } else {
-            user.getSelectedItems()
+            userBagRepository.findByUser(user).getItems()
                     .forEach(e -> {
                         if (!e.isForBag()) {
                             selectedItems.add(e);
@@ -173,20 +177,31 @@ public class DAOItemService implements ItemService {
         }
         return orderedItems;
     }
+
     @Override
     public Item findItemByName(String name) {
-        return   itemRepository.findByName(name);
+        return itemRepository.findByName(name);
     }
 
     @Override
-    public void setItemsForBag(SelectedItem items, User user,int quantity) {
-        user.getSelectedItems().stream().forEach(i -> {
+    public void setItemsForBag(SelectedItem items, User user, int quantity) {
+        userBagRepository.findByUser(user).getItems().forEach(i -> {
             if (i.equals(items)) {
                 i.setForBag(true);
                 i.setQuantity(quantity);
                 selectedItemRepository.save(i);
-            }});
-            userRepository.save(user);
+            }
+        });
+        userRepository.save(user);
+    }
+
+    @Override
+    public void rateItem(Item item, double rate) {
+        double r = ((item.getRate().getValue() * item.getRate().getCounter()) + rate) / (item.getRate().getCounter() + 1);
+        item.getRate().setValue(r);
+        item.getRate().setCounter(item.getRate().getCounter() + 1);
+
+        itemRepository.save(item);
     }
 
 }

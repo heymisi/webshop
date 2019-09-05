@@ -19,7 +19,7 @@ public class EmailService {
     @Value("${email.from.address}")
     private String fromAddress;
 
-    public void sendMailMultipart(String toEmail, String subject, String message, File file) throws MessagingException {
+    private void sendMailMultipart(String toEmail, String subject, String message, File file) throws MessagingException {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
@@ -41,4 +41,5 @@ public class EmailService {
     public void sendMail(String toEmail, String subject, String message, File file) throws MessagingException {
         sendMailMultipart(toEmail, subject, message, file);
     }
+
 }

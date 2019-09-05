@@ -1,5 +1,5 @@
-$v-app-loading-text: "Flat Valo";
-$v-font-family: "Roboto", sans-serif;
+$v-app-loading-text: "REFRESH";
+$v-font-family: "Arial",Helvetica, sans-serif;
 $v-font-weight: 400;
 $v-font-weight--header: 400;
 $v-background-color: #e6ebeb;
@@ -27,9 +27,9 @@ $v-selection-item-border-radius: 0;
 
  .v-button-primary {
     float: left;
-    background: #fcfcfc;
+    background: #428f87;
     border-color: $v-focus-color;
-    color: $v-focus-color;
+    color:#FFFFFF;
     font-size: 28px;
   }
 
@@ -43,8 +43,10 @@ $v-selection-item-border-radius: 0;
   .v-button-friendly{
     background: #e1efef;
     border-color: #000000;
-    color: #000000;
-    font-size: 22px;
+    color:  #3f000f;
+    font-size: 26px;
+    font-weight: bold;
+
   }
  .v-button-borderless {
     color: #3f000f;
@@ -57,6 +59,13 @@ $v-selection-item-border-radius: 0;
 
   .v-caption-mystyle {
    font-size: 22px;
+
+}
+
+  .v-caption-mystyleforRating {
+   color: #3f000f;
+   font-size: 22px;
+   font-weight: bold;
 
 }
   .mylabel{
@@ -79,13 +88,13 @@ $v-selection-item-border-radius: 0;
 }
 
  .deletebutton{
-   font-size: 22px;
+   font-size: 24px;
    background: #f8e3e2;
    border-color: #000000;
    font-weight : bold;
 }
 .addbutton{
-  font-size: 22px;
+  font-size: 24px;
    background: #f6ffeb;
    border-color: #000000;
    font-weight : bold;
@@ -104,4 +113,33 @@ $v-selection-item-border-radius: 0;
 	color:3f000f;
      	}
 }
+
+ .labelForOrders{
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 1.0;
+ }
+
+
+ .labelForOrdersValue{
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 1.0;
+ }
+
+.v-textfield-my-text{
+   text-align:right !important;
+ }
+.labelForName{
+    color:#3f000f;
+    font-size: 40px;
+    font-weight: bold;
+    text-allign: center;
+}
+.no-stripes .v-grid-row-stripe > td {background-color: #FFF;}
+
+.yourgrid .v-grid-cell {
+        border: none !important;
+}
+
 }

@@ -9,17 +9,12 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.shared.ui.ValueChangeMode;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.themes.ValoTheme;
-import javafx.scene.input.KeyCode;
 import kmihaly.mywebshop.domain.model.user.User;
 import kmihaly.mywebshop.service.DAOUserService;
-import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
-import java.util.concurrent.Future;
 
 
 @SpringView(name = RegisterView.VIEW_NAME)
@@ -38,7 +33,7 @@ public class RegisterView extends VerticalLayout implements View {
         FormLayout formLayout = new FormLayout();
         formLayout.setSizeUndefined();
         Label label = new Label("REGISTRATION");
-        label.setStyleName(ValoTheme.LABEL_H1);
+        label.addStyleNames(ValoTheme.LABEL_H1, ValoTheme.LABEL_BOLD);
         TextField username = createTextField("username (at least 4 characters)");
         binder.forField(username).withNullRepresentation("").withValidator(name -> name.length() >= 4, "must contain at least 4 characters").bind(User::getUserName, User::setUserName);
 
@@ -78,10 +73,11 @@ public class RegisterView extends VerticalLayout implements View {
         CheckBox sendUpdate = new CheckBox("E-mail me updates");
         sendUpdate.setStyleName(ValoTheme.CHECKBOX_LARGE);
         HorizontalLayout actions = new HorizontalLayout();
+        actions.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
         Button submit = new Button("SUBMIT", (Button.ClickListener) clickEvent -> {
             if (service.isUserNameUsed(username.getValue())) {
                 Notification.show("Sorry, this username has already used!");
-            } else if (service.isPasswordsEquals(passwordField.toString(), passwordField2.toString())) {
+            } else if (!service.isPasswordsEquals(passwordField.toString(), passwordField2.toString())) {
                 Notification.show("You have to type the same password!");
             } else if (!binder.isValid()) {
                 Notification.show("There are problems in red fields");
@@ -89,8 +85,8 @@ public class RegisterView extends VerticalLayout implements View {
                     !address.getValue().isEmpty() && !birthDate.isEmpty() && !passwordField.getValue().isEmpty() && !passwordField2.getValue().isEmpty()) {
 
                 service.register(username.getValue(), firstName.getValue(), lastName.getValue(),
-                        email.getValue(), address.getValue(),birthDate.getValue().toString(), passwordField2.getValue());
-                Notification.show("Successful registration!\n" + "Welcome "+firstName.getValue() +" "+ lastName.getValue());
+                        email.getValue(), address.getValue(), birthDate.getValue().toString(), passwordField2.getValue());
+                Notification.show("Successful registration!\n" + "Welcome " + firstName.getValue() + " " + lastName.getValue());
                 ((MyUI) UI.getCurrent()).setUser(service.findUserByName(username.getValue()));
                 UI.getCurrent().getPage().reload();
                 getUI().getNavigator().navigateTo(MainPageView.VIEW_NAME);
@@ -103,12 +99,12 @@ public class RegisterView extends VerticalLayout implements View {
         submit.setStyleName(ValoTheme.BUTTON_DANGER);
         submit.setIcon(VaadinIcons.USER_CHECK);
         Button reset = new Button("RESET");
-        reset.setWidth("140");
+        reset.setWidth("150");
         reset.setStyleName(ValoTheme.BUTTON_DANGER);
         reset.setIcon(VaadinIcons.REFRESH);
         reset.addClickListener(clickEvent -> binder.readBean(null));
         actions.addComponents(submit, reset);
-        submit.setWidth("140");
+        submit.setWidth("150");
         submit.setClickShortcut(ShortcutAction.KeyCode.ENTER);
         formLayout.addComponents(label, username, firstName, lastName, email, address, birthDate, passwordField, passwordField2, sendUpdate, actions);
         addComponent(formLayout);

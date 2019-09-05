@@ -5,7 +5,6 @@ import com.vaadin.server.FileResource;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Upload;
-import lombok.Data;
 
 import java.io.File;
 import java.io.FileOutputStream;

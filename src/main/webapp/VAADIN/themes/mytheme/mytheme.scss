@@ -1,5 +1,5 @@
 $v-app-loading-text: "REFRESH";
-$v-font-family: "Roboto", sans-serif;
+$v-font-family: "Arial",Helvetica, sans-serif;
 $v-font-weight: 400;
 $v-font-weight--header: 400;
 $v-background-color: #e6ebeb;
@@ -27,9 +27,9 @@ $v-selection-item-border-radius: 0;
 
  .v-button-primary {
     float: left;
-    background: #fcfcfc;
+    background: #428f87;
     border-color: $v-focus-color;
-    color: $v-focus-color;
+    color:#FFFFFF;
     font-size: 28px;
   }
 
@@ -88,13 +88,13 @@ $v-selection-item-border-radius: 0;
 }
 
  .deletebutton{
-   font-size: 22px;
+   font-size: 24px;
    background: #f8e3e2;
    border-color: #000000;
    font-weight : bold;
 }
 .addbutton{
-  font-size: 22px;
+  font-size: 24px;
    background: #f6ffeb;
    border-color: #000000;
    font-weight : bold;
@@ -131,7 +131,7 @@ $v-selection-item-border-radius: 0;
    text-align:right !important;
  }
 .labelForName{
-    color:3f000f;
+    color:#3f000f;
     font-size: 40px;
     font-weight: bold;
     text-allign: center;
@@ -141,4 +141,5 @@ $v-selection-item-border-radius: 0;
 .yourgrid .v-grid-cell {
         border: none !important;
 }
+
 }

@@ -23,8 +23,8 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public UserService userService(UserRepository userRepository) {
-        return new DAOUserService(userRepository);
+    public UserService userService(UserRepository userRepository,UserBagRepository userBagRepository) {
+        return new DAOUserService(userRepository, userBagRepository);
     }
 
 
@@ -38,11 +38,11 @@ public class ApplicationConfiguration {
     public CommandLineRunner commandLineRunner(ItemRepository itemRepository, UserRepository userRepository, SelectedItemRepository selectedItemRepository, UserBagRepository userBagRepository) {
         return args -> {
             if (userRepository.findAll().isEmpty()) {
-                User user1 = new User("usern", "firsn", "lastn",
-                        "mail", "ad", "date", "psw", UserType.USER);
+                User user1 = new User("user", "firsn", "lastn",
+                        "mail", "ad", "date", "user", UserType.USER);
                 userRepository.save(user1);
-                User user2 = new User("usern2", "firsn2", "lastn2",
-                        "mail2", "ad2", "date", "psw2", UserType.ADMIN);
+                User user2 = new User("admin", "firsn2", "lastn2",
+                        "mail2", "ad2", "date", "admin", UserType.ADMIN);
                 userRepository.save(user2);
                 userBagRepository.save(new UserBag(user1));
                 userBagRepository.save(new UserBag(user2));
@@ -86,7 +86,7 @@ public class ApplicationConfiguration {
 
                 itemRepository.save(new Item("Jean 03", "Its a very good product\n"
                         , Brand.ADIDAS,
-                        11, 100, Genre.WOMEN, Type.JEAN, "/img/jeanS03.png", "/img/jeanB03.png"));
+                        20                                             , 100, Genre.WOMEN, Type.JEAN, "/img/jeanS03.png", "/img/jeanB03.png"));
                 itemRepository.save(new Item("Suit 03", "Its a very good product\n"
                         , Brand.NIKE,
                         12, 100, Genre.WOMEN, Type.SUIT, "/img/suitS03.png", "/img/suitB03.png"));

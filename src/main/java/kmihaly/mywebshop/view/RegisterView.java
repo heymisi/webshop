@@ -73,10 +73,11 @@ public class RegisterView extends VerticalLayout implements View {
         CheckBox sendUpdate = new CheckBox("E-mail me updates");
         sendUpdate.setStyleName(ValoTheme.CHECKBOX_LARGE);
         HorizontalLayout actions = new HorizontalLayout();
-        Button submit = new Button("REGISTER", (Button.ClickListener) clickEvent -> {
+        actions.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+        Button submit = new Button("SUBMIT", (Button.ClickListener) clickEvent -> {
             if (service.isUserNameUsed(username.getValue())) {
                 Notification.show("Sorry, this username has already used!");
-            } else if (service.isPasswordsEquals(passwordField.toString(), passwordField2.toString())) {
+            } else if (!service.isPasswordsEquals(passwordField.toString(), passwordField2.toString())) {
                 Notification.show("You have to type the same password!");
             } else if (!binder.isValid()) {
                 Notification.show("There are problems in red fields");
@@ -98,12 +99,12 @@ public class RegisterView extends VerticalLayout implements View {
         submit.setStyleName(ValoTheme.BUTTON_DANGER);
         submit.setIcon(VaadinIcons.USER_CHECK);
         Button reset = new Button("RESET");
-        reset.setWidth("140");
+        reset.setWidth("150");
         reset.setStyleName(ValoTheme.BUTTON_DANGER);
         reset.setIcon(VaadinIcons.REFRESH);
         reset.addClickListener(clickEvent -> binder.readBean(null));
         actions.addComponents(submit, reset);
-        submit.setWidth("140");
+        submit.setWidth("150");
         submit.setClickShortcut(ShortcutAction.KeyCode.ENTER);
         formLayout.addComponents(label, username, firstName, lastName, email, address, birthDate, passwordField, passwordField2, sendUpdate, actions);
         addComponent(formLayout);

@@ -43,8 +43,12 @@ public class SignUpView extends HorizontalLayout implements View {
 
             sideBar.setSizeFull();
             sideBar.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-            Label nameLabel = new Label(loggedUser.getUserName().toUpperCase());
-            nameLabel.addStyleNames(ValoTheme.LABEL_H1, "labelForName");
+            Label nameLabel = new Label(loggedUser.getUserName().toUpperCase(),ContentMode.PREFORMATTED);
+
+            if(loggedUser.getUserType().equals(UserType.ADMIN)){
+                nameLabel.setValue(loggedUser.getUserName().toUpperCase() +" [ADMIN]");
+            }
+            nameLabel.addStyleNames( "labelForName");
             sideBar.addComponent(nameLabel);
             sideBar.addComponent(createMenuButton("YOUR ACCOUNT", accountInformationLayout(), contentPanel));
             sideBar.addComponent(createMenuButton("LOG OUT", logOutLayout(), contentPanel));
@@ -105,7 +109,8 @@ public class SignUpView extends HorizontalLayout implements View {
 
         Button submit = new Button("submit", (Button.ClickListener) clickEvent -> {
             Notification notification = new Notification("");
-            notification.setStyleName(ValoTheme.NOTIFICATION_ERROR);
+            notification.setHtmlContentAllowed(true);
+            notification.setStyleName("myNotific");
             if (username.isEmpty() && password.isEmpty()) {
                 notification.show("you have to type your username and password!");
             } else if (username.isEmpty()) {
@@ -122,7 +127,6 @@ public class SignUpView extends HorizontalLayout implements View {
                     ((MyUI) UI.getCurrent()).setUser(user);
                     userService.signIn(username.getValue(), password.getValue());
                     notification.show(" Welcome: " + user.getFirstName() + " " + user.getLastName());
-                    UI.getCurrent().getPage().reload();
                     getUI().getNavigator().navigateTo(MainPageView.VIEW_NAME);
 
                 }

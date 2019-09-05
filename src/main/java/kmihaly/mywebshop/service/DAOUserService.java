@@ -1,7 +1,9 @@
 package kmihaly.mywebshop.service;
 
+import kmihaly.mywebshop.domain.model.item.UserBag;
 import kmihaly.mywebshop.domain.model.user.User;
 import kmihaly.mywebshop.domain.model.user.UserType;
+import kmihaly.mywebshop.repository.UserBagRepository;
 import kmihaly.mywebshop.repository.UserRepository;
 import kmihaly.mywebshop.security.RandomString;
 
@@ -13,8 +15,11 @@ public class DAOUserService implements UserService {
 
     private final UserRepository repository;
 
-    public DAOUserService(UserRepository userRepository) {
+    private final UserBagRepository userBagRepository;
+
+    public DAOUserService(UserRepository userRepository, UserBagRepository userBagRepository) {
         repository = userRepository;
+        this.userBagRepository = userBagRepository;
     }
 
     @Override
@@ -64,7 +69,9 @@ public class DAOUserService implements UserService {
 
     @Override
     public void register(String userName, String firstName, String lastName, String email, String address, String birthDate, String password) {
-        repository.save(new User(userName, firstName, lastName, email, address, birthDate, password, UserType.USER));
+        User user = new User(userName, firstName, lastName, email, address, birthDate, password, UserType.USER);
+        repository.save(user);
+        userBagRepository.save(new UserBag(user));
     }
 
     @Override

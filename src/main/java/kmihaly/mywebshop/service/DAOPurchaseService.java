@@ -74,7 +74,6 @@ public class DAOPurchaseService implements PurchaseService {
         }
         UserBag bag = userBagRepository.findByUser(user);
         bag.getItems().remove(item);
-        System.err.println(item);
         userBagRepository.save(bag);
         selectedItemRepository.delete(item);
 
@@ -86,25 +85,32 @@ public class DAOPurchaseService implements PurchaseService {
             throw new IllegalArgumentException("hibás bemenet!");
         }
 
+
+        List<SelectedItem> itemsForPurchase = itemService.findItemsByIsForBag(user, true);
+
+        for (SelectedItem selectedItem : itemService.findItemsByIsForBag(user, true)) {
+            deleteItemFromStorage(selectedItem, user);
+        }
+
+
         Purchase purchase = new Purchase(user, new Date(), getSelectedItemsPrice(user));
-
-        itemService.findItemsByIsForBag(user, true).forEach(s -> {
-            s.getItem().setAvailableQuantity(s.getItem().getAvailableQuantity() - 1);
-            itemRepository.save(s.getItem());
-            purchase.addItem(s);
-        });
-
         purchaseRepository.save(purchase);
 
-        userBagRepository.findByUser(user).getItems().removeAll(itemService.findItemsByIsForBag(user,true));
-        userBagRepository.save(userBagRepository.findByUser(user));
+        itemsForPurchase.forEach(s -> {
+            purchase.addItem(s);
+            s.getItem().setAvailableQuantity(s.getItem().getAvailableQuantity() - 1);
+            itemRepository.save(s.getItem());
+
+        });
+        purchaseRepository.save(purchase);
+
 
     }
 
 
     public int getSelectedItemsPrice(User user) {
         int price = 0;
-        for (SelectedItem items : userBagRepository.findByUser(user).getItems()) {
+        for (SelectedItem items : getUserBagItems(user)) {
             if (items.isForBag()) {
                 price += items.getItem().getPrice() * items.getQuantity();
             }
@@ -112,7 +118,7 @@ public class DAOPurchaseService implements PurchaseService {
         return price;
     }
 
-    public List<SelectedItem> getUserBagItems(User user){
-       return userBagRepository.findByUser(user).getItems();
+    public List<SelectedItem> getUserBagItems(User user) {
+        return userBagRepository.findByUser(user).getItems();
     }
 }

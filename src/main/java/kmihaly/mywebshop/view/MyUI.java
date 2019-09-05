@@ -42,7 +42,6 @@ public class MyUI extends UI implements ViewDisplay {
 
     @Override
     protected void init(VaadinRequest request) {
-        setUser(userService.findUserByName("usern"));
         springViewDisplay = new Panel();
         springViewDisplay.setSizeFull();
         VerticalLayout mainLayout = new VerticalLayout(navigationBarLayout(), springViewDisplay, footerLayout());

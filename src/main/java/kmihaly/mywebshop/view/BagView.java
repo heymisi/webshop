@@ -19,14 +19,14 @@ import kmihaly.mywebshop.domain.model.item.SelectedItem;
 import kmihaly.mywebshop.domain.model.item.Size;
 import kmihaly.mywebshop.domain.model.user.User;
 import kmihaly.mywebshop.domain.model.user.UserType;
-import kmihaly.mywebshop.service.DAOItemService;
-import kmihaly.mywebshop.service.DAOPurchaseService;
-import kmihaly.mywebshop.service.DAOUserService;
+import kmihaly.mywebshop.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.teemu.ratingstars.RatingStars;
 
 import javax.annotation.PostConstruct;
+import javax.mail.MessagingException;
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -44,6 +44,8 @@ public class BagView extends HorizontalLayout implements View {
     private DAOUserService userService;
     @Autowired
     private DAOItemService itemService;
+    @Autowired
+    private EmailService emailService;
 
     private Grid<Purchase> userPurchases = new Grid<>();
 
@@ -70,8 +72,8 @@ public class BagView extends HorizontalLayout implements View {
     @PostConstruct
     void init() {
         if (loggedUser.getUserType().equals(UserType.GUEST)) {
-            setSizeFull();
             setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+            setSizeFull();
             VerticalLayout contentForGuest = new VerticalLayout();
             contentForGuest.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
             Label title = new Label("To see your bag you have to log in!", ContentMode.PREFORMATTED);
@@ -103,10 +105,10 @@ public class BagView extends HorizontalLayout implements View {
             adminUsers.addColumn(User::getEmail).setCaption("email").setStyleGenerator(e -> "middlealign");
             adminUsers.addColumn(User::getAddress).setCaption("address").setStyleGenerator(e -> "middlealign");
 
-            adminPurchases.addColumn(purchase -> purchase.getUser().getUserName()).setCaption("user").setStyleGenerator(e -> "middlealign");
-            adminPurchases.addColumn(Purchase::getItems).setCaption("items").setStyleGenerator(e -> "middlealign");
-            adminPurchases.addColumn(Purchase::getItemsPrice).setCaption("purchase price").setStyleGenerator(e -> "middlealign");
             adminPurchases.addColumn(Purchase::getDate).setCaption("date").setStyleGenerator(e -> "middlealign");
+            adminPurchases.addColumn(purchase -> purchase.getUser().getUserName()).setCaption("user").setStyleGenerator(e -> "middlealign");
+            adminPurchases.addColumn(p -> p.getItemsPrice() + "$").setCaption("purchase price").setStyleGenerator(e -> "middlealign");
+            adminPurchases.addColumn(Purchase::getItems).setCaption("items").setStyleGenerator(e -> "middlealign");
 
             Panel panel = new Panel();
             panel.setSizeFull();
@@ -131,7 +133,7 @@ public class BagView extends HorizontalLayout implements View {
 
             selectedItemsButton = createMenuButton("BAG");
             savedItemsButton = createMenuButton("SAVED ITEMS");
-             myOrdersButton = createMenuButton("MY ORDERS");
+            myOrdersButton = createMenuButton("MY ORDERS");
 
             sideBar.setSizeFull();
             sideBar.addComponents(selectedItemsButton, savedItemsButton, myOrdersButton);
@@ -158,8 +160,8 @@ public class BagView extends HorizontalLayout implements View {
             optionsColumn = selectedItems.addComponentColumn(this::buttonsForGridLayout).setCaption("options").setHidden(true);
 
 
-
             userPurchases.setHeaderVisible(false);
+            userPurchases.addStyleName("yourgrid");
             userPurchases.setSizeFull();
             userPurchases.setBodyRowHeight(300);
             userPurchases.setHeightMode(HeightMode.UNDEFINED);
@@ -295,7 +297,6 @@ public class BagView extends HorizontalLayout implements View {
             quantityColumn.setHidden(true);
             Label text = new Label("These items will be stored for 60 days", ContentMode.PREFORMATTED);
             text.setStyleName(ValoTheme.LABEL_H2);
-            selectedItems.setBodyRowHeight(200);
             selectedItems.setItems(itemService.findItemsByIsForBag(loggedUser, false));
             verticalLayout.addComponents(text, selectedItems);
         }
@@ -331,18 +332,28 @@ public class BagView extends HorizontalLayout implements View {
 
 
     private Button purchaseButton(Label label) {
-        Button button = createButton("CONFIRM PURCHASE");
+        Button button = createButton("PURCHASE");
         button.setStyleName("addbutton");
         button.setWidth("300");
         button.setIcon(VaadinIcons.CHECK_SQUARE);
         button.setClickShortcut(ShortcutAction.KeyCode.ENTER);
         button.addClickListener(clickEvent -> {
-            {
-                purchaseService.purchaseItemsFromStorage(loggedUser);
-                label.setValue("TOTAL TO PAY:  $" + purchaseService.getSelectedItemsPrice(loggedUser));
-                MyUI.getCurrent().addWindow(purchaseLayout());
-                selectedItemsButton.click();
+            ArrayList<String> strings = new ArrayList<>();
+            itemService.findItemsByIsForBag(loggedUser, true).forEach(e -> {
+                strings.add(e.getItem().getName());
+            });
+            try {
+                emailService.sendMail("heymisi99@gmail.com", "ORDER CONFIRMED",
+                        "Thank you for your purchase\n You have bought the following items:\n " +
+                                strings.toString());
+            } catch (MessagingException e) {
+                e.printStackTrace();
             }
+            purchaseService.purchaseItemsFromStorage(loggedUser);
+            label.setValue("TOTAL TO PAY:  $" + purchaseService.getSelectedItemsPrice(loggedUser));
+            MyUI.getCurrent().addWindow(purchaseLayout());
+            selectedItemsButton.click();
+
         });
         return button;
     }
@@ -363,8 +374,8 @@ public class BagView extends HorizontalLayout implements View {
 
     private Window addUserWindow() {
         Window window = new Window();
+        window.setSizeFull();
         VerticalLayout content = new VerticalLayout();
-        content.setSizeFull();
         Label title = new Label("CREATE NEW ACCOUNT");
         title.setStyleName(ValoTheme.LABEL_H2);
 
@@ -401,9 +412,6 @@ public class BagView extends HorizontalLayout implements View {
         Button confirmAdd = createButton("CONFIRM ADD");
         confirmAdd.setIcon(VaadinIcons.CHECK);
         confirmAdd.addClickListener(clickEvent -> {
-//            if (Objects.nonNull(userService.findUserByEmail(email.getValue()))) {
-//                Notification.show("This email has been already used!");
-            /*  } else*/
             if (Objects.nonNull(userService.findUserByName(userName.getValue()))) {
                 Notification.show("This username has been already used!");
             } else if (!userName.isEmpty() && !firstName.isEmpty() && !lastName.isEmpty() && !email.isEmpty() &&
@@ -432,23 +440,11 @@ public class BagView extends HorizontalLayout implements View {
         return textField;
     }
 
-    private VerticalLayout savedItemsLayoutForColumn(SelectedItem item) {
-        VerticalLayout verticalLayout = new VerticalLayout();
-        verticalLayout.setSizeFull();
-        Label nameLabel = new Label(item.getItem().getName());
-        nameLabel.setStyleName(ValoTheme.LABEL_H2);
-        Image image = new Image("", new FileResource(new File(basePath + item.getItem().getLargeImagePath())));
-
-
-        verticalLayout.addComponents(nameLabel, image);
-        return verticalLayout;
-    }
-
 
     private Button deleteItemButton(SelectedItem item) {
         Button button = new Button("DELETE");
         button.setStyleName("deletebutton");
-        button.setWidth("185");
+        button.setWidth("250");
         button.setHeight("50");
         button.setIcon(VaadinIcons.TRASH);
         button.addClickListener(clickEvent -> {
@@ -456,7 +452,6 @@ public class BagView extends HorizontalLayout implements View {
             selectedItems.setItems(purchaseService.getUserBagItems(loggedUser));
             if (purchaseService.getUserBagItems(loggedUser).isEmpty()) {
                 selectedItemsButton.click();
-//                UI.getCurrent().getPage().reload();
             }
         });
         return button;
@@ -465,7 +460,7 @@ public class BagView extends HorizontalLayout implements View {
     private Button addItemToBag(SelectedItem item) {
         Button button = createButton("ADD TO BAG");
         button.setStyleName("addbutton");
-        button.setWidth("185");
+        button.setWidth("250");
         button.setIcon(VaadinIcons.PLUS);
         button.addClickListener(clickEvent -> MyUI.getCurrent().addWindow(addItemToBagWindow(item)));
         return button;

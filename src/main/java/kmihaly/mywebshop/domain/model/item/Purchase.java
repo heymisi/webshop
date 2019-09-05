@@ -26,7 +26,7 @@ public class Purchase implements Serializable {
     @OneToOne
     private User user;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
     @JoinColumn(name = "purchase_id")
     private Set<SelectedItem> items;
 
